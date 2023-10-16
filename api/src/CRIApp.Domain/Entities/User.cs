@@ -11,6 +11,7 @@ public class User : Entity
     public Sex Sex { get; private set; }
     public string Email { get; private set; }
     private string Password { get; set; }
+    private bool Active { get; set; }
     
     #endregion
     
@@ -23,4 +24,8 @@ public class User : Entity
     public List<Child> Children { get; private set; } = new();
 
     #endregion
+
+    public void Activate() => Active = true;
+
+    public void Deactivate() => Active = false;
 }

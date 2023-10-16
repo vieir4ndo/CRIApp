@@ -1,3 +1,5 @@
+using CRIApp.Domain.Interfaces;
+
 namespace CRIApp.Domain.Entities;
 
 public class Forum : Entity, IAggregateRoot

@@ -1,11 +1,40 @@
+using CRIApp.Domain.Interfaces;
+
 namespace CRIApp.Domain.Entities;
 
 public class Question : Entity, IAggregateRoot
 {
     public string Text { get; private set; }
-    
-    public List<Answer> Answers { get; private set; }
+    private bool Active { get; set; }
+
+    public IList<Answer> Answers { get; private set; }
     
     public Guid AdminId { get; private set; }
     public User Admin { get; private set; }
+    
+    public Question(string text, Guid adminId)
+    {
+        Text = text;
+        AdminId = adminId;
+        Answers = new List<Answer>();
+        
+        Validate();
+    }
+
+    private void Validate()
+    {
+        Text.IsNullOrEmpty("A question cannot have a null or empty text");
+        AdminId.IsEmpty("A question has to have an administrator associated");
+        Answers.HasElements("A question that has been answered cannot be written");
+        Active.IsActive("A question has to be active to be written");
+    }
+
+    public void Activate() => Active = true;
+    public void Deactivate() => Active = false;
+    public void ChangeText(string text)
+    {
+        Text = text;
+        
+        Validate();
+    }
 }
