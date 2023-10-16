@@ -1,4 +1,4 @@
-namespace CRIApp.Domain.Interfaces;
+namespace CRIApp.Domain.Entities;
 
 public interface IAggregateRoot
 {

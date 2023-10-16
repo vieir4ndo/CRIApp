@@ -11,4 +11,6 @@ public class Child : Entity
     
     public Guid PrcId { get; private set; }
     public User Prc { get; private set; }
+    
+    public List<Answer> Answers { get; private set;  }
 }

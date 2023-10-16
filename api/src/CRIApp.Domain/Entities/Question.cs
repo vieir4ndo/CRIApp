@@ -1,22 +1,23 @@
-using CRIApp.Domain.Interfaces;
-
 namespace CRIApp.Domain.Entities;
 
 public class Question : Entity, IAggregateRoot
 {
     public string Text { get; private set; }
-    private bool Active { get; set; }
+    public bool Active { get; private set; }
 
     public IList<Answer> Answers { get; private set; }
     
     public Guid AdminId { get; private set; }
     public User Admin { get; private set; }
+
+    protected Question() {}
     
     public Question(string text, Guid adminId)
     {
         Text = text;
         AdminId = adminId;
         Answers = new List<Answer>();
+        Active = true;
         
         Validate();
     }

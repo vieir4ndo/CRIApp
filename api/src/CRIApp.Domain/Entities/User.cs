@@ -2,7 +2,7 @@ using CRIApp.Domain.Enums;
 
 namespace CRIApp.Domain.Entities;
 
-public class User : Entity
+public class User : Entity, IAggregateRoot
 {
     #region MandatoryFields
     
@@ -10,8 +10,8 @@ public class User : Entity
     public DateOnly BirthDate { get; private set; }
     public Sex Sex { get; private set; }
     public string Email { get; private set; }
-    private string Password { get; set; }
-    private bool Active { get; set; }
+    public string Password { get; private set; }
+    public bool Active { get; private set; }
     
     #endregion
     
@@ -22,7 +22,8 @@ public class User : Entity
     public EducationalLevel? EducationalLevel { get; private set; }
     public List<Answer> Answers { get; private set; } = new();
     public List<Child> Children { get; private set; } = new();
-
+    public List<Question> Questions { get; private set; } = new();
+    
     #endregion
 
     public void Activate() => Active = true;

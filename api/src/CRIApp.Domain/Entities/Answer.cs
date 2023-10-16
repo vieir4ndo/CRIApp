@@ -1,4 +1,3 @@
-using CRIApp.Domain.Exceptions;
 
 namespace CRIApp.Domain.Entities;
 
@@ -14,6 +13,8 @@ public class Answer : Entity
     
     public Guid PrcId { get; private set; }
     public User Prc { get; private set; }
+
+    protected Answer() {}
 
     public Answer(int value, Guid questionId, Guid childId, Guid prcId)
     {
