@@ -6,10 +6,6 @@ namespace CRIApp.Infrastructure;
 
 public class AppContext : DbContext
 {
-    public AppContext(DbContextOptions<AppContext> options) : base(options)
-    {
-    }
-    
     public DbSet<Question> Question { get; set; }
     public DbSet<Answer> Answer { get; set; }
     public DbSet<User> User { get; set; }
