@@ -4,7 +4,9 @@ public class Question : Entity, IAggregateRoot
 {
     public string Text { get; private set; }
     public bool Active { get; private set; }
-
+    
+    //TODO: Indicação de idade pra pergunta
+    
     public IList<Answer> Answers { get; private set; }
     
     public Guid AdminId { get; private set; }
