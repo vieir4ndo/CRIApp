@@ -2,7 +2,7 @@ using CRIApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CRIApp.Infrastructure.Mappings;
+namespace CRIApp.Repository.Mappings;
 
 public class QuestionMapping : IEntityTypeConfiguration<Question>
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CRIApp.Infrastructure.Migrations
+namespace CRIApp.Repository.Migrations
 {
     public partial class InitMigration : Migration
     {

@@ -2,7 +2,7 @@ using CRIApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CRIApp.Infrastructure;
+namespace CRIApp.Repository;
 
 public class AppContext : DbContext
 {

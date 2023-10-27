@@ -1,7 +1,7 @@
 using CRIApp.Domain.Data;
 using CRIApp.Domain.Entities;
 
-namespace CRIApp.Infrastructure.Repositories;
+namespace CRIApp.Repository.Repositories;
 
 public class QuestionRepository : IQuestionRepository
 {

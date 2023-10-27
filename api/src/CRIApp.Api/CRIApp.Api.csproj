@@ -7,16 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="6.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CRIApp.Infrastructure\CRIApp.Infrastructure.csproj" />
+      <ProjectReference Include="..\CRIApp.Repository\CRIApp.Repository.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <Folder Include="Controllers\Requests\" />
+      <Folder Include="Controllers\Validators\" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-using AppContext = CRIApp.Infrastructure.AppContext;
+using AppContext = CRIApp.Repository.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
 

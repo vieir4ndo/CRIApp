@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRIApp.Application", "src\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRIApp.Domain", "src\CRIApp.Domain\CRIApp.Domain.csproj", "{C4BC1677-F81E-4055-95E6-3F1C824145DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRIApp.Infrastructure", "src\CRIApp.Infrastructure\CRIApp.Infrastructure.csproj", "{650C5887-7FDD-4295-8485-8811E4F9C4EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRIApp.Repository", "src\CRIApp.Repository\CRIApp.Repository.csproj", "{650C5887-7FDD-4295-8485-8811E4F9C4EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
