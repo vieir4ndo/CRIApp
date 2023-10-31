@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using CRIApp.Domain.Exceptions;
 
 namespace CRIApp.Domain;
@@ -35,4 +36,27 @@ public static class Validations
             throw new DomainException(message);
     }
     
+    public static void IsDateTimeMinValue(this DateTime dateTime, string message)
+    {
+        if (dateTime == DateTime.MinValue)
+            throw new DomainException(message);
+    }
+    
+    public static void IsDateOnlyMinValue(this DateOnly dateOnly, string message)
+    {
+        if (dateOnly == DateOnly.MinValue)
+            throw new DomainException(message);
+    }
+    
+    public static void IsInEnum<T>(this T value, string message) where T : struct, Enum
+    {
+        if (!Enum.IsDefined(value))
+            throw new DomainException(message);
+    }
+    
+    public static void IsValidEmail(this string email, string message)
+    {
+        if (!new EmailAddressAttribute().IsValid(email))
+            throw new DomainException(message);
+    }
 }

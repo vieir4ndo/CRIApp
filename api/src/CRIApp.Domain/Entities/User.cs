@@ -18,8 +18,22 @@ public class User : Entity, IAggregateRoot
     public List<Question> Questions { get; private set; } = new();
     public List<AudiovisualResource> AudiovisualResources { get; private set; } = new();
     public List<Award> Awards { get; private set; } = new();
-    
     public void Activate() => Active = true;
-
     public void Deactivate() => Active = false;
+
+    public User(string name, DateOnly birthDate, Sex sex, string email, string password)
+    {
+        Name = name;
+        BirthDate = birthDate;
+        Sex = sex;
+        Email = email;
+        Password = password;
+        Activate();
+        
+        Name.IsNullOrEmpty("An user cannot have a null or empty name");
+        BirthDate.IsDateOnlyMinValue("An user has to have a valid birth date");
+        Sex.IsInEnum("An user has to have a sex according to system values");
+        Email.IsValidEmail("An user has to have a valid email");
+        Active.IsActive("An user has to be active to be created");
+    }
 }

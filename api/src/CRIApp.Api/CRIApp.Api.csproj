@@ -14,9 +14,4 @@
       <ProjectReference Include="..\CRIApp.Repository\CRIApp.Repository.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers\Requests\" />
-      <Folder Include="Controllers\Validators\" />
-    </ItemGroup>
-
 </Project>
