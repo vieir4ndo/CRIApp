@@ -1,16 +1,26 @@
 using CRIApp.Api.Controllers.Requests;
+using CRIApp.Application.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRIApp.Api.Controllers;
 
 [ApiController]
-public class UserController
+public class UserController : ControllerBase
 {
-    [HttpPost]
-    public IActionResult Create(CreateUserRequest request)
+    private readonly IUserService _service;
+
+    public UserController(IUserService service)
     {
-        
-        throw new NotImplementedException();
+        _service = service;
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateUserRequest request)
+    {
+
+        await _service.Create(request.ToDto());
+
+        return Ok();
     }
 
     [HttpPost]

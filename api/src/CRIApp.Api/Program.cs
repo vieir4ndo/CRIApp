@@ -1,9 +1,15 @@
+using CRIApp.Application.Abstractions;
+using CRIApp.Application.Services;
+using CRIApp.Domain.Data;
+using CRIApp.Repository.Repositories;
 using AppContext = CRIApp.Repository.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppContext>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

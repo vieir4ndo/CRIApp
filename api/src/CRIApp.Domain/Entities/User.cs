@@ -24,13 +24,23 @@ public class User : Entity, IAggregateRoot
     public void Activate() => Active = true;
     public void Deactivate() => Active = false;
 
-    public User(string name, DateOnly birthDate, Sex sex, string email, string password)
+    public User(
+        string name,
+        DateOnly birthDate,
+        Sex sex,
+        string email,
+        string password,
+        FamilyType? familyType = null,
+        EducationalLevel? educationalLevel = null
+        )
     {
         Name = name;
         BirthDate = birthDate;
         Sex = sex;
         Email = email;
         Password = password;
+        FamilyType = familyType;
+        EducationalLevel = educationalLevel;
         Activate();
         
         Name.IsNullOrEmpty("An user cannot have a null or empty name");
