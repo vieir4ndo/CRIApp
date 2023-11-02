@@ -1,5 +1,7 @@
+using CRIApp.Api.Controllers.Validators;
 using CRIApp.Application.Dtos;
 using CRIApp.Domain.Enums;
+using FluentValidation;
 
 namespace CRIApp.Api.Controllers.Requests;
 
@@ -25,5 +27,15 @@ public class CreateUserRequest
             FamilyType = FamilyType,
             EducationalLevel = EducationalLevel
         };
+    }
+
+    public void ValidateAndThrow()
+    {
+        var result = new CreateUserRequestValidator().Validate(this);
+
+        if (!result.IsValid)
+        {
+            throw new ValidationException(result.Errors);
+        }
     }
 }

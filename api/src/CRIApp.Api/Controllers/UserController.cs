@@ -17,7 +17,8 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserRequest request)
     {
-
+        request.ValidateAndThrow();
+        
         await _service.Create(request.ToDto());
 
         return Ok();
