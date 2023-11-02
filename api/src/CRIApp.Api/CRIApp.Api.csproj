@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CRIApp.Application\CRIApp.Application.csproj" />
       <ProjectReference Include="..\CRIApp.Repository\CRIApp.Repository.csproj" />
     </ItemGroup>
 

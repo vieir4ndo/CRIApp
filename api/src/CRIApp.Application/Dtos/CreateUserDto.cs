@@ -1,0 +1,14 @@
+using CRIApp.Domain.Enums;
+
+namespace CRIApp.Application.Dtos;
+
+public class CreateUserDto
+{
+    public string Name { get; set; }
+    public DateOnly BirthDate { get; set; }
+    public Sex Sex { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public FamilyType? FamilyType { get; set; }
+    public EducationalLevel? EducationalLevel { get; set; }
+}

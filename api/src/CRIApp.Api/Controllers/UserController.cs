@@ -1,3 +1,4 @@
+using CRIApp.Api.Controllers.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRIApp.Api.Controllers;
@@ -6,8 +7,9 @@ namespace CRIApp.Api.Controllers;
 public class UserController
 {
     [HttpPost]
-    public IActionResult Create()
+    public IActionResult Create(CreateUserRequest request)
     {
+        
         throw new NotImplementedException();
     }
 
