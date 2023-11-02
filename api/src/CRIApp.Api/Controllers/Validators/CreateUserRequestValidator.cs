@@ -14,7 +14,7 @@ public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
         RuleFor(x => x.BirthDate)
             .NotEmpty()
             .NotNull()
-            .GreaterThan(DateOnly.MinValue);
+            .GreaterThan(DateTime.MinValue);
 
         RuleFor(x => x.Sex)
             .NotEmpty()

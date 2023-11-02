@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CRIApp.Api.Controllers;
 
 [ApiController]
+[Route("user")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _service;
@@ -24,7 +25,7 @@ public class UserController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public IActionResult Login()
     {
         throw new NotImplementedException();
@@ -49,13 +50,13 @@ public class UserController : ControllerBase
     }
 
 
-    [HttpPost]
+    [HttpPost("forgot-password")]
     public IActionResult ForgotPassword()
     {
         throw new NotImplementedException();
     }
 
-    [HttpPost]
+    [HttpPost("reset-password")]
     public IActionResult ResetPassword()
     {
         throw new NotImplementedException();

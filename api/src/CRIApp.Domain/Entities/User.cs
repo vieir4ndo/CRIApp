@@ -5,7 +5,7 @@ namespace CRIApp.Domain.Entities;
 public class User : Entity, IAggregateRoot
 {
     public string Name { get; private set; }
-    public DateOnly BirthDate { get; private set; }
+    public DateTime BirthDate { get; private set; }
     public Sex Sex { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
@@ -26,7 +26,7 @@ public class User : Entity, IAggregateRoot
 
     public User(
         string name,
-        DateOnly birthDate,
+        DateTime birthDate,
         Sex sex,
         string email,
         string password,
@@ -44,7 +44,7 @@ public class User : Entity, IAggregateRoot
         Activate();
         
         Name.IsNullOrEmpty("An user cannot have a null or empty name");
-        BirthDate.IsDateOnlyMinValue("An user has to have a valid birth date");
+        BirthDate.IsDateTimeMinValue("An user has to have a valid birth date");
         Sex.IsInEnum("An user has to have a sex according to system values");
         Email.IsValidEmail("An user has to have a valid email");
         Active.IsActive("An user has to be active to be created");

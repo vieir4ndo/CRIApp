@@ -1,14 +1,14 @@
 using CRIApp.Api.Controllers.Validators;
 using CRIApp.Application.Dtos;
 using CRIApp.Domain.Enums;
-using FluentValidation;
+using CRIApp.Domain.Exceptions;
 
 namespace CRIApp.Api.Controllers.Requests;
 
 public class CreateUserRequest
 {
     public string Name { get; set; }
-    public DateOnly BirthDate { get; set; }
+    public DateTime BirthDate { get; set; }
     public Sex Sex { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
@@ -33,9 +33,11 @@ public class CreateUserRequest
     {
         var result = new CreateUserRequestValidator().Validate(this);
 
-        if (!result.IsValid)
-        {
-            throw new ValidationException(result.Errors);
-        }
+        if (result.IsValid) 
+            return;
+        
+        var errors = new List<string>();
+        result.Errors.ForEach(x => errors.Add(x.ErrorMessage));
+        throw new ValidationException(errors);
     }
 }

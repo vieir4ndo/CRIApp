@@ -25,32 +25,38 @@ public static class ErrorHandlerExtensions
 
                 if (exceptionHandlerFeature != null)
                 {
-                    if (exceptionHandlerPathFeature?.Error is NotFoundException notFoundException)
+                    switch (exceptionHandlerPathFeature?.Error)
                     {
-                        var response = new ApiResponse<object>(false);
+                        case NotFoundException notFoundException:
+                        {
+                            var response = new ApiResponse<object>(false);
 
-                        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        context.Response.ContentType = "application/json";
+                            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                            context.Response.ContentType = "application/json";
 
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
-                    }
-                    else if (exceptionHandlerPathFeature?.Error is ValidationException validationException)
-                    {
-                        var response = new ApiResponse<object>(false, messages: validationException.Errors);
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+                            break;
+                        }
+                        case ValidationException validationException:
+                        {
+                            var response = new ApiResponse<object>(false, messages: validationException.Errors);
 
-                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        context.Response.ContentType = "application/json";
+                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            context.Response.ContentType = "application/json";
 
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
-                    }
-                    else
-                    {
-                        var response = new ApiResponse<object>( "Oops, there was a problem. We already notified our team and we are working to solve it.");
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+                            break;
+                        }
+                        default:
+                        {
+                            var response = new ApiResponse<object>( "Oops, there was a problem. We already notified our team and we are working to solve it.");
 
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        context.Response.ContentType = "application/json";
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            context.Response.ContentType = "application/json";
 
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+                            break;
+                        }
                     }
                 }
             });
