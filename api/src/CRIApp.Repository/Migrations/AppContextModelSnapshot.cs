@@ -112,7 +112,8 @@ namespace CRIApp.Repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("PrcId")
                         .HasColumnType("uuid");
@@ -125,6 +126,79 @@ namespace CRIApp.Repository.Migrations
                     b.HasIndex("PrcId");
 
                     b.ToTable("Child");
+                });
+
+            modelBuilder.Entity("CRIApp.Domain.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ForumId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PrcId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ForumId");
+
+                    b.HasIndex("PrcId");
+
+                    b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("CRIApp.Domain.Entities.Faq", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AdminId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.ToTable("Faq");
+                });
+
+            modelBuilder.Entity("CRIApp.Domain.Entities.Forum", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PrcId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrcId");
+
+                    b.ToTable("Forum");
                 });
 
             modelBuilder.Entity("CRIApp.Domain.Entities.Question", b =>
@@ -253,6 +327,47 @@ namespace CRIApp.Repository.Migrations
                     b.Navigation("Prc");
                 });
 
+            modelBuilder.Entity("CRIApp.Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("CRIApp.Domain.Entities.Forum", "Forum")
+                        .WithMany("Comments")
+                        .HasForeignKey("ForumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRIApp.Domain.Entities.User", "Prc")
+                        .WithMany("Comments")
+                        .HasForeignKey("PrcId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Forum");
+
+                    b.Navigation("Prc");
+                });
+
+            modelBuilder.Entity("CRIApp.Domain.Entities.Faq", b =>
+                {
+                    b.HasOne("CRIApp.Domain.Entities.User", "Admin")
+                        .WithMany("Faqs")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+                });
+
+            modelBuilder.Entity("CRIApp.Domain.Entities.Forum", b =>
+                {
+                    b.HasOne("CRIApp.Domain.Entities.User", "Prc")
+                        .WithMany("Forums")
+                        .HasForeignKey("PrcId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Prc");
+                });
+
             modelBuilder.Entity("CRIApp.Domain.Entities.Question", b =>
                 {
                     b.HasOne("CRIApp.Domain.Entities.User", "Admin")
@@ -269,6 +384,11 @@ namespace CRIApp.Repository.Migrations
                     b.Navigation("Answers");
                 });
 
+            modelBuilder.Entity("CRIApp.Domain.Entities.Forum", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("CRIApp.Domain.Entities.Question", b =>
                 {
                     b.Navigation("Answers");
@@ -283,6 +403,12 @@ namespace CRIApp.Repository.Migrations
                     b.Navigation("Awards");
 
                     b.Navigation("Children");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("Faqs");
+
+                    b.Navigation("Forums");
 
                     b.Navigation("Questions");
                 });
