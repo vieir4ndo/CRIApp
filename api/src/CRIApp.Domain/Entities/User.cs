@@ -24,6 +24,8 @@ public class User : Entity, IAggregateRoot
     public void Activate() => Active = true;
     public void Deactivate() => Active = false;
 
+    protected User() { }
+    
     public User(
         string name,
         DateTime birthDate,
