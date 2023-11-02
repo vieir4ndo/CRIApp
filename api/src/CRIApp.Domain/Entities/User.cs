@@ -18,6 +18,9 @@ public class User : Entity, IAggregateRoot
     public List<Question> Questions { get; private set; } = new();
     public List<AudiovisualResource> AudiovisualResources { get; private set; } = new();
     public List<Award> Awards { get; private set; } = new();
+    public List<Comment> Comments { get; private set; } = new();
+    public List<Forum> Forums { get; private set; } = new();
+    public List<Faq> Faqs { get; private set; } = new();
     public void Activate() => Active = true;
     public void Deactivate() => Active = false;
 

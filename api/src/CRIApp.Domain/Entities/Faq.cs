@@ -1,6 +1,6 @@
 namespace CRIApp.Domain.Entities;
 
-public class FAQ : Entity
+public class Faq : Entity
 {
     public string Question { get; private set; }
     public string Answer { get; private set; }

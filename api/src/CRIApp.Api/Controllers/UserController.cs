@@ -8,45 +8,43 @@ public class UserController
     [HttpPost]
     public IActionResult Create()
     {
-        
+        throw new NotImplementedException();
     }
-    /*
 
-[HttpPost]
-public IActionResult Login()
-{
+    [HttpPost]
+    public IActionResult Login()
+    {
+        throw new NotImplementedException();
+    }
 
-}
+    [HttpGet]
+    public IActionResult Consult()
+    {
+        throw new NotImplementedException();
+    }
 
-[HttpGet]
-public IActionResult Consult()
-{
+    [HttpPatch]
+    public IActionResult Update()
+    {
+        throw new NotImplementedException();
+    }
 
-}
-
-[HttpPatch]
-public IActionResult Update()
-{
-
-}
-
-[HttpDelete]
-public IActionResult Deactivate()
-{
-
-}
+    [HttpDelete]
+    public IActionResult Deactivate()
+    {
+        throw new NotImplementedException();
+    }
 
 
-[HttpPost]
-public IActionResult ForgotPassword()
-{
+    [HttpPost]
+    public IActionResult ForgotPassword()
+    {
+        throw new NotImplementedException();
+    }
 
-}
-
-[HttpPost]
-public IActionResult ResetPassword()
-{
-
-}
-*/
+    [HttpPost]
+    public IActionResult ResetPassword()
+    {
+        throw new NotImplementedException();
+    }
 }

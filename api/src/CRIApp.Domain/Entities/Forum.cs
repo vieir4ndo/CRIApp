@@ -7,4 +7,6 @@ public class Forum : Entity, IAggregateRoot
     
     public Guid PrcId { get; private set; }
     public User Prc { get; private set; }
+    
+    public List<Comment> Comments { get; private set; }
 }
