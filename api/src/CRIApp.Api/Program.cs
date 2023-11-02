@@ -1,3 +1,4 @@
+using CRIApp.Api.Middlewares;
 using CRIApp.Application.Abstractions;
 using CRIApp.Application.Services;
 using CRIApp.Domain.Data;
@@ -17,6 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseErrorHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
