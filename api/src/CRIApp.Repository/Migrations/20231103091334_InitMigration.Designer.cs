@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRIApp.Repository.Migrations
 {
     [DbContext(typeof(AppContext))]
-    [Migration("20231102114351_ContinueMigrations")]
-    partial class ContinueMigrations
+    [Migration("20231103091334_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -235,8 +235,8 @@ namespace CRIApp.Repository.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("EducationalLevel")
                         .HasColumnType("integer");
@@ -257,7 +257,11 @@ namespace CRIApp.Repository.Migrations
                     b.Property<int?>("NumberOfChildren")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("text");
 

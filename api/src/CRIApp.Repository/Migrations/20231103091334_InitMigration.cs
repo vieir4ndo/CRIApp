@@ -15,10 +15,11 @@ namespace CRIApp.Repository.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Sex = table.Column<int>(type: "integer", nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "text", nullable: false),
                     Active = table.Column<bool>(type: "boolean", nullable: false),
                     NumberOfChildren = table.Column<int>(type: "integer", nullable: true),
                     FamilyType = table.Column<int>(type: "integer", nullable: true),
@@ -74,7 +75,7 @@ namespace CRIApp.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Sex = table.Column<int>(type: "integer", nullable: false),
                     MonthsOfBreastFeeding = table.Column<int>(type: "integer", nullable: false),
@@ -85,6 +86,46 @@ namespace CRIApp.Repository.Migrations
                     table.PrimaryKey("PK_Child", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Child_User_PrcId",
+                        column: x => x.PrcId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Faq",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Question = table.Column<string>(type: "text", nullable: false),
+                    Answer = table.Column<string>(type: "text", nullable: false),
+                    AdminId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faq", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Faq_User_AdminId",
+                        column: x => x.AdminId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Forum",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    PrcId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Forum", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Forum_User_PrcId",
                         column: x => x.PrcId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -106,6 +147,32 @@ namespace CRIApp.Repository.Migrations
                     table.ForeignKey(
                         name: "FK_Question_User_AdminId",
                         column: x => x.AdminId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    ForumId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PrcId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_Forum_ForumId",
+                        column: x => x.ForumId,
+                        principalTable: "Forum",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comment_User_PrcId",
+                        column: x => x.PrcId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -175,6 +242,26 @@ namespace CRIApp.Repository.Migrations
                 column: "PrcId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_ForumId",
+                table: "Comment",
+                column: "ForumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_PrcId",
+                table: "Comment",
+                column: "PrcId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Faq_AdminId",
+                table: "Faq",
+                column: "AdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forum_PrcId",
+                table: "Forum",
+                column: "PrcId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Question_AdminId",
                 table: "Question",
                 column: "AdminId");
@@ -192,10 +279,19 @@ namespace CRIApp.Repository.Migrations
                 name: "Award");
 
             migrationBuilder.DropTable(
+                name: "Comment");
+
+            migrationBuilder.DropTable(
+                name: "Faq");
+
+            migrationBuilder.DropTable(
                 name: "Child");
 
             migrationBuilder.DropTable(
                 name: "Question");
+
+            migrationBuilder.DropTable(
+                name: "Forum");
 
             migrationBuilder.DropTable(
                 name: "User");

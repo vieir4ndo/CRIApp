@@ -233,8 +233,8 @@ namespace CRIApp.Repository.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("EducationalLevel")
                         .HasColumnType("integer");
@@ -255,7 +255,11 @@ namespace CRIApp.Repository.Migrations
                     b.Property<int?>("NumberOfChildren")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("text");
 

@@ -13,8 +13,8 @@ public class CreateUserDto
     public FamilyType? FamilyType { get; set; }
     public EducationalLevel? EducationalLevel { get; set; }
 
-    public User ToDomainObject()
+    public User ToDomainObject(string passwordHash, string passwordSalt)
     {
-        return new User(Name, BirthDate, Sex, Email, Password, FamilyType, EducationalLevel);
+        return new User(Name, BirthDate, Sex, Email, passwordHash, passwordSalt, FamilyType, EducationalLevel);
     }
 }

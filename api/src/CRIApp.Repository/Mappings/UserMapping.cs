@@ -24,7 +24,10 @@ public class AdminMapping :  IEntityTypeConfiguration<User>
             .IsRequired()
             .HasMaxLength(100);;
 
-        builder.Property(x => x.Password)
+        builder.Property(x => x.PasswordHash)
+            .IsRequired();
+        
+        builder.Property(x => x.PasswordSalt)
             .IsRequired();
         
         builder.Property(x => x.Active)

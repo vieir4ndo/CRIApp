@@ -1,4 +1,5 @@
 using CRIApp.Domain.Enums;
+using CRIApp.Domain.Helpers;
 
 namespace CRIApp.Domain.Entities;
 
@@ -8,7 +9,9 @@ public class User : Entity, IAggregateRoot
     public DateTime BirthDate { get; private set; }
     public Sex Sex { get; private set; }
     public string Email { get; private set; }
-    public string Password { get; private set; }
+    public string PasswordHash { get; private set; }
+    
+    public string PasswordSalt { get; set; }
     public bool Active { get; private set; }
     public int? NumberOfChildren { get; private set; }
     public FamilyType? FamilyType { get; private set; }
@@ -31,7 +34,8 @@ public class User : Entity, IAggregateRoot
         DateTime birthDate,
         Sex sex,
         string email,
-        string password,
+        string passwordHash,
+        string passwordSalt,
         FamilyType? familyType = null,
         EducationalLevel? educationalLevel = null
         )
@@ -40,9 +44,10 @@ public class User : Entity, IAggregateRoot
         BirthDate = birthDate;
         Sex = sex;
         Email = email;
-        Password = password;
         FamilyType = familyType;
         EducationalLevel = educationalLevel;
+        PasswordSalt = passwordSalt;
+        PasswordHash = passwordHash;
         Activate();
         
         Name.IsNullOrEmpty("An user cannot have a null or empty name");
@@ -50,5 +55,7 @@ public class User : Entity, IAggregateRoot
         Sex.IsInEnum("An user has to have a sex according to system values");
         Email.IsValidEmail("An user has to have a valid email");
         Active.IsActive("An user has to be active to be created");
+        PasswordHash.IsNullOrEmpty("An user cannot have a null or empty password hash");
+        PasswordSalt.IsNullOrEmpty("An user cannot have a null or empty password salt");
     }
 }
