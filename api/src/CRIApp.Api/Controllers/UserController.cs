@@ -26,9 +26,13 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login()
+    public async Task<IActionResult> Login(LoginRequest request)
     {
-        throw new NotImplementedException();
+        request.ValidateAndThrow();
+        
+        await _service.Login(request.ToDto());
+
+        return Ok();
     }
 
     [HttpGet]

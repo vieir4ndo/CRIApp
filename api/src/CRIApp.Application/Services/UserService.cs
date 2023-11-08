@@ -1,6 +1,8 @@
 using CRIApp.Application.Abstractions;
 using CRIApp.Application.Dtos;
 using CRIApp.Domain.Data;
+using CRIApp.Domain.Entities;
+using CRIApp.Domain.Exceptions;
 using CRIApp.Domain.Helpers;
 using CRIApp.Domain.Settings;
 using Microsoft.Extensions.Options;
@@ -24,5 +26,25 @@ public class UserService : IUserService
 
         var user = dto.ToDomainObject(passwordSalt, passwordHash);
         await _repository.Create(user);
+    }
+
+    public async Task Login(LoginDto dto)
+    {
+        var user = await GetByEmail(dto.Username);
+
+        if (user is not null)
+        {
+            var passwordHash = PasswordHasher.ComputeHash(dto.Password, user.PasswordSalt,  _settings.PasswordPepper, _settings.PasswordHashIterations);
+
+            if (user.PasswordHash == passwordHash)
+                return;
+        }
+
+        throw new ValidationException(new List<string>() { "Username or password did not match." });
+    }
+    
+    public async Task<User?> GetByEmail(string email)
+    {
+        return await _repository.GetByEmail(email);
     }
 }

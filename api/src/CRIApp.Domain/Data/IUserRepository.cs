@@ -5,4 +5,5 @@ namespace CRIApp.Domain.Data;
 public interface IUserRepository : IRepository<User>
 {
     Task Create(User user);
+    Task<User?> GetByEmail(string email);
 }
