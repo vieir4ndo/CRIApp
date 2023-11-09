@@ -5,10 +5,10 @@ namespace CRIApp.Api.Controllers.Responses;
 public class ApiResponse<T> where T : class?
 {
     public bool Success { get; set; }
-    public List<T> Data { get; set; } = new();
+    public IEnumerable<T> Data { get; set; } = new List<T>();
     public List<string> Messages { get; set; } = new();
 
-    public ApiResponse(bool success, List<T>? data = null, List<string>? messages = null)
+    public ApiResponse(bool success, IEnumerable<T>? data = null, List<string>? messages = null)
     {
         Success = success;
         Data = data ?? Data;

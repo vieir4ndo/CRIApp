@@ -1,14 +1,24 @@
 using CRIApp.Domain.Data;
 using CRIApp.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRIApp.Repository.Repositories;
 
 public class QuestionRepository : IQuestionRepository
 {
 
-    public Task<IEnumerable<Question>> GetAll()
+    private readonly AppContext Context;
+
+    public QuestionRepository(AppContext context)
     {
-        throw new NotImplementedException();
+        Context = context;
+    }
+    
+    public async Task<IEnumerable<Question>> GetAll()
+    {
+        return await Context.Question
+            .Where(x => x.Active)
+            .ToListAsync();
     }
 
     public Task<Question> GetById(Guid id)

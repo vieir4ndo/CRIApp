@@ -1,4 +1,5 @@
 using CRIApp.Api.Controllers.Requests;
+using CRIApp.Api.Controllers.Responses;
 using CRIApp.Application.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,25 +17,26 @@ public class UserController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create(CreateUserRequest request)
+    public async Task<ApiResponse<object>> Create(CreateUserRequest request)
     {
         request.ValidateAndThrow();
         
         await _service.Create(request.ToDto());
 
-        return Ok();
+        return new ApiResponse<object>(true);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request)
+    public async Task<ApiResponse<object>> Login(LoginRequest request)
     {
         request.ValidateAndThrow();
         
         await _service.Login(request.ToDto());
 
-        return Ok();
+        return new ApiResponse<object>(true);
     }
 
+    /*
     [HttpGet]
     public IActionResult Consult()
     {
@@ -65,4 +67,5 @@ public class UserController : ControllerBase
     {
         throw new NotImplementedException();
     }
+    */
 }
