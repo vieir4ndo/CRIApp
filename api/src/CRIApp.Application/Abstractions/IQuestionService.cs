@@ -1,8 +1,8 @@
-using CRIApp.Domain.Entities;
+using CRIApp.Application.Dtos;
 
 namespace CRIApp.Application.Abstractions;
 
 public interface IQuestionService
 {
-    Task<IEnumerable<Question>> GetAll();
+    Task<IEnumerable<QuestionDto>> GetAll();
 }

@@ -6,6 +6,8 @@ public class Question : Entity, IAggregateRoot
     public bool Active { get; private set; }
     
     //TODO: Indicação de idade pra pergunta
+    //TODO: Indicação de tipo de familiia 
+    
     
     public IList<Answer> Answers { get; private set; }
     

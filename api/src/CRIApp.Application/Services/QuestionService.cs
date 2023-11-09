@@ -1,6 +1,6 @@
 using CRIApp.Application.Abstractions;
+using CRIApp.Application.Dtos;
 using CRIApp.Domain.Data;
-using CRIApp.Domain.Entities;
 
 namespace CRIApp.Application.Services;
 
@@ -12,8 +12,10 @@ public class QuestionService : IQuestionService
     {
         _questionRepository = questionRepository;
     }
-    public async Task<IEnumerable<Question>> GetAll()
+    public async Task<IEnumerable<QuestionDto>> GetAll()
     {
-        return await _questionRepository.GetAll(); 
+        var questions = await _questionRepository.GetAll();
+
+        return questions.Select(question => new QuestionDto(question));
     }
 }

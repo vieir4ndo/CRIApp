@@ -17,7 +17,6 @@ public class QuestionRepository : IQuestionRepository
     public async Task<IEnumerable<Question>> GetAll()
     {
         return await Context.Question
-            .Where(x => x.Active)
             .ToListAsync();
     }
 
