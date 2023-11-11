@@ -11,9 +11,11 @@ public class AnswerService : IAnswerService
     private readonly IQuestionService _questionService;
     private readonly IUserService _userService;
 
-    public AnswerService(IAnswerRepository repository)
+    public AnswerService(IAnswerRepository repository, IQuestionService questionService, IUserService userService)
     {
         _repository = repository;
+        _questionService = questionService;
+        _userService = userService;
     }
 
     public async Task Create(CreateAnswerDto dto)
