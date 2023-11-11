@@ -20,7 +20,7 @@ public class AnswerService : IAnswerService
     {
         _ = await _questionService.GetAndValidateById(dto.QuestionId);
         var user = await _userService.GetAndValidateById(dto.PrcId);
-        var child = user.Children.FirstOrDefault(x => x.Id == dto.ChildId);
+        var child = user!.Children.FirstOrDefault(x => x.Id == dto.ChildId);
 
         if (child is null)
             throw new NotFoundException($"User {dto.PrcId} does not have a child with id {dto.ChildId}");

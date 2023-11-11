@@ -17,9 +17,11 @@ public class AnswerController : ControllerBase
     }
     
     
-    [HttpGet]
+    [HttpPost]
     public async Task<ApiResponse<object>> Create(CreateAnswerRequest request)
     {
+        request.ValidateAndThrow();
+        
         await _service.Create(request.ToDto());
 
         return new ApiResponse<object>(true);
