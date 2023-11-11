@@ -18,7 +18,7 @@ public static class Validations
             throw new DomainException(message);
     }
 
-    public static void IsEmpty(this Guid guid, string message)
+    public static void IsEmptyGuid(this Guid guid, string message)
     {
         if (guid == Guid.Empty)
             throw new DomainException(message);
@@ -57,6 +57,12 @@ public static class Validations
     public static void IsValidEmail(this string email, string message)
     {
         if (!new EmailAddressAttribute().IsValid(email))
+            throw new DomainException(message);
+    }
+
+    public static void IsPositive(this int number, string message)
+    {
+        if (number < 0)
             throw new DomainException(message);
     }
 }

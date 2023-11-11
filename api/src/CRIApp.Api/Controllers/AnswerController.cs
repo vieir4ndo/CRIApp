@@ -1,7 +1,6 @@
 using CRIApp.Api.Controllers.Requests;
 using CRIApp.Api.Controllers.Responses;
 using CRIApp.Application.Abstractions;
-using CRIApp.Application.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRIApp.Api.Controllers;

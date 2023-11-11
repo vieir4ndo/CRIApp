@@ -29,8 +29,8 @@ public class Answer : Entity
     private void Validate()
     {
         Value.IsValueInRange(0,5, "Answer is out of range");
-        QuestionId.IsEmpty("An answer has to refer to a question");
-        PrcId.IsEmpty("An answer has to have a Prc associated");
-        PrcId.IsEmpty("An answer has to have a Child associated");
+        QuestionId.IsEmptyGuid("An answer has to refer to a question");
+        PrcId.IsEmptyGuid("An answer has to have a Prc associated");
+        PrcId.IsEmptyGuid("An answer has to have a Child associated");
     }
 }

@@ -17,4 +17,10 @@ public class ChildRepository : IChildRepository
     {
         return await Context.Child.FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task Create(Child child)
+    {
+        await Context.Child.AddAsync(child);
+        await Context.SaveChangesAsync();
+    }
 }

@@ -29,7 +29,7 @@ public class Question : Entity
     private void Validate()
     {
         Text.IsNullOrEmpty("A question cannot have a null or empty text");
-        AdminId.IsEmpty("A question has to have an administrator associated");
+        AdminId.IsEmptyGuid("A question has to have an administrator associated");
         Answers.HasElements("A question that has been answered cannot be written");
         Active.IsActive("A question has to be active to be written");
     }

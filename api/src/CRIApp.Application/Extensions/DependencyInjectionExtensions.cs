@@ -13,6 +13,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IQuestionService, QuestionService>();
         services.AddScoped<IAnswerService, AnswerService>();
+        services.AddScoped<IChildService, ChildService>();
     }
 
     public static void AddRepositories(this IServiceCollection services)
@@ -20,5 +21,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();
         services.AddScoped<IAnswerRepository, AnswerRepository>();
+        services.AddScoped<IChildRepository, ChildRepository>();
     }
 }
