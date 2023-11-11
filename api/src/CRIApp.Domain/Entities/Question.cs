@@ -1,6 +1,6 @@
 namespace CRIApp.Domain.Entities;
 
-public class Question : Entity, IAggregateRoot
+public class Question : Entity
 {
     public string Text { get; private set; }
     public bool Active { get; private set; }

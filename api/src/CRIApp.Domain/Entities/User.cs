@@ -3,7 +3,7 @@ using CRIApp.Domain.Helpers;
 
 namespace CRIApp.Domain.Entities;
 
-public class User : Entity, IAggregateRoot
+public class User : Entity
 {
     public string Name { get; private set; }
     public DateTime BirthDate { get; private set; }

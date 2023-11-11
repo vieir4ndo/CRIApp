@@ -16,12 +16,11 @@ public class QuestionController : ControllerBase
         _service = service;
     }
     
-    [HttpPost]
+    [HttpGet]
     public async Task<ApiResponse<QuestionDto>> GetAll()
     {
         var data = await _service.GetAll();
 
         return new ApiResponse<QuestionDto>(true, data);
     }
-
 }

@@ -40,11 +40,21 @@ public class UserService : IUserService
                 return;
         }
 
-        throw new ValidationException(new List<string>() { "Username or password did not match." });
+        throw new ValidationException("Username or password did not match");
     }
     
     public async Task<User?> GetByEmail(string email)
     {
         return await _repository.GetByEmail(email);
+    }
+
+    public async Task<User?> GetAndValidateById(Guid id)
+    {
+        var user = await _repository.GetById(id);
+
+        if (user is null)
+            throw new NotFoundException("User not found");
+
+        return user;
     }
 }

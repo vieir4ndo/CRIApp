@@ -1,11 +1,12 @@
 namespace CRIApp.Domain.Exceptions;
 
-public class ValidationException : Exception
+public class ValidationException : BaseException
 {
-    public List<string> Errors { get; set; }
-    
-    public ValidationException(List<string> errors)
+    public ValidationException(List<string> errors) : base(errors)
     {
-        Errors = errors;
+    }
+
+    public ValidationException(string error) : base(error)
+    {
     }
 }

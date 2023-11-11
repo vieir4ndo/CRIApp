@@ -1,26 +1,19 @@
 using CRIApp.Api.Middlewares;
-using CRIApp.Application.Abstractions;
-using CRIApp.Application.Services;
-using CRIApp.Domain.Data;
+using CRIApp.Application.Extensions;
 using CRIApp.Domain.Settings;
-using CRIApp.Repository.Repositories;
 using AppContext = CRIApp.Repository.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// TODO: Isolate in extensions
 builder.Services.Configure<UserSettings>(builder.Configuration.GetSection("UserSettings"));
 
 // Add services to the container.
 builder.Services.AddDbContext<AppContext>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
-builder.Services.AddScoped<IQuestionService, QuestionService>();
-
+builder.Services.AddServices();
+builder.Services.AddRepositories();
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

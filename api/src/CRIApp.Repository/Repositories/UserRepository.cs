@@ -22,4 +22,11 @@ public class UserRepository : IUserRepository
     {
         return await Context.User.FirstOrDefaultAsync(x => x.Email == email);
     }
+
+    public async Task<User?> GetById(Guid id)
+    {
+        return await Context.User
+            .Include(x => x.Children)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
 }

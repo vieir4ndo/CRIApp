@@ -10,10 +10,9 @@ namespace CRIApp.Api.Middlewares;
 [ExcludeFromCodeCoverage]
 public static class ErrorHandlerExtensions
 {
-    public static IApplicationBuilder UseErrorHandler(
-        this IApplicationBuilder appBuilder)
+    public static void UseErrorHandler(this IApplicationBuilder appBuilder)
     {
-        return appBuilder.UseExceptionHandler(builder =>
+        appBuilder.UseExceptionHandler(builder =>
         {
             builder.Run(async context =>
             {
@@ -29,7 +28,7 @@ public static class ErrorHandlerExtensions
                     {
                         case NotFoundException notFoundException:
                         {
-                            var response = new ApiResponse<object>(false);
+                            var response = new ApiResponse<object>(false , messages: notFoundException.Errors);
 
                             context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                             context.Response.ContentType = "application/json";
