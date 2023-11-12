@@ -5,7 +5,6 @@ using CRIApp.Application.Dtos;
 using CRIApp.Domain.Data;
 using CRIApp.Domain.Entities;
 using CRIApp.Domain.Exceptions;
-using CRIApp.Domain.Helpers;
 using CRIApp.Domain.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -15,26 +14,23 @@ namespace CRIApp.Application.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
-    private readonly UserSettings _settings;
     private readonly JwtTokenSettings _jwtTokenSettings;
 
-    public UserService(IUserRepository repository, IOptions<UserSettings> settings, IOptions<JwtTokenSettings> jwtTokenSettings)
+    public UserService(IUserRepository repository,
+        IOptions<JwtTokenSettings> jwtTokenSettings)
     {
         _repository = repository;
-        _settings = settings.Value;
         _jwtTokenSettings = jwtTokenSettings.Value;
     }
+
     public async Task Create(CreateUserDto dto)
     {
         var userExisting = await _repository.GetByEmail(dto.Email);
 
         if (userExisting is not null)
             throw new ValidationException("This email is taken");
-        
-        var passwordSalt = PasswordHasher.GenerateSalt();
-        var passwordHash = PasswordHasher.ComputeHash(dto.Password, passwordSalt, _settings.PasswordPepper, _settings.PasswordHashIterations);
 
-        var user = dto.ToDomainObject(passwordSalt, passwordHash);
+        var user = dto.ToDomainObject();
         await _repository.Create(user);
     }
 
@@ -42,12 +38,9 @@ public class UserService : IUserService
     {
         var user = await GetByEmail(dto.Username);
 
-        if (user is not null)
+        if (user is not null && user.VerifyPassword(dto.Password))
         {
-            var passwordHash = PasswordHasher.ComputeHash(dto.Password, user.PasswordSalt,  _settings.PasswordPepper, _settings.PasswordHashIterations);
-
-            if (user.PasswordHash == passwordHash)
-                return GenerateToken();
+            return GenerateToken();
         }
 
         throw new ValidationException("Username or password did not match");
@@ -72,7 +65,7 @@ public class UserService : IUserService
             ExpiresIn = expiresIn
         };
     }
-    
+
     public async Task<User?> GetByEmail(string email)
     {
         return await _repository.GetByEmail(email);

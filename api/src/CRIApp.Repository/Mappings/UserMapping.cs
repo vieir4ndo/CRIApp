@@ -30,9 +30,6 @@ public class AdminMapping : IEntityTypeConfiguration<User>
         builder.Property(x => x.PasswordHash)
             .IsRequired();
 
-        builder.Property(x => x.PasswordSalt)
-            .IsRequired();
-
         builder.Property(x => x.Active)
             .IsRequired();
 

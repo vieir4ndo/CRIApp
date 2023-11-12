@@ -19,7 +19,6 @@ namespace CRIApp.Repository.Migrations
                     Sex = table.Column<int>(type: "integer", nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "text", nullable: false),
                     Active = table.Column<bool>(type: "boolean", nullable: false),
                     NumberOfChildren = table.Column<int>(type: "integer", nullable: true),
                     FamilyType = table.Column<int>(type: "integer", nullable: true),

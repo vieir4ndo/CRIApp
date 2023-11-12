@@ -9,8 +9,6 @@ using AppContext = CRIApp.Repository.AppContext;
 var builder = WebApplication.CreateBuilder(args);
 
 // TODO: Isolate in extensions
-builder.Services.Configure<UserSettings>(builder.Configuration.GetSection(UserSettings.SectionName));
-
 var jwtSettingsConfigurationSection = builder.Configuration.GetSection(JwtTokenSettings.SectionName);
 builder.Services.Configure<JwtTokenSettings>(jwtSettingsConfigurationSection);
 var jwtSettings = jwtSettingsConfigurationSection.Get<JwtTokenSettings>();
@@ -56,6 +54,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

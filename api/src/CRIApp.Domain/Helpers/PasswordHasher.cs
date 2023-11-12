@@ -5,24 +5,23 @@ namespace CRIApp.Domain.Helpers;
 
 public static class PasswordHasher
 {
-    public static string ComputeHash(string password, string salt, string pepper, int iteration)
+    public static string HashPassword(string password)
     {
-        if (iteration <= 0) return password;
-        
         using var sha256 = SHA256.Create();
-        var passwordSaltPepper = $"{password}{salt}{pepper}";
-        var byteValue = Encoding.UTF8.GetBytes(passwordSaltPepper);
-        var byteHash = sha256.ComputeHash(byteValue);
-        var hash = Convert.ToBase64String(byteHash);
-        return ComputeHash(hash, salt, pepper, iteration - 1);
+        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+        var builder = new StringBuilder();
+        foreach (var t in hashedBytes)
+        {
+            builder.Append(t.ToString("x2"));
+        }
+
+        return builder.ToString();
     }
-    
-    public static string GenerateSalt()
+
+    public static bool VerifyPassword(string password, string hashedPassword)
     {
-        using var rng = RandomNumberGenerator.Create();
-        var byteSalt = new byte[16];
-        rng.GetBytes(byteSalt);
-        var salt = Convert.ToBase64String(byteSalt);
-        return salt;
+        var hashedInput = HashPassword(password);
+        return string.Equals(hashedInput, hashedPassword);
     }
 }

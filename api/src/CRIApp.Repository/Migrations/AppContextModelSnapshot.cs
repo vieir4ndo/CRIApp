@@ -262,10 +262,6 @@ namespace CRIApp.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
 

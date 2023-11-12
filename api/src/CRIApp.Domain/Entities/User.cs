@@ -10,7 +10,6 @@ public class User : Entity
     public Sex Sex { get; private set; }
     public string Email { get; private set; }
     public string PasswordHash { get; private set; }
-    public string PasswordSalt { get; set; }
     public bool Active { get; private set; }
     public int? NumberOfChildren { get; private set; }
     public FamilyType? FamilyType { get; private set; }
@@ -36,8 +35,7 @@ public class User : Entity
         DateTime birthDate,
         Sex sex,
         string email,
-        string passwordHash,
-        string passwordSalt,
+        string password,
         FamilyType? familyType = null,
         EducationalLevel? educationalLevel = null
         )
@@ -48,8 +46,7 @@ public class User : Entity
         Email = email;
         FamilyType = familyType;
         EducationalLevel = educationalLevel;
-        PasswordSalt = passwordSalt;
-        PasswordHash = passwordHash;
+        PasswordHash = PasswordHasher.HashPassword(password);
         Activate();
         
         Name.IsNullOrEmpty("An user cannot have a null or empty name");
@@ -58,6 +55,10 @@ public class User : Entity
         Email.IsValidEmail("An user has to have a valid email");
         Active.IsActive("An user has to be active to be created");
         PasswordHash.IsNullOrEmpty("An user cannot have a null or empty password hash");
-        PasswordSalt.IsNullOrEmpty("An user cannot have a null or empty password salt");
+    }
+
+    public bool VerifyPassword(string password)
+    {
+        return PasswordHasher.VerifyPassword(password, PasswordHash);
     }
 }
