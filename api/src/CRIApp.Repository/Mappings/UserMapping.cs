@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CRIApp.Repository.Mappings;
 
-public class AdminMapping :  IEntityTypeConfiguration<User>
+public class AdminMapping : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -22,24 +22,30 @@ public class AdminMapping :  IEntityTypeConfiguration<User>
 
         builder.Property(x => x.Email)
             .IsRequired()
-            .HasMaxLength(100);;
+            .HasMaxLength(100);
+
+        builder.HasIndex(u => u.Email)
+            .IsUnique();
 
         builder.Property(x => x.PasswordHash)
             .IsRequired();
-        
+
         builder.Property(x => x.PasswordSalt)
             .IsRequired();
-        
+
         builder.Property(x => x.Active)
             .IsRequired();
-        
+
         builder.Property(x => x.NumberOfChildren)
             .IsRequired(false);
-        
+
         builder.Property(x => x.FamilyType)
             .IsRequired(false);
-        
+
         builder.Property(x => x.EducationalLevel)
             .IsRequired(false);
+
+        builder.Property(x => x.IsAdmin)
+            .IsRequired();
     }
 }

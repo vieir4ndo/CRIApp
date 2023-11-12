@@ -1,6 +1,7 @@
 using CRIApp.Api.Controllers.Requests;
 using CRIApp.Api.Controllers.Responses;
 using CRIApp.Application.Abstractions;
+using CRIApp.Application.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRIApp.Api.Controllers;
@@ -27,13 +28,13 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ApiResponse<object>> Login(LoginRequest request)
+    public async Task<ApiResponse<TokenDto>> Login(LoginRequest request)
     {
         request.ValidateAndThrow();
         
-        await _service.Login(request.ToDto());
+        var tokenDto = await _service.Login(request.ToDto());
 
-        return new ApiResponse<object>(true);
+        return new ApiResponse<TokenDto>(true, tokenDto);
     }
 
     /*

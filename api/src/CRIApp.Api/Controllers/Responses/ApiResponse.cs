@@ -15,6 +15,12 @@ public class ApiResponse<T> where T : class?
         Messages = messages ?? Messages;
     }
 
+    public ApiResponse(bool success, T data)
+    {
+        Success = success;
+        Data = new List<T>() { data };
+    }
+
     public ApiResponse(string? message = null)
     {
         Success = false;

@@ -23,7 +23,8 @@ namespace CRIApp.Repository.Migrations
                     Active = table.Column<bool>(type: "boolean", nullable: false),
                     NumberOfChildren = table.Column<int>(type: "integer", nullable: true),
                     FamilyType = table.Column<int>(type: "integer", nullable: true),
-                    EducationalLevel = table.Column<int>(type: "integer", nullable: true)
+                    EducationalLevel = table.Column<int>(type: "integer", nullable: true),
+                    IsAdmin = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +77,7 @@ namespace CRIApp.Repository.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Sex = table.Column<int>(type: "integer", nullable: false),
                     MonthsOfBreastFeeding = table.Column<int>(type: "integer", nullable: false),
                     PrcId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -265,6 +266,12 @@ namespace CRIApp.Repository.Migrations
                 name: "IX_Question_AdminId",
                 table: "Question",
                 column: "AdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Email",
+                table: "User",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -1,12 +1,36 @@
+using System.Text;
 using CRIApp.Api.Middlewares;
 using CRIApp.Application.Extensions;
 using CRIApp.Domain.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using AppContext = CRIApp.Repository.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // TODO: Isolate in extensions
-builder.Services.Configure<UserSettings>(builder.Configuration.GetSection("UserSettings"));
+builder.Services.Configure<UserSettings>(builder.Configuration.GetSection(UserSettings.SectionName));
+
+var jwtSettingsConfigurationSection = builder.Configuration.GetSection(JwtTokenSettings.SectionName);
+builder.Services.Configure<JwtTokenSettings>(jwtSettingsConfigurationSection);
+var jwtSettings = jwtSettingsConfigurationSection.Get<JwtTokenSettings>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidAudience = jwtSettings.Issuer,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
+        };
+    });
+//Jwt configuration ends here
+
 
 // Add services to the container.
 builder.Services.AddDbContext<AppContext>();
