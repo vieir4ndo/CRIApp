@@ -1,7 +1,9 @@
 [submodule "api"]
 	path = api
 	url = git@github.com:vieir4ndo/criapp-api.git
+	branch = main
 
 [submodule "android"]
 	path = android
 	url = git@github.com:vieir4ndo/criapp-android.git
+	branch = main
