@@ -1,6 +1,7 @@
 [submodule "api"]
 	path = api
-	url = https://github.com/vieir4ndo/criapp-api
+	url = git@github.com:vieir4ndo/criapp-api.git
+
 [submodule "android"]
 	path = android
-	url = https://github.com/vieir4ndo/criapp-android
+	url = git@github.com:vieir4ndo/criapp-android.git
