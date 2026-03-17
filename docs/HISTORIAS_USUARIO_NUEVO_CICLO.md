@@ -384,34 +384,7 @@ DoD:
 
 ---
 
-## HU-013 - Consolidacion de estructura duplicada
-
-Prioridad: Media
-Tipo: Tecnica
-Estimacion: 3 puntos
-
-Como mantenedor del repositorio,
-quiero consolidar modulos duplicados (android y api espejo),
-para reducir deuda tecnica y evitar divergencias.
-
-Criterios de aceptacion (BDD):
-
-- Dado el repositorio actual,
-  cuando se complete la consolidacion,
-  entonces habra una ruta canonica por modulo.
-- Dado un cambio futuro,
-  cuando se implemente,
-  entonces no requerira replicacion manual en rutas duplicadas.
-
-DoD:
-
-- Estructura objetivo definida y aplicada.
-- Documentacion de migracion interna registrada.
-- Build funcional en estructura consolidada.
-
----
-
-## HU-014 - Evidencias para memoria final por historia
+## HU-013 - Evidencias para memoria final por historia
 
 Prioridad: Alta
 Tipo: Academica/Proceso
@@ -438,7 +411,7 @@ DoD:
 
 ---
 
-## HU-015 - Anteproyecto TFM (1 pagina PDF)
+## HU-014 - Anteproyecto TFM (1 pagina PDF)
 
 Prioridad: Alta
 Tipo: Academica/Entrega
@@ -466,7 +439,7 @@ DoD:
 
 ---
 
-## HU-016 - Memoria final del TFM
+## HU-015 - Memoria final del TFM
 
 Prioridad: Alta
 Tipo: Academica/Entrega
@@ -494,7 +467,7 @@ DoD:
 
 ---
 
-## HU-017 - Preparacion de defensa en tribunal
+## HU-016 - Preparacion de defensa en tribunal
 
 Prioridad: Alta
 Tipo: Academica/Defensa
@@ -522,14 +495,14 @@ DoD:
 
 ## 4. Orden recomendado de ejecucion
 
-1. HU-015 (anteproyecto PDF 1 pagina) con fecha fija 7 de abril de 2026.
+1. HU-014 (anteproyecto PDF 1 pagina) con fecha fija 7 de abril de 2026.
 2. HU-001, HU-002, HU-003 (base de refactor Android).
 3. HU-011, HU-012 (red de seguridad de calidad).
 4. HU-004, HU-005, HU-006 (pendientes de gestion de contenido).
 5. HU-007, HU-008 (gamificacion y notificaciones).
 6. HU-010, HU-009 (hardening + despliegue cloud).
-7. HU-013, HU-014 (consolidacion y cierre documental).
-8. HU-016 en paralelo progresivo (memoria final hasta fin de junio) y HU-017 al cierre (defensa).
+7. HU-013 (consolidacion y cierre documental).
+8. HU-015 en paralelo progresivo (memoria final hasta fin de junio) y HU-016 al cierre (defensa).
 
 ## 5. Nota de alineacion con teoria
 

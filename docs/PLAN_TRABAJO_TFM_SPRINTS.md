@@ -19,7 +19,7 @@ Convertir las historias de usuario existentes en una hoja de ruta semanal realis
 - Punto total backlog actual: 92 puntos.
 - Duracion estimada para completar backlog principal: 13-14 semanas.
 
-Nota: HU-016 (memoria final) se trabaja en paralelo, no se deja para el final.
+Nota: HU-015 (memoria final) se trabaja en paralelo, no se deja para el final.
 
 ## 3. Politica de metodologia (como ejecutar cada semana)
 
@@ -43,13 +43,13 @@ Politicas:
 
 - WIP maximo: 2 tarjetas en In Progress.
 - No mover a Done sin DoD y evidencia minima.
-- Cada HU cerrada debe dejar evidencia en docs para HU-014/HU-016.
+- Cada HU cerrada debe dejar evidencia en docs para HU-013/HU-015.
 
 ## 4. Hitos academicos obligatorios
 
-- Hito A: HU-015 (anteproyecto 1 pagina PDF) antes del 7 de abril de 2026.
-- Hito B: HU-016 (memoria final) completada antes de fin de junio.
-- Hito C: HU-017 (defensa) preparada con diapositivas + demo + ensayo.
+- Hito A: HU-014 (anteproyecto 1 pagina PDF) antes del 7 de abril de 2026.
+- Hito B: HU-015 (memoria final) completada antes de fin de junio.
+- Hito C: HU-016 (defensa) preparada con diapositivas + demo + ensayo.
 
 ## 5. Distribucion recomendada por semanas
 
@@ -57,8 +57,8 @@ Politicas:
 
 Objetivo: arrancar formalmente y asegurar hito academico inmediato.
 
-- HU-015 Anteproyecto TFM (2 pts)
-- HU-014 Evidencias para memoria por historia (arranque de plantilla) (3 pts)
+- HU-014 Anteproyecto TFM (2 pts)
+- HU-013 Evidencias para memoria por historia (arranque de plantilla) (3 pts)
 - HU-003 Validaciones mejoradas (inicio) (parcial)
 
 Carga objetivo: 7 pts
@@ -68,7 +68,7 @@ Resultado esperado: anteproyecto casi final + plantilla de evidencia operativa.
 
 Objetivo: cerrar anteproyecto y preparar base de refactor.
 
-- HU-015 cierre y version final PDF (resto)
+- HU-014 cierre y version final PDF (resto)
 - HU-001 Refactor arquitectura Android (inicio) (8 pts, parcial)
 
 Carga objetivo: 7 pts
@@ -158,7 +158,6 @@ Resultado esperado: seguridad minima y notificaciones operativas con logs.
 Objetivo: despliegue y consolidacion repositorio.
 
 - HU-009 Despliegue cloud gratuito API (5 pts)
-- HU-013 Consolidacion estructura duplicada (3 pts)
 
 Carga objetivo: 8 pts
 Resultado esperado: API publica en cloud + estructura mas limpia.
@@ -167,8 +166,8 @@ Resultado esperado: API publica en cloud + estructura mas limpia.
 
 Objetivo: iniciar cierre academico fuerte.
 
-- HU-016 Memoria final (bloque 1: marco, requisitos, metodologia) (parcial)
-- HU-014 actualizacion final de evidencias por HU
+- HU-015 Memoria final (bloque 1: marco, requisitos, metodologia) (parcial)
+- HU-013 actualizacion final de evidencias por HU
 
 Carga objetivo: 6-7 pts efectivos de redaccion/documentacion
 Resultado esperado: primer bloque de memoria completo y trazabilidad al dia.
@@ -177,7 +176,7 @@ Resultado esperado: primer bloque de memoria completo y trazabilidad al dia.
 
 Objetivo: construir resultados y discusion de memoria.
 
-- HU-016 Memoria final (bloque 2: implementacion, pruebas, resultados) (parcial)
+- HU-015 Memoria final (bloque 2: implementacion, pruebas, resultados) (parcial)
 
 Carga objetivo: 6-7 pts
 Resultado esperado: cuerpo tecnico principal de memoria cerrado.
@@ -186,8 +185,8 @@ Resultado esperado: cuerpo tecnico principal de memoria cerrado.
 
 Objetivo: preparar defensa mientras se cierra memoria.
 
-- HU-016 Memoria final (bloque 3: conclusiones, trabajo futuro, edicion final)
-- HU-017 Defensa (inicio: diapositivas + guion) (parcial)
+- HU-015 Memoria final (bloque 3: conclusiones, trabajo futuro, edicion final)
+- HU-016 Defensa (inicio: diapositivas + guion) (parcial)
 
 Carga objetivo: 7 pts
 Resultado esperado: memoria casi final + deck inicial de defensa.
@@ -196,8 +195,8 @@ Resultado esperado: memoria casi final + deck inicial de defensa.
 
 Objetivo: cierre final academico.
 
-- HU-016 entrega final memoria
-- HU-017 defensa (demo en vivo + ensayo cronometrado + plan contingencia)
+- HU-015 entrega final memoria
+- HU-016 defensa (demo en vivo + ensayo cronometrado + plan contingencia)
 
 Carga objetivo: 7 pts
 Resultado esperado: memoria entregada y defensa lista para tribunal.
@@ -222,9 +221,9 @@ Mover una historia a Done solo si cumple simultaneamente:
 
 Orden de proteccion de hitos:
 
-1. No mover HU-015 ni HU-016 de sus ventanas objetivo.
+1. No mover HU-014 ni HU-015 de sus ventanas objetivo.
 2. Mantener HU-001/HU-002/HU-011/HU-012 como nucleo de calidad.
-3. Si hace falta recortar, recortar primero alcance de HU-006 y HU-013.
+3. Si hace falta recortar, recortar primero alcance de HU-006.
 
 ---
 
