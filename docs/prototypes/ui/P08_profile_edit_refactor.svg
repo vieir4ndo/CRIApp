@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#CB6CE6"/>
+      <stop offset="100%" stop-color="#2C64C6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <text x="120" y="160" font-size="48" font-family="Arial" fill="#FFFFFF" font-weight="700">Edit Profile</text>
+
+  <circle cx="540" cy="290" r="95" fill="#FFFFFF" fill-opacity="0.85"/>
+  <text x="540" y="306" text-anchor="middle" font-size="48" font-family="Arial" fill="#2C64C6" font-weight="700">MV</text>
+
+  <rect x="110" y="430" width="860" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="140" y="498" font-size="30" font-family="Arial" fill="#666666">Name</text>
+
+  <rect x="110" y="560" width="860" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="140" y="628" font-size="30" font-family="Arial" fill="#666666">Birth date</text>
+
+  <rect x="110" y="690" width="860" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="140" y="758" font-size="30" font-family="Arial" fill="#666666">Education level</text>
+
+  <rect x="110" y="820" width="860" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="140" y="888" font-size="30" font-family="Arial" fill="#666666">Family type</text>
+
+  <rect x="110" y="950" width="860" height="130" rx="16" fill="#B60D00" fill-opacity="0.15" stroke="#B60D00"/>
+  <text x="140" y="1026" font-size="30" font-family="Arial" fill="#B60D00">Birth date is required</text>
+
+  <rect x="110" y="1120" width="860" height="120" rx="16" fill="#2C64C6"/>
+  <text x="540" y="1196" text-anchor="middle" font-size="40" font-family="Arial" fill="#FFFFFF" font-weight="700">Save changes</text>
+
+  <text x="540" y="1730" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype for profile quality/refactor pass</text>
+</svg>

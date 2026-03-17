@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A966CC"/>
+      <stop offset="100%" stop-color="#CB6CE6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <text x="120" y="160" font-size="48" font-family="Arial" fill="#FFFFFF" font-weight="700">Awards</text>
+  <text x="120" y="210" font-size="28" font-family="Arial" fill="#FFFFFF">Motivation and progress</text>
+
+  <rect x="90" y="260" width="900" height="220" rx="28" fill="#FFFFFF" fill-opacity="0.2"/>
+  <text x="130" y="340" font-size="36" font-family="Arial" fill="#FFFFFF" font-weight="700">Current streak: 7 days</text>
+  <text x="130" y="400" font-size="30" font-family="Arial" fill="#FFFFFF">Next award in 3 answers</text>
+
+  <rect x="90" y="520" width="900" height="260" rx="24" fill="#FFFFFF"/>
+  <circle cx="180" cy="650" r="60" fill="#2C64C6"/>
+  <text x="180" y="662" text-anchor="middle" font-size="42" font-family="Arial" fill="#FFFFFF">1</text>
+  <text x="280" y="620" font-size="34" font-family="Arial" fill="#333333" font-weight="700">First Steps</text>
+  <text x="280" y="670" font-size="28" font-family="Arial" fill="#666666">Answered your first daily form</text>
+  <text x="280" y="720" font-size="24" font-family="Arial" fill="#888888">Unlocked 15/03/2026</text>
+
+  <rect x="90" y="820" width="900" height="260" rx="24" fill="#FFFFFF"/>
+  <circle cx="180" cy="950" r="60" fill="#00CCE5"/>
+  <text x="180" y="962" text-anchor="middle" font-size="42" font-family="Arial" fill="#FFFFFF">2</text>
+  <text x="280" y="920" font-size="34" font-family="Arial" fill="#333333" font-weight="700">Consistency</text>
+  <text x="280" y="970" font-size="28" font-family="Arial" fill="#666666">Answered 10 questions in one week</text>
+  <text x="280" y="1020" font-size="24" font-family="Arial" fill="#888888">Unlocked 17/03/2026</text>
+
+  <rect x="90" y="1120" width="900" height="260" rx="24" fill="#FFFFFF" fill-opacity="0.85"/>
+  <circle cx="180" cy="1250" r="60" fill="#DDDDDD"/>
+  <text x="180" y="1262" text-anchor="middle" font-size="42" font-family="Arial" fill="#666666">?</text>
+  <text x="280" y="1220" font-size="34" font-family="Arial" fill="#333333" font-weight="700">Community Helper</text>
+  <text x="280" y="1270" font-size="28" font-family="Arial" fill="#666666">Comment in 5 forum threads</text>
+  <text x="280" y="1320" font-size="24" font-family="Arial" fill="#888888">Locked</text>
+
+  <text x="540" y="1730" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype for HU-007 awards</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#CB6CE6"/>
+      <stop offset="100%" stop-color="#2C64C6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <text x="120" y="160" font-size="48" font-family="Arial" fill="#FFFFFF" font-weight="700">Community Forums</text>
+
+  <rect x="90" y="230" width="900" height="110" rx="16" fill="#FFFFFF"/>
+  <text x="130" y="300" font-size="30" font-family="Arial" fill="#666666">Search topic...</text>
+
+  <rect x="90" y="380" width="900" height="280" rx="24" fill="#FFFFFF"/>
+  <text x="130" y="450" font-size="34" font-family="Arial" fill="#333333" font-weight="700">How to improve sleep routine?</text>
+  <text x="130" y="510" font-size="28" font-family="Arial" fill="#666666">18 comments - by Maria</text>
+  <text x="130" y="560" font-size="26" font-family="Arial" fill="#777777">Last update: 2h ago</text>
+  <rect x="130" y="590" width="170" height="48" rx="24" fill="#DDEBFF"/>
+  <text x="215" y="622" text-anchor="middle" font-size="24" font-family="Arial" fill="#2C64C6">sleep</text>
+
+  <rect x="90" y="700" width="900" height="280" rx="24" fill="#FFFFFF" fill-opacity="0.95"/>
+  <text x="130" y="770" font-size="34" font-family="Arial" fill="#333333" font-weight="700">Healthy snacks for school</text>
+  <text x="130" y="830" font-size="28" font-family="Arial" fill="#666666">12 comments - by Carlos</text>
+  <text x="130" y="880" font-size="26" font-family="Arial" fill="#777777">Last update: 1d ago</text>
+  <rect x="130" y="910" width="190" height="48" rx="24" fill="#F0E6FF"/>
+  <text x="225" y="942" text-anchor="middle" font-size="24" font-family="Arial" fill="#A966CC">nutrition</text>
+
+  <rect x="90" y="1520" width="900" height="120" rx="16" fill="#2C64C6"/>
+  <text x="540" y="1594" text-anchor="middle" font-size="38" font-family="Arial" fill="#FFFFFF" font-weight="700">Create new forum</text>
+
+  <text x="540" y="1730" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype for forum quality/refactor backlog</text>
+</svg>

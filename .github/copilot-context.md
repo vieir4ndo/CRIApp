@@ -6,8 +6,8 @@ Toda la documentación detallada sobre el producto se encuentra en la carpeta `/
 
 **Metodología:**
 
-* Se utilizarán **metodologías ágiles**, siguiendo las pautas de la carpeta `/docs/agile`.
-* La construcción del código Android debe basarse en la documentación de `/docs/android`.
+* Se utilizarán **metodologías ágiles**, siguiendo las pautas de la carpeta `/docs/theory/product`.
+* La construcción del código Android debe basarse en la documentación de `/docs/theory/android`.
 * La construcción del código C# debe seguir los ejemplos ya existentes en la solución dentro de la carpeta `/api`.
 
 **Estructura del repositorio:**

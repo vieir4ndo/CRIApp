@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2C64C6"/>
+      <stop offset="100%" stop-color="#CB6CE6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect x="120" y="180" width="840" height="1560" rx="44" fill="#FFFFFF" fill-opacity="0.12"/>
+  <text x="540" y="300" text-anchor="middle" font-size="58" font-family="Arial" fill="#FFFFFF" font-weight="700">CRIApp</text>
+  <text x="540" y="360" text-anchor="middle" font-size="32" font-family="Arial" fill="#FFFFFF">Sign in (Refactor UX)</text>
+
+  <rect x="180" y="460" width="720" height="130" rx="20" fill="#FFFFFF"/>
+  <text x="220" y="540" font-size="34" font-family="Arial" fill="#666666">Email or phone</text>
+
+  <rect x="180" y="620" width="720" height="130" rx="20" fill="#FFFFFF"/>
+  <text x="220" y="700" font-size="34" font-family="Arial" fill="#666666">Password</text>
+
+  <rect x="180" y="780" width="720" height="120" rx="16" fill="#B60D00" fill-opacity="0.15" stroke="#B60D00"/>
+  <text x="220" y="850" font-size="30" font-family="Arial" fill="#B60D00">Invalid credentials. Try again.</text>
+
+  <rect x="180" y="940" width="720" height="130" rx="20" fill="#2C64C6"/>
+  <text x="540" y="1020" text-anchor="middle" font-size="42" font-family="Arial" fill="#FFFFFF" font-weight="700">Sign in</text>
+
+  <text x="540" y="1120" text-anchor="middle" font-size="30" font-family="Arial" fill="#FFFFFF">Forgot password?</text>
+  <text x="540" y="1180" text-anchor="middle" font-size="30" font-family="Arial" fill="#FFFFFF">No account? Sign up</text>
+
+  <text x="540" y="1670" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype for HU-003 / existing SignIn improvements</text>
+</svg>

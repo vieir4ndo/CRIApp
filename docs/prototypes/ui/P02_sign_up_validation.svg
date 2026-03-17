@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#CB6CE6"/>
+      <stop offset="100%" stop-color="#A966CC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <rect x="80" y="110" width="920" height="1700" rx="40" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="140" y="220" font-size="52" font-family="Arial" fill="#FFFFFF" font-weight="700">Create account</text>
+
+  <rect x="140" y="280" width="800" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="170" y="348" font-size="30" font-family="Arial" fill="#666666">Full name</text>
+
+  <rect x="140" y="412" width="800" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="170" y="480" font-size="30" font-family="Arial" fill="#666666">Email</text>
+
+  <rect x="140" y="544" width="800" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="170" y="612" font-size="30" font-family="Arial" fill="#666666">Birth date (dd/mm/yyyy)</text>
+
+  <rect x="140" y="676" width="800" height="108" rx="16" fill="#FFFFFF"/>
+  <text x="170" y="744" font-size="30" font-family="Arial" fill="#666666">Password</text>
+
+  <rect x="140" y="812" width="800" height="210" rx="16" fill="#B60D00" fill-opacity="0.15" stroke="#B60D00"/>
+  <text x="170" y="875" font-size="30" font-family="Arial" fill="#B60D00">- Email is required</text>
+  <text x="170" y="930" font-size="30" font-family="Arial" fill="#B60D00">- Birth date format is invalid</text>
+  <text x="170" y="985" font-size="30" font-family="Arial" fill="#B60D00">- Password must have 8+ chars</text>
+
+  <rect x="140" y="1060" width="800" height="120" rx="16" fill="#2C64C6"/>
+  <text x="540" y="1136" text-anchor="middle" font-size="40" font-family="Arial" fill="#FFFFFF" font-weight="700">Create account</text>
+
+  <text x="540" y="1720" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype for HU-003 (validation UX)</text>
+</svg>

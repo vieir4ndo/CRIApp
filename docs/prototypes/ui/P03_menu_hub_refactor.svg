@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#CB6CE6"/>
+      <stop offset="100%" stop-color="#A966CC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <circle cx="170" cy="170" r="60" fill="#FFFFFF" fill-opacity="0.8"/>
+  <text x="260" y="160" font-size="42" font-family="Arial" fill="#FFFFFF" font-weight="700">Hello, user</text>
+  <text x="260" y="205" font-size="28" font-family="Arial" fill="#FFFFFF">Welcome back to CRIApp</text>
+
+  <rect x="90" y="280" width="900" height="1520" rx="36" fill="#FFFFFF" fill-opacity="0.14"/>
+
+  <g fill="#FFFFFF" fill-opacity="0.2" stroke="#FFFFFF" stroke-opacity="0.2">
+    <rect x="150" y="360" width="340" height="220" rx="24"/>
+    <rect x="590" y="360" width="340" height="220" rx="24"/>
+    <rect x="150" y="630" width="340" height="220" rx="24"/>
+    <rect x="590" y="630" width="340" height="220" rx="24"/>
+    <rect x="150" y="900" width="340" height="220" rx="24"/>
+    <rect x="590" y="900" width="340" height="220" rx="24"/>
+    <rect x="150" y="1170" width="340" height="220" rx="24"/>
+    <rect x="590" y="1170" width="340" height="220" rx="24"/>
+  </g>
+
+  <g font-size="32" font-family="Arial" fill="#FFFFFF" font-weight="700" text-anchor="middle">
+    <text x="320" y="475">Notifications</text>
+    <text x="760" y="475">Profile</text>
+    <text x="320" y="745">Questionnaires</text>
+    <text x="760" y="745">Children</text>
+    <text x="320" y="1015">Forums</text>
+    <text x="760" y="1015">Awards</text>
+    <text x="320" y="1285">Resources</text>
+    <text x="760" y="1285">FAQ</text>
+  </g>
+
+  <text x="540" y="1720" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype preserving current menu visual language</text>
+</svg>

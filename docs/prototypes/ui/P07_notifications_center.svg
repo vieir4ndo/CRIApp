@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2C64C6"/>
+      <stop offset="100%" stop-color="#A966CC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <text x="120" y="160" font-size="48" font-family="Arial" fill="#FFFFFF" font-weight="700">Notifications</text>
+  <text x="120" y="210" font-size="28" font-family="Arial" fill="#FFFFFF">Useful reminders and progress alerts</text>
+
+  <rect x="90" y="260" width="900" height="180" rx="20" fill="#FFFFFF" fill-opacity="0.2"/>
+  <text x="130" y="330" font-size="30" font-family="Arial" fill="#FFFFFF">Push reminders</text>
+  <rect x="760" y="305" width="180" height="70" rx="35" fill="#00CCE5"/>
+  <circle cx="900" cy="340" r="28" fill="#FFFFFF"/>
+  <text x="130" y="390" font-size="26" font-family="Arial" fill="#FFFFFF">Daily at 20:00</text>
+
+  <rect x="90" y="480" width="900" height="220" rx="20" fill="#FFFFFF"/>
+  <text x="130" y="560" font-size="32" font-family="Arial" fill="#333333" font-weight="700">You missed yesterday questions</text>
+  <text x="130" y="620" font-size="28" font-family="Arial" fill="#666666">Answer now to keep your streak</text>
+  <text x="130" y="670" font-size="24" font-family="Arial" fill="#888888">Today, 08:00</text>
+
+  <rect x="90" y="740" width="900" height="220" rx="20" fill="#FFFFFF"/>
+  <text x="130" y="820" font-size="32" font-family="Arial" fill="#333333" font-weight="700">New award unlocked</text>
+  <text x="130" y="880" font-size="28" font-family="Arial" fill="#666666">Consistency badge added to your profile</text>
+  <text x="130" y="930" font-size="24" font-family="Arial" fill="#888888">Yesterday, 22:10</text>
+
+  <rect x="90" y="1000" width="900" height="220" rx="20" fill="#FFFFFF"/>
+  <text x="130" y="1080" font-size="32" font-family="Arial" fill="#333333" font-weight="700">Forum reply received</text>
+  <text x="130" y="1140" font-size="28" font-family="Arial" fill="#666666">Ana replied on sleep routine thread</text>
+  <text x="130" y="1190" font-size="24" font-family="Arial" fill="#888888">Yesterday, 17:40</text>
+
+  <text x="540" y="1730" text-anchor="middle" font-size="26" font-family="Arial" fill="#FFFFFF">Prototype for HU-008 notifications</text>
+</svg>
