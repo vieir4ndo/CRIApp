@@ -1,15 +1,17 @@
-# Contexto del TFM
+## **Contexto del TFM (Context)**
 
-Tema:
-Puedes encontrar la documentacion que detalla más sobre la criapp en la carpeta /docs/papers. Todos los archivos ahi detallen la parte de producto informada por la cliente.
+**Tema:**
+Este repositorio contiene el TFM (Trabajo de Fin de Grado) titulado **CRIApp**, una aplicación inspirada en Duolingo diseñada para ayudar a los padres en la crianza de sus hijos.
+Toda la documentación detallada sobre el producto se encuentra en la carpeta `/docs/papers`. Los archivos allí incluidos describen los requisitos y objetivos definidos por la cliente.
 
-Metodología:
-- Se debe utilizar metodologias agiles de acuerdo con los archivos en la carpete docs/agile
-- Construcción de codigo android debe considerar la documentacion en docs/android
-- Construccion de codigo c# debe considerar los ejemplos ya existentes en la solucion de la carpeta /api
+**Metodología:**
 
-Estructura del TFM:
+* Se utilizarán **metodologías ágiles**, siguiendo las pautas de la carpeta `/docs/agile`.
+* La construcción del código Android debe basarse en la documentación de `/docs/android`.
+* La construcción del código C# debe seguir los ejemplos ya existentes en la solución dentro de la carpeta `/api`.
 
-1. Docs posee y guardara todo la documentacion del proyecto
-2. Api guarda la web api de la CRIApp
-3. Android guarda la aplicacion Android de CRIApp
+**Estructura del repositorio:**
+
+1. **Docs** – Contiene y mantiene toda la documentación del proyecto.
+2. **Api** – Contiene la Web API de CRIApp desarrollada en C# y .NET.
+3. **Android** – Contiene la aplicación móvil Android de CRIApp desarrollada en Kotlin.
