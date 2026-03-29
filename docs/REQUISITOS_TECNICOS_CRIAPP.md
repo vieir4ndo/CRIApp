@@ -1,7 +1,7 @@
 # CRIApp - Documento Tecnico de Requisitos
 
-Fecha: 17 de marzo de 2026
-Version: 1.0 (base de registro para memoria final)
+Fecha: 29 de marzo de 2026
+Version: 1.1 (base de registro para memoria final)
 
 ## 1. Proposito
 
@@ -20,32 +20,7 @@ CRIApp es una solucion cliente-servidor para apoyo a la crianza:
 - Frontend: app Android en Kotlin.
 - Persistencia: PostgreSQL.
 
-## 3. Fuentes revisadas
-
-### 3.1 Documentacion de producto y teoria
-
-- [README.md](../README.md)
-- [.github/copilot-context.md](../.github/copilot-context.md)
-- [docs/papers/Memoria App Crianza GTe R1.docx.pdf](papers/Memoria%20App%20Crianza%20GTe%20R1.docx.pdf)
-- [docs/papers/Anexo 1. Protocolo recogida datos HEFAS (10-17).pdf](papers/Anexo%201.%20Protocolo%20recogida%20datos%20HEFAS%20(10-17).pdf)
-- [docs/papers/Protocolo reducido HEFAS (10-17).pdf](papers/Protocolo%20reducido%20HEFAS%20(10-17).pdf)
-- [docs/theory/product/Semana2_InceptionVFINAL.pdf](theory/product/Semana2_InceptionVFINAL.pdf)
-- [docs/theory/product/Semana2_HistoriasUsuarioVFINAL.pdf](theory/product/Semana2_HistoriasUsuarioVFINAL.pdf)
-- [docs/theory/product/Semana2_RoadmappingVFINAL.pdf](theory/product/Semana2_RoadmappingVFINAL.pdf)
-- [docs/theory/product/Semana3Sesion1BDD.pdf](theory/product/Semana3Sesion1BDD.pdf)
-- [docs/theory/product/Semana3Sesion2TDD.pdf](theory/product/Semana3Sesion2TDD.pdf)
-- [docs/theory/product/Semana3Sesion2Junit.pdf](theory/product/Semana3Sesion2Junit.pdf)
-
-### 3.2 Evidencia tecnica de implementacion
-
-- [api/src/CRIApp.Api/Controllers](../api/src/CRIApp.Api/Controllers)
-- [api/src/CRIApp.Application/Services](../api/src/CRIApp.Application/Services)
-- [android/app/src/main/java/com/example/criapp](../android/app/src/main/java/com/example/criapp)
-- [docs/trello_history/n5BYIhyS - criapp-board.json](trello_history/n5BYIhyS%20-%20criapp-board.json)
-
-Nota: la extraccion automatica de texto de PDFs no estuvo disponible en el entorno actual. Se usan titulos/documentos como fuente de alcance y se recomienda una validacion final manual contra contenido textual de esos archivos antes del cierre definitivo.
-
-## 4. Requisitos funcionales (RF)
+## 3. Requisitos funcionales (RF)
 
 Escala de prioridad:
 
@@ -59,51 +34,41 @@ Estado:
 - Parcial
 - Pendiente
 
-| ID | Requisito funcional | Prioridad | Evidencia tecnica | Estado | Criterio de aceptacion resumido |
-|---|---|---|---|---|---|
-| RF-001 | Registro de usuario | Alta | UserController + UserService | Implementado | El usuario puede crear cuenta y recibir respuesta valida de alta. |
-| RF-002 | Inicio de sesion con token | Alta | UserController (login) + UserService | Implementado | Usuario autenticado recibe token y puede acceder a endpoints protegidos. |
-| RF-003 | Recuperacion de contrasena | Alta | UserController (forgot-password) + UserService | Implementado | Se genera y envia codigo/token de recuperacion por canal definido. |
-| RF-004 | Reseteo de contrasena | Alta | UserController (reset-password) + UserService | Implementado | Usuario puede actualizar contrasena con validacion de codigo. |
-| RF-005 | Consulta y actualizacion de perfil | Alta | UserController (GET/PATCH) | Implementado | Usuario autenticado consulta y edita sus datos de perfil. |
-| RF-006 | Baja de usuario | Media | UserController (DELETE) | Parcial | Endpoint disponible; validar reglas de borrado y consistencia de datos. |
-| RF-007 | Alta de hijos/as | Alta | ChildController (POST) + ChildService | Implementado | Usuario puede registrar datos de hijo/a asociados a su cuenta. |
-| RF-008 | Listado y detalle de hijos/as | Alta | ChildController (GET, GET by id) | Implementado | Usuario visualiza lista y detalle de hijos asociados. |
-| RF-009 | Edicion de hijos/as | Alta | ChildController (PATCH) | Implementado | Usuario modifica datos de hijo/a con validaciones de negocio. |
-| RF-010 | Obtencion de preguntas para responder | Alta | QuestionController (GET) + QuestionService | Implementado | App obtiene preguntas disponibles segun reglas de negocio. |
-| RF-011 | Registro de respuestas | Alta | AnswerController (POST) + AnswerService | Implementado | Usuario envia respuestas y estas quedan persistidas. |
-| RF-012 | Creacion de foros | Media | ForumController (POST) + ForumService | Implementado | Usuario crea hilo/foro visible para la comunidad. |
-| RF-013 | Consulta de foros (lista y detalle) | Media | ForumController (GET, GET by id) | Implementado | Usuario consulta foros y detalle de uno concreto. |
-| RF-014 | Edicion de foros | Media | ForumController (PATCH) | Implementado | Autor/usuario permitido actualiza contenido del foro. |
-| RF-015 | Comentarios en foros | Media | CommentController (POST/DELETE) + ForumController comments | Implementado | Usuario puede publicar comentario y eliminar bajo reglas definidas. |
-| RF-016 | Consulta de FAQ | Media | FaqController (GET) + FaqService | Implementado | Usuario obtiene listado de preguntas frecuentes. |
-| RF-017 | Consulta de recursos audiovisuales | Media | AudiovisualResourceController (GET) | Implementado | Usuario visualiza recursos multimedia de apoyo. |
-| RF-018 | Mensajeria de soporte (email/SMS) | Media | MessageService + settings externos | Implementado | Sistema puede enviar mensajes para flujos definidos. |
-| RF-019 | Flujo Android de autenticacion completo | Alta | SignInActivity, SignUpActivity, ForgotPasswordActivity, ResetPasswordActivity | Implementado | Usuario completa registro/login/recuperacion desde app. |
-| RF-020 | Flujo Android de gestion de hijos | Alta | ChildActivity, CreateChildActivity, UpdateChildActivity | Implementado | App permite alta/listado/edicion de hijos sin errores criticos. |
-| RF-021 | Flujo Android de preguntas y respuestas | Alta | QuestionsActivity, AnswerActivity | Implementado | App permite seleccionar preguntas y enviar respuestas. |
-| RF-022 | Flujo Android social (foros/comentarios) | Media | ForumsActivity, ForumActivity, CreateForumActivity, UpdateForumActivity | Implementado | App permite consultar/crear/editar foros y comentar. |
-| RF-023 | Flujo Android de perfil | Alta | ProfileActivity | Implementado | Usuario consulta/actualiza perfil desde app. |
-| RF-024 | Flujo Android de FAQ y recursos | Media | FaqActivity, AudioVisualResourcesActivity | Implementado | App muestra FAQ y recursos audiovisuales. |
-| RF-025 | Sistema de premios/logros (gamificacion) | Media | Entidad Award en dominio | Pendiente | Se asignan/consultan logros por hitos definidos. |
-| RF-026 | Publicacion en Play Store | Baja | Decision de producto vigente | Pendiente (intencional) | No aplica para esta etapa; se valida entrega por APK/AAB. |
+| Identificador | Requisito funcional | Prioridad | Estado | Descripción | 
+|---|---|---|---|---|
+| RF-001 | El sistema debe permitir el registro de nuevos usuarios mediante el ingreso de datos personales | Alta | Implementado | Para registrarse un usuário debe informar los siguientes datos: nombre (obligatorio), nombre de usuário (obligatorio, móvil o correo), fecha de nacimiento (obligatorio), sexo (obligatorio, hombre, mujer u otro), nível educativo (opcional, sin estudios, primaria/ESO, bachillerato, formación profesional o estudios universitarios), tipo de familia (opcional, monoparental feminina, monoparental masculina, pareja de hombre y mujer, pareja de hombre y hombre o pareja de mujer y mujer) y numero de hijos (opcional, mayor o igual a 0). Una vez creado el usuario debe recibir un correo/SMS de bienvenida y ser redireccionado al inicio de sesión. |
+| RF-002 | El sistema debe permitir a los usuarios iniciar sesión con sus credenciales | Alta | Parcial, falta implementar vaidación para mostrar las pantallas de bienvenida solamente en el primer login | Para acceder al sistema el usuario debe informar sus credenciales. El sistema debe validar que el usuario existe y que la contraseña informada está correcta. Si el usuario está accedendo a la por la primera vez, se debe mostrar algunas pantallas de bienvenida a la app. |
+| RF-003 | El sistema debe permitir la recuperación de contraseña mediante el envío de un código | Alta | Implementado | Para recuperar su contraseña, el usuario debe informar su nombre de usuario (correo o móvil), entonces el sistema le enviará un codigo de seguridad (SMS/Correo). |
+| RF-004 | El sistema debe permitir restablecer la contraseña mediante validación de código | Alta | Implementado | Una vez que el usuario haya recibido su codigo de seguridad, una vez que ello sea informado y convalidado, entonces la contraseña podra ser alterada. |
+| RF-005 | El sistema debe permitir a los usuarios autenticados consultar su perfil | Alta | Implementado | Todos los datos personales del usuarios informados en la creacion de su cuenta deben ser exibidos, excepto por su nombre de usuario. |
+| RF-006 | El sistema debe permitir a los usuarios autenticados actualizar su perfil | Alta | Implementado | Todos los datos personales del usuarios informados en la creacion de su cuenta deben poder ser editados, excepto por su nombre de usuario, siguiendo las mismas reglas aplicadas para la creacion de usuarios. |
+| RF-007 | El sistema debe permitir la desactivación de cuentas de usuario | Media | Parcial, endpoint disponible; validar comportamiento del sistema con usuarios desactivados; implementar request en el front end | Usuário puede desactivar su cuenta. |
+| RF-008 | El sistema debe permitir registrar hijos/as asociados a una cuenta de usuario | Alta | Implementado | Para crear un hijo deben ser informados los siguientes datos: nombre (obligatiro), fecha de nacimiento (obligatorio), sexo (obligatorio, hombre, mujer u otro), prematuro (obligatorio, sí o no), numero de meses de lactancia (obligatorio, mayor o igual a 0)  |
+| RF-009 | El sistema debe permitir listar los hijos/as asociados a un usuario | Alta | Implementado | El sistema debe permitir al usuario consultar todos los hijos/as asociados a su cuenta y consultar todos los datos de cada hijo, conforme fueron informados en la creación de ellos. |
+| RF-010 | El sistema debe permitir editar la información de los hijos/as | Alta | Implementado | El sistema debe permitir al usuario editar todos los datos de cada hijo/a asociado a su cuenta, conforme reglas aplicadas en la creación de hijos. |
+| RF-011 | El sistema debe listar preguntas disponibles para ser respondidas por cada hijo/a | Alta | Implementado | Añadir |
+| RF-012 | El sistema debe permitir registrar las respuestas proporcionadas por los usuario | Alta | Implementado | Añadir |
+| RF-013 | El sistema debe permitir la creación de foros por parte de los usuarios | Media | Implementado | Añadir |
+| RF-014 | El sistema debe permitir consultar foros y su detalle | Media | Implementado | Añadir |
+| RF-015 | El sistema debe permitir editar foros por usuarios autorizados | Media | Implementado | Añadir |
+| RF-016 | El sistema debe permitir comentar en los foros | Media | Implementado | Añadir |
+| RF-017 | El sistema debe permitir consultar preguntas frecuentes (FAQ) | Media | Implementado | Añadir |
+| RF-018 | El sistema debe permitir consultar recursos audiovisuales | Media | Implementado | Añadir |
+| RF-025 | El sistema debe generar y asignar premios en función de la puntuación de los usuarios | Media | Pendiente | Añadir |
+| RF-026 | El sistema debe generar notificaciones diarias para avisar los usuários que deben responder las preguntas para sus hijos | Media | Pendiente | Añadir |
+
+
 
 ## 5. Requisitos no funcionales (RNF)
 
 | ID | Requisito no funcional | Prioridad | Estado | Criterio verificable |
 |---|---|---|---|---|
-| RNF-001 | Arquitectura por capas en backend | Alta | Implementado | Separacion Domain/Application/Api/Repository mantenida. |
-| RNF-002 | Seguridad de secretos por variables de entorno | Alta | Pendiente | No exponer claves en repositorio ni appsettings versionados. |
-| RNF-003 | Cifrado de trafico (HTTPS) en despliegue | Alta | Parcial | API publica accesible por HTTPS y redireccion activa. |
-| RNF-004 | Autenticacion y autorizacion consistente | Alta | Parcial | Endpoints protegidos y politicas por rol/propiedad cuando corresponda. |
-| RNF-005 | Validacion de entrada robusta | Alta | Parcial | Validaciones backend + validaciones UX en Android para campos criticos. |
-| RNF-006 | Rendimiento en consultas listadas | Media | Parcial | Paginacion en colecciones principales (foros, preguntas, comentarios). |
-| RNF-007 | Observabilidad y logging estructurado | Media | Pendiente | Logs con contexto para errores y trazas clave de negocio. |
-| RNF-008 | Pruebas automatizadas backend | Alta | Pendiente | Suite unitaria/integracion para servicios y endpoints criticos. |
-| RNF-009 | Pruebas automatizadas Android | Alta | Parcial | JUnit/Espresso para flujos nucleares (autenticacion, hijos, preguntas). |
-| RNF-010 | Despliegue reproducible en nube | Alta | Pendiente | Pipeline y guia de despliegue en proveedor gratuito seleccionado. |
-| RNF-011 | Usabilidad y accesibilidad basica Android | Media | Parcial | Mensajes de error claros, estados de carga y navegacion consistente. |
-| RNF-012 | Trazabilidad para memoria final | Alta | Parcial | Matriz requisito -> evidencia tecnica -> prueba -> resultado documentada. |
+| RNF-001 | Seguridad de secretos por variables de entorno | Alta | Pendiente | No exponer claves en repositorio ni appsettings versionados. |
+| RNF-002 | Cifrado de trafico (HTTPS) en despliegue | Alta | Parcial | API publica accesible por HTTPS y redireccion activa. |
+| RNF-003 | Rendimiento en consultas listadas | Media | Parcial | Paginacion en colecciones principales (foros, preguntas, comentarios). |
+| RNF-004 | Observabilidad y logging estructurado | Media | Pendiente | Logs con contexto para errores y trazas clave de negocio. |
+| RNF-005 | Pruebas automatizadas backend | Alta | Pendiente | Suite unitaria/integracion para servicios y endpoints criticos. |
+| RNF-006 | Despliegue reproducible en nube | Alta | Pendiente | Pipeline y guia de despliegue en proveedor gratuito seleccionado. |
 
 ## 6. Requisitos tecnicos especificos del refactor Android (RFA)
 
