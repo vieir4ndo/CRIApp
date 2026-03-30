@@ -107,10 +107,6 @@ Evaluamos la posibilidad de migrar la autenticación actual a un proveedor exter
 - La alternativa elegida es **mantener el auth interno y aplicar hardening** (secretos por variables de entorno, HTTPS, mejora de expiración/renovación de token, logging de eventos de seguridad) — impacto estimado de 4 a 8 días efectivos con mejor relación esfuerzo/resultado.
 - La migración a auth externo queda documentada como **línea de trabajo futuro** en la memoria, con opción de PoC acotada si queda margen de tiempo.
 
-Puedes consultar el análisis completo aquí:
-
-👉 [EVALUACION_AUTH_EXTERNO_TFM.md](EVALUACION_AUTH_EXTERNO_TFM.md)
-
 ---
 
 ## 7. Repositorios
