@@ -1,56 +1,16 @@
-# CRIApp - Revision de Trello y Nuevas Historias de Usuario
+# CRIApp - Revisión de Trello, Requisitos v1.4 y Nuevas Historias de Usuario
 
-Fecha: 17 de marzo de 2026
-Objetivo: validar estados del board historico y definir historias del nuevo ciclo (refactor + pendientes funcionales + despliegue).
+Fecha: 30 de marzo de 2026
+Objetivo: alinear el backlog del nuevo ciclo con la auditoría del board histórico y con el documento de requisitos técnicos v1.4 (estado real de implementación).
+Versión: 1.2
 
-## 1. Criterio de revision aplicado
-
-Se comparo el board historico de Trello con evidencia de implementacion en:
-
-- API: controladores y servicios.
-- Android: Activities y componentes de soporte.
-- Infra: pipeline y configuracion de arranque.
-
-Estados de auditoria usados:
-
-- Correcto: Trello coincide con evidencia de codigo.
-- Parcial: existe implementacion, pero incompleta o sin calidad suficiente para cierre.
-- Pendiente: no hay implementacion funcional suficiente.
-- Hecho con refactor pendiente: funciona, pero debe revisarse por nuevos patrones y calidad.
-
-## 2. Resultado de auditoria (board antiguo vs codigo)
-
-### 2.1 Historias de Backlog (5)
-
-| Historia Trello | Estado en Trello | Evidencia tecnica | Veredicto |
-|---|---|---|---|
-| Flujo de gestion de preguntas | Backlog | En API solo hay GET para preguntas a responder; no gestion completa (alta/edicion/baja) | Correcto (Pendiente real) |
-| Flujo de gestion de preguntas frecuentes | Backlog | FAQ expone consulta (GET), sin gestion completa de contenido | Correcto (Pendiente real) |
-| Flujo de gestion de recursos audiovisual | Backlog | Recursos audiovisuales en consulta (GET), sin gestion completa de contenido | Correcto (Pendiente real) |
-| Recibimiento de notificaciones | Backlog | Job programado existe, pero implementacion actual es placeholder | Correcto (Pendiente real) |
-| Recibimiento de premios | Backlog | Entidad/modelado existe, sin flujo funcional de asignacion/consulta | Correcto (Pendiente real) |
-
-### 2.2 Historias en Done (35)
-
-Resumen ejecutivo:
-
-- Mayoritariamente correctas en termino de funcionalidad base (autenticacion, hijos, foros, FAQ/recursos de consulta, respuestas, utilidades UI).
-- Varias deben migrar semanticamente a estado "Hecho con refactor pendiente" por objetivo nuevo del proyecto (patrones del master + calidad de codigo).
-- Algunas deben marcarse "Parcial" por evidencia operativa insuficiente para cierre (deploy productivo real, notificaciones automáticas completas).
-
-Reclasificacion recomendada para nuevo ciclo:
-
-- Mantener como Correcto funcional: sign up/sign in, perfil, hijos (crear/editar), foros (base), contestar respuestas, FAQ/recursos de consulta, dialogos/datepickers.
-- Cambiar a Hecho con refactor pendiente: mostrar errores, loaders, validaciones, gestion de foro frontend/backend, actividades de autenticacion/perfil/hijos/preguntas.
-- Cambiar a Parcial: deploy API (hay pipeline docker local, falta evidencia de despliegue cloud gratuito estable), envio de correo/SMS (implementado en flujo puntual, pendiente robustez y verificacion end-to-end).
-
-## 3. Backlog nuevo de historias de usuario (siguiendo formato de teoria)
+## 1. Backlog nuevo de historias de usuario (siguiendo formato de teoría)
 
 Formato aplicado por historia:
 
 - Enunciado: Como [rol], quiero [necesidad], para [beneficio].
-- Criterios de aceptacion en estilo BDD (Dado/Cuando/Entonces).
-- Definicion de Hecho (DoD).
+- Criterios de aceptación en estilo BDD (Dado/Cuando/Entonces).
+- Definición de Hecho (DoD).
 
 Prioridad:
 
@@ -63,455 +23,406 @@ Prioridad:
 ## HU-001 - Refactor de arquitectura Android
 
 Prioridad: Alta
-Tipo: Tecnica
-Estimacion: 8 puntos
+Tipo: Técnica
+Estimación: 8 puntos
 
 Como equipo de desarrollo,
-quiero reorganizar la app Android con arquitectura por capas y patron MVVM,
+quiero reorganizar la app Android con arquitectura por capas y patrón MVVM,
 para mejorar mantenibilidad, testabilidad y escalabilidad del producto.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
-- Dado un modulo funcional de Android,
+- Dado un módulo funcional de Android,
   cuando se revise su estructura,
-  entonces la logica de UI, dominio y acceso a datos estara separada.
-- Dado un flujo critico (autenticacion o hijos),
+  entonces la lógica de UI, dominio y acceso a datos estará separada.
+- Dado un flujo crítico (autenticación o hijos),
   cuando se ejecute en app,
-  entonces no dependera de logica de negocio embebida directamente en Activity.
+  entonces no dependerá de lógica de negocio embebida directamente en Activity.
 
 DoD:
 
-- Se define estructura objetivo (presentacion/dominio/datos).
-- Se migra al menos un vertical completo (ejemplo: autenticacion).
-- Se documenta decision de arquitectura para memoria.
+- Se define estructura objetivo (presentación/dominio/datos).
+- Se migra al menos un vertical completo (ejemplo: autenticación).
+- Se documenta decisión de arquitectura para memoria.
 
 ---
 
 ## HU-002 - Cliente API Android robusto
 
 Prioridad: Alta
-Tipo: Tecnica
-Estimacion: 5 puntos
+Tipo: Técnica
+Estimación: 5 puntos
 
 Como desarrollador Android,
-quiero centralizar el cliente HTTP y el manejo de errores,
-para reducir duplicacion y mejorar la calidad del codigo.
+quiero utilizar un cliente HTTP robusto
+para reducir duplicación y mejorar la calidad del código.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
-- Dado un error HTTP de la API,
-  cuando ocurra en cualquier pantalla,
-  entonces la app mostrara un error consistente y trazable.
-- Dado un cambio de endpoint base,
-  cuando se actualice configuracion,
-  entonces no sera necesario editar multiples Activities.
-
-DoD:
-
-- Configuracion de base URL externalizada por entorno.
-- Manejo unificado de errores de red/serializacion.
-- Eliminacion de duplicaciones relevantes en llamadas de red.
-
----
-
-## HU-003 - Validaciones de formulario mejoradas
-
-Prioridad: Alta
-Tipo: Funcional/Calidad
-Estimacion: 3 puntos
-
-Como usuario de CRIApp,
-quiero validaciones claras y consistentes en los formularios,
-para evitar errores y completar tareas con menos friccion.
-
-Criterios de aceptacion (BDD):
-
-- Dado un formulario con datos invalidos,
-  cuando pulse enviar,
-  entonces se mostraran mensajes claros, especificos y accionables.
-- Dado un formulario valido,
-  cuando pulse enviar,
-  entonces la operacion continuara sin errores de validacion.
+- Dado un cambio de entorno (desarrollo o producción),
+  cuando se actualice la configuración de base URL,
+  entonces no será necesario modificar ninguna llamada de red individual.
+- Dado un response JSON de la API,
+  cuando el cliente HTTP lo reciba,
+  entonces se deserializará automáticamente al modelo de datos correspondiente sin conversión manual intermedia.
 
 DoD:
 
-- Reglas estandarizadas en modulo comun de validacion.
-- Mensajes de error consistentes entre pantallas.
-- Cobertura de validaciones criticas con tests unitarios.
+- Configuración de base URL externalizada por entorno.
+- Eliminación de duplicaciones relevantes.
+- Eliminación de conversiones de modelo en JSON innecesarias.
 
 ---
 
-## HU-004 - Gestion completa de preguntas (backend)
+## HU-003 - Sistema de premios por progreso
 
 Prioridad: Alta
 Tipo: Funcional
-Estimacion: 5 puntos
-
-Como administrador de contenido,
-quiero crear, editar y desactivar preguntas,
-para gestionar el itinerario de aprendizaje sin depender de cambios manuales en base de datos.
-
-Criterios de aceptacion (BDD):
-
-- Dado un usuario administrador,
-  cuando cree una pregunta valida,
-  entonces esta quedara disponible para su uso segun reglas definidas.
-- Dado una pregunta existente,
-  cuando se actualice,
-  entonces los cambios seran persistidos y auditables.
-
-DoD:
-
-- Endpoints de gestion (alta/edicion/baja logica).
-- Validaciones de negocio aplicadas.
-- Tests de servicio/controlador para casos positivos y negativos.
-
----
-
-## HU-005 - Gestion completa de FAQ (backend)
-
-Prioridad: Media
-Tipo: Funcional
-Estimacion: 3 puntos
-
-Como administrador de contenido,
-quiero gestionar preguntas frecuentes,
-para mantener la informacion de ayuda actualizada.
-
-Criterios de aceptacion (BDD):
-
-- Dado un admin,
-  cuando cree o edite una FAQ,
-  entonces los usuarios veran el contenido actualizado en la app.
-- Dado una FAQ obsoleta,
-  cuando se desactive,
-  entonces dejara de aparecer en el listado publico.
-
-DoD:
-
-- Operaciones de gestion de FAQ implementadas.
-- Control de acceso por rol/perfil.
-- Pruebas de API y evidencia en app.
-
----
-
-## HU-006 - Gestion completa de recursos audiovisuales
-
-Prioridad: Media
-Tipo: Funcional
-Estimacion: 3 puntos
-
-Como administrador de contenido,
-quiero gestionar recursos audiovisuales,
-para ofrecer material actualizado y relevante a las familias.
-
-Criterios de aceptacion (BDD):
-
-- Dado un recurso nuevo valido,
-  cuando se publique,
-  entonces aparecera en el listado de la app.
-- Dado un recurso inactivo,
-  cuando un usuario consulte,
-  entonces no sera mostrado.
-
-DoD:
-
-- CRUD logico para recursos audiovisuales.
-- Validacion de formato/URL/metadata.
-- Evidencia de consumo en app Android.
-
----
-
-## HU-007 - Sistema de premios por progreso
-
-Prioridad: Alta
-Tipo: Funcional
-Estimacion: 5 puntos
+Estimación: 5 puntos
 
 Como usuario de CRIApp,
 quiero recibir premios por hitos de progreso,
-para aumentar motivacion y adherencia al uso de la app.
+para aumentar motivación y adherencia al uso de la app.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado un hito de progreso cumplido,
   cuando el sistema lo detecte,
-  entonces se asignara un premio al usuario.
+  entonces se asignará un premio al usuario.
 - Dado un usuario con premios,
-  cuando consulte su perfil o seccion de logros,
-  entonces vera su historial de premios.
+  cuando consulte su perfil o sección de logros,
+  entonces verá su historial de premios.
 
 DoD:
 
-- Reglas de asignacion de premios implementadas.
+- Reglas de asignación de premios implementadas según umbrales definidos en RF-022: Bronce (>= 100 pts), Plata (>= 500 pts), Oro (>= 1000 pts), Diamante (>= 10000 pts).
 - Persistencia y consulta de premios disponible.
+- Premios alcanzados distinguibles visualmente de los no alcanzados (RF-023).
 - Evidencia funcional en API y app.
 
 ---
 
-## HU-008 - Notificaciones utiles y no placeholder
+## HU-004 - Notificaciones útiles y no placeholder
 
 Prioridad: Alta
 Tipo: Funcional/Calidad
-Estimacion: 5 puntos
+Estimación: 5 puntos
 
 Como usuario de CRIApp,
-quiero recibir notificaciones utiles (recordatorios/progreso),
+quiero recibir notificaciones útiles (recordatorios/progreso),
 para mantener continuidad en el aprendizaje.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado un usuario con actividad baja,
   cuando se cumpla regla de recordatorio,
-  entonces el sistema enviara notificacion por canal configurado.
-- Dado un envio de notificacion,
+  entonces el sistema enviará notificación por canal configurado.
+- Dado un envío de notificación,
   cuando se procese,
-  entonces quedara registro de exito/error para seguimiento.
+  entonces quedará registro de éxito/error para seguimiento.
 
 DoD:
 
-- Job de notificaciones con logica real de negocio.
-- Integracion estable con canal de mensajeria configurado.
+- Job de notificaciones con lógica real de negocio (evaluar usuarios con preguntas pendientes y enviar máximo una notificación diaria por usuario).
+- Integración estable con canal de mensajería configurado (correo o SMS según configuración del entorno).
 - Logging y control de errores implementados.
 
 ---
 
-## HU-009 - Despliegue cloud gratuito de API
+## HU-005 - Despliegue cloud gratuito de API
 
 Prioridad: Alta
 Tipo: DevOps
-Estimacion: 5 puntos
+Estimación: 5 puntos
 
-Como responsable tecnico del TFM,
+Como responsable técnico de la CRIApp,
 quiero desplegar la API en una nube gratuita,
-para demostrar viabilidad real y disponer de entorno publico de validacion.
+para demostrar viabilidad real y disponer de entorno público de validación.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado un proveedor cloud gratuito seleccionado,
   cuando se realice el despliegue,
-  entonces la API estara accesible mediante HTTPS.
+  entonces la API estará accesible mediante HTTPS.
 - Dado un cambio en rama principal,
   cuando se ejecute pipeline,
-  entonces se podra desplegar sin pasos manuales criticos.
+  entonces se podrá desplegar sin pasos manuales críticos.
 
 DoD:
 
-- URL publica operativa.
+- URL pública operativa.
 - Variables de entorno y secretos externalizados.
-- Guia de despliegue documentada para memoria.
+- Guía de despliegue documentada para memoria.
 
 ---
 
-## HU-010 - Hardening de seguridad de API
+## HU-006 - Hardening de seguridad de API
 
 Prioridad: Alta
 Tipo: Calidad/Seguridad
-Estimacion: 5 puntos
+Estimación: 5 puntos
 
 Como autor del TFM,
-quiero endurecer configuracion y seguridad de la API,
-para reducir riesgo tecnico y cumplir buenas practicas academicas/profesionales.
+quiero endurecer configuración y seguridad de la API,
+para reducir riesgo técnico y cumplir buenas prácticas académicas/profesionales.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
-- Dado el entorno de produccion,
+- Dado el entorno de producción,
   cuando arranque la API,
-  entonces los secretos no estaran en repositorio y se aplicara HTTPS.
+  entonces los secretos no estarán en repositorio y se aplicará HTTPS.
 - Dado un endpoint protegido,
-  cuando reciba token invalido,
-  entonces respondera con error de autorizacion controlado.
+  cuando reciba token inválido,
+  entonces responderá con error de autorización controlado.
 
 DoD:
 
-- Secretos fuera de codigo versionado.
-- Configuracion por entorno completada.
-- Checklist de seguridad minima validado.
+- Secretos fuera de código versionado.
+- Configuración por entorno completada.
+- Checklist de seguridad mínima validado.
 
 ---
 
-## HU-011 - Pruebas backend de servicios criticos
+## HU-007 - Pruebas backend de servicios críticos
 
 Prioridad: Alta
 Tipo: Calidad
-Estimacion: 8 puntos
+Estimación: 8 puntos
 
-Como equipo tecnico,
-quiero pruebas automatizadas en servicios backend criticos,
+Como equipo técnico,
+quiero pruebas automatizadas en servicios backend críticos,
 para detectar regresiones y elevar la calidad del sistema.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado un cambio en servicios de usuario/preguntas/hijos,
   cuando se ejecute la suite,
-  entonces se validaran casos positivos y negativos clave.
-- Dado una regresion funcional,
+  entonces se validarán casos positivos y negativos clave.
+- Dada una regresión funcional,
   cuando se ejecute CI,
-  entonces la falla sera detectada antes de integrar.
+  entonces la falla será detectada antes de integrar.
 
 DoD:
 
 - Proyecto de tests backend incorporado.
-- Casos criticos implementados y ejecutables en CI.
-- Reporte basico de resultados/cobertura.
+- Casos críticos implementados y ejecutables en CI.
+- Reporte básico de resultados/cobertura.
 
 ---
 
-## HU-012 - Pruebas Android (unitarias e instrumentadas)
+## HU-008 - Anteproyecto TFM (1 página PDF)
 
 Prioridad: Alta
-Tipo: Calidad
-Estimacion: 8 puntos
-
-Como equipo tecnico,
-quiero pruebas Android sobre validaciones y flujos criticos,
-para asegurar estabilidad tras el refactor.
-
-Criterios de aceptacion (BDD):
-
-- Dado un flujo critico de autenticacion o hijos,
-  cuando se ejecute test instrumentado,
-  entonces el flujo completara sin error.
-- Dado reglas de validacion comunes,
-  cuando se ejecuten tests unitarios,
-  entonces devolvera resultados esperados en casos limite.
-
-DoD:
-
-- Suite minima de tests unitarios Android.
-- Suite minima de tests instrumentados para 2-3 flujos.
-- Ejecucion documentada para memoria.
-
----
-
-## HU-013 - Evidencias para memoria final por historia
-
-Prioridad: Alta
-Tipo: Academica/Proceso
-Estimacion: 3 puntos
-
-Como autor del TFM,
-quiero registrar evidencia de cada historia (implementacion, prueba y resultado),
-para facilitar redaccion de memoria y defensa.
-
-Criterios de aceptacion (BDD):
-
-- Dado una historia cerrada,
-  cuando se revise el registro,
-  entonces existira evidencia tecnica y funcional trazable.
-- Dado la redaccion de memoria,
-  cuando se consulte la matriz,
-  entonces se podra mapear requisito -> cambio -> validacion -> resultado.
-
-DoD:
-
-- Plantilla de evidencia definida y usada por historia.
-- Matriz de trazabilidad actualizada en docs.
-- Material listo para anexos de memoria.
-
----
-
-## HU-014 - Anteproyecto TFM (1 pagina PDF)
-
-Prioridad: Alta
-Tipo: Academica/Entrega
-Estimacion: 2 puntos
+Tipo: Académica/Entrega
+Estimación: 2 puntos
 Fecha objetivo: 7 de abril de 2026
 
 Como estudiante del TFM,
-quiero preparar y entregar un anteproyecto de una pagina en PDF,
-para formalizar el alcance, el enfoque tecnico y el plan inicial ante la universidad.
+quiero preparar y entregar un anteproyecto de una página en PDF,
+para formalizar el alcance, el enfoque técnico y el plan inicial ante la universidad.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado el estado actual del proyecto,
   cuando redacte el anteproyecto,
-  entonces el documento resumira problema, objetivos, metodologia y plan de trabajo.
-- Dado el plazo academico,
+  entonces el documento resumirá problema, objetivos, metodología y plan de trabajo.
+- Dado el plazo académico,
   cuando llegue el 7 de abril de 2026,
-  entonces el PDF estara finalizado y listo para entrega.
+  entonces el PDF estará finalizado y listo para entrega.
 
 DoD:
 
-- PDF de 1 pagina generado.
-- Contenido alineado con metodologia y backlog vigente.
-- Version registrada en docs para trazabilidad.
+- PDF de 1 página generado.
+- Contenido alineado con metodología y backlog vigente.
+- Versión registrada en docs para trazabilidad.
 
 ---
 
-## HU-015 - Memoria final del TFM
+## HU-009 - Memoria final del TFM
 
 Prioridad: Alta
-Tipo: Academica/Entrega
-Estimacion: 13 puntos
+Tipo: Académica/Entrega
+Estimación: 13 puntos
 Fecha objetivo: fin de junio de 2026
 
 Como autor del TFM,
-quiero construir la memoria final a partir de toda la documentacion tecnica y evidencias del proyecto,
+quiero construir la memoria final a partir de toda la documentación técnica y evidencias del proyecto,
 para presentar un trabajo coherente, defendible y alineado con los resultados obtenidos.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado el conjunto de documentos existentes,
-  cuando avance la redaccion,
-  entonces cada capitulo estara trazado con requisitos, implementacion, pruebas y resultados.
+  cuando avance la redacción,
+  entonces cada capítulo estará trazado con requisitos, implementación, pruebas y resultados.
 - Dado el cierre del desarrollo,
   cuando consolide la memoria,
-  entonces incluira analisis tecnico, decisiones de arquitectura, validacion y conclusiones.
+  entonces incluirá análisis técnico, decisiones de arquitectura, validación y conclusiones.
 
 DoD:
 
-- Indice y estructura academica cerrados.
-- Conversion de docs tecnicos a secciones de memoria completada.
-- Version final preparada para entrega a finales de junio.
+- Índice y estructura académica cerrados.
+- Conversión de docs técnicos a secciones de memoria completada.
+- Versión final preparada para entrega a finales de junio.
 
 ---
 
-## HU-016 - Preparacion de defensa en tribunal
+## HU-010 - Preparación de defensa en tribunal
 
 Prioridad: Alta
-Tipo: Academica/Defensa
-Estimacion: 8 puntos
+Tipo: Académica/Defensa
+Estimación: 8 puntos
 Fecha objetivo: previo a la fecha oficial de defensa
 
 Como estudiante del TFM,
 quiero preparar la defensa (diapositivas, guion y demo en vivo),
-para comunicar con claridad el valor academico y tecnico de CRIApp ante el tribunal.
+para comunicar con claridad el valor académico y técnico de CRIApp ante el tribunal.
 
-Criterios de aceptacion (BDD):
+Criterios de aceptación (BDD):
 
 - Dado el contenido de memoria,
   cuando prepare las diapositivas,
-  entonces quedaran cubiertos problema, metodologia, implementacion, resultados y trabajo futuro.
+  entonces quedarán cubiertos problema, metodología, implementación, resultados y trabajo futuro.
 - Dado un entorno de demo,
-  cuando ejecute la presentacion completa,
-  entonces la demo en vivo funcionara de extremo a extremo sin bloqueos criticos.
+  cuando ejecute la presentación completa,
+  entonces la demo en vivo funcionará de extremo a extremo sin bloqueos críticos.
 
 DoD:
 
-- Presentacion final de defensa completada.
+- Presentación final de defensa completada.
 - Script de demo y plan de contingencia preparados.
 - Ensayo cronometrado realizado al menos una vez.
 
-## 4. Orden recomendado de ejecucion
+---
 
-1. HU-014 (anteproyecto PDF 1 pagina) con fecha fija 7 de abril de 2026.
-2. HU-001, HU-002, HU-003 (base de refactor Android).
-3. HU-011, HU-012 (red de seguridad de calidad).
-4. HU-004, HU-005, HU-006 (pendientes de gestion de contenido).
-5. HU-007, HU-008 (gamificacion y notificaciones).
-6. HU-010, HU-009 (hardening + despliegue cloud).
-7. HU-013 (consolidacion y cierre documental).
-8. HU-015 en paralelo progresivo (memoria final hasta fin de junio) y HU-016 al cierre (defensa).
+## HU-011 - Cierre de primer login y onboarding
 
-## 5. Nota de alineacion con teoria
+Prioridad: Alta
+Tipo: Funcional/Calidad
+Estimación: 3 puntos
 
-Estas historias siguen la estructura recomendada de producto agil tratada en teoria:
+Como usuario nuevo de CRIApp,
+quiero que el flujo de primer login y bienvenida quede controlado una única vez,
+para entrar a la app sin fricción ni pantallas repetidas en accesos posteriores.
 
-- narrativa de valor (Como/Quiero/Para),
-- criterios de aceptacion verificables (BDD),
-- criterio operativo de cierre (Definition of Done).
+Criterios de aceptación (BDD):
+
+- Dado un usuario en su primer acceso,
+  cuando inicie sesión correctamente,
+  entonces se mostrarán pantallas de bienvenida según el flujo definido.
+- Dado un usuario que ya completó el primer acceso,
+  cuando vuelva a autenticarse,
+  entonces no se repetirá el onboarding y accederá al flujo principal.
+
+DoD:
+
+- Persistencia de estado de primer login implementada y validada.
+- Manejo de casos borde (reinstalación/sesión expirada) documentado.
+- Evidencia funcional en app Android.
 
 ---
 
-Documento vivo: actualizar estado de cada HU por sprint (To Do / Doing / Review / Done).
+## HU-012 - Desactivación de cuenta end-to-end
+
+Prioridad: Media
+Tipo: Funcional
+Estimación: 3 puntos
+
+Como usuario autenticado,
+quiero desactivar mi cuenta desde la app,
+para tener control sobre mi permanencia en el sistema.
+
+Criterios de aceptación (BDD):
+
+- Dado un usuario autenticado,
+  cuando solicite desactivar su cuenta,
+  entonces el backend registrará el estado inactivo y la app lo reflejará.
+- Dado un usuario con cuenta desactivada,
+  cuando intente iniciar sesión,
+  entonces recibirá respuesta de acceso denegado controlada.
+
+DoD:
+
+- Flujo completo backend + Android implementado.
+- Mensajería de estado consistente para usuario.
+- Prueba de regresión mínima del flujo de autenticación.
+
+---
+
+## HU-013 - Visualización robusta de recursos audiovisuales
+
+Prioridad: Media
+Tipo: Funcional/Calidad
+Estimación: 3 puntos
+
+Como usuario de CRIApp,
+quiero visualizar recursos audiovisuales sin errores de carga,
+para consumir contenido educativo dentro del flujo de la app.
+
+Criterios de aceptación (BDD):
+
+- Dado un recurso audiovisual válido,
+  cuando lo abra desde la app,
+  entonces el contenido se reproducirá correctamente.
+- Dado un recurso con fallo de carga,
+  cuando falle la visualización,
+  entonces la app mostrará error controlado y opción de reintento.
+
+DoD:
+
+- Visualización de enlaces/embebidos validada en Android.
+- Manejo de errores y estados de carga implementado.
+- Evidencia funcional registrada para memoria.
+
+---
+
+## HU-014 - Consulta de historial de notificaciones
+
+Prioridad: Media
+Tipo: Funcional
+Estimación: 3 puntos
+
+Como usuario de CRIApp,
+quiero consultar el historial de notificaciones enviadas,
+para revisar recordatorios y eventos relevantes de mi actividad.
+
+Criterios de aceptación (BDD):
+
+- Dado un usuario con notificaciones enviadas,
+  cuando abra la sección de historial,
+  entonces verá listado con tipo, contenido, fecha y estado.
+- Dado un usuario sin notificaciones,
+  cuando consulte el historial,
+  entonces verá estado vacío informativo sin error.
+
+DoD:
+
+- Endpoint y vista de historial de notificaciones disponibles.
+- Campos mínimos (tipo, contenido, fecha, estado) validados.
+- Evidencia funcional en API y app.
+
+---
+
+## HU-015 - Observabilidad y logging estructurado
+
+Prioridad: Media
+Tipo: Calidad/Operación
+Estimación: 5 puntos
+
+Como responsable técnico del TFM,
+quiero disponer de logging estructurado con contexto técnico y de negocio,
+para diagnosticar errores y demostrar trazabilidad operativa del sistema.
+
+Criterios de aceptación (BDD):
+
+- Dado un evento crítico de negocio o error técnico,
+  cuando ocurra en API,
+  entonces quedará registrado con campos estructurados y contexto mínimo útil.
+- Dada una incidencia funcional,
+  cuando se revise el log,
+  entonces será posible rastrear causa probable sin inspección manual extensa de código.
+
+DoD:
+
+- Estándar de logs definido e implementado en endpoints/servicios clave.
+- Registro de errores con contexto de correlación disponible.
+- Evidencia de consulta de logs documentada para memoria.
