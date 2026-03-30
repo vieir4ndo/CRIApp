@@ -1,7 +1,7 @@
 # CRIApp - Documento Tecnico de Requisitos
 
-Fecha: 29 de marzo de 2026
-Version: 1.1 (base de registro para memoria final)
+Fecha: 30 de marzo de 2026
+Version: 1.2 (base de registro para memoria final)
 
 ## 1. Proposito
 
@@ -46,17 +46,21 @@ Estado:
 | RF-008 | El sistema debe permitir registrar hijos/as asociados a una cuenta de usuario | Alta | Implementado | Para crear un hijo deben ser informados los siguientes datos: nombre (obligatiro), fecha de nacimiento (obligatorio), sexo (obligatorio, hombre, mujer u otro), prematuro (obligatorio, sí o no), numero de meses de lactancia (obligatorio, mayor o igual a 0)  |
 | RF-009 | El sistema debe permitir listar los hijos/as asociados a un usuario | Alta | Implementado | El sistema debe permitir al usuario consultar todos los hijos/as asociados a su cuenta y consultar todos los datos de cada hijo, conforme fueron informados en la creación de ellos. |
 | RF-010 | El sistema debe permitir editar la información de los hijos/as | Alta | Implementado | El sistema debe permitir al usuario editar todos los datos de cada hijo/a asociado a su cuenta, conforme reglas aplicadas en la creación de hijos. |
-| RF-011 | El sistema debe listar preguntas disponibles para ser respondidas por cada hijo/a | Alta | Implementado | Añadir |
-| RF-012 | El sistema debe permitir registrar las respuestas proporcionadas por los usuario | Alta | Implementado | Añadir |
-| RF-013 | El sistema debe permitir la creación de foros por parte de los usuarios | Media | Implementado | Añadir |
-| RF-014 | El sistema debe permitir consultar foros y su detalle | Media | Implementado | Añadir |
-| RF-015 | El sistema debe permitir editar foros por usuarios autorizados | Media | Implementado | Añadir |
-| RF-016 | El sistema debe permitir comentar en los foros | Media | Implementado | Añadir |
-| RF-017 | El sistema debe permitir consultar preguntas frecuentes (FAQ) | Media | Implementado | Añadir |
-| RF-018 | El sistema debe permitir consultar recursos audiovisuales | Media | Implementado | Añadir |
-| RF-025 | El sistema debe generar y asignar premios en función de la puntuación de los usuarios | Media | Pendiente | Añadir |
-| RF-026 | El sistema debe generar notificaciones diarias para avisar los usuários que deben responder las preguntas para sus hijos | Media | Pendiente | Añadir |
-
+| RF-011 | El sistema debe guardar automaticamente las preguntas en la base de datos | Alta | Implementado | El sistema debe añadir automaticamente la siguiente lista de preguntas para que sean hechas al usuario. |
+| RF-012 | El sistema debe listar preguntas disponibles para ser respondidas por cada hijo/a | Alta | Implementado | El sistema debe listar 10 preguntas para cada hijo del usuário por dia, de acuerdo con la lista predefinida de preguntas registradas |
+| RF-013 | El sistema debe permitir registrar las respuestas proporcionadas por los usuario | Alta | Implementado | El sistema de guardar las respuestas de los usuarios a las preguntas cuando ellos pulsen el buton de siguiente. Las respuestas siguen la escala de likert y deben ser guardadas con su valor numerico asociadas a cada usuario |
+| RF-014 | El sistema debe permitir la creación de foros por parte de los usuarios | Media | Implementado | Para crear un foro, los siguientes datos son necesarios: nombre y descripcion. |
+| RF-015 | El sistema debe permitir consultar foros y su detalle | Media | Implementado | El sistema debe mostrar el nombre y la descipcion del foro, así como todos los comentario ya añadidos al foro y sus creadores.  |
+| RF-016 | El sistema debe permitir editar foros por usuarios autorizados | Media | Implementado | El sistema debe permitir solamente al dueno del foro editar su nombre y descripcion. |
+| RF-017 | El sistema debe permitir comentar en los foros | Media | Implementado | El sistema debe permitir a todos los usuarios ya registrados comentar sobre los foros existentes, sean suyos o de otros usuarios.  |
+| RF-018 | El sistema debe guardar automaticamente las preguntas frecuentes en la base de datos | Alta | Implementado | El sistema debe añadir automaticamente la siguiente lista de preguntas frecuentes para que sean consultadas por los usuarios. |
+| RF-019 | El sistema debe permitir consultar preguntas frecuentes (FAQ) | Media | Implementado | El sistema debe permitir al usuario consultas las preguntas frecuentes, mostrando todos los datos en una lista despligable. |
+| RF-020 | El sistema debe guardar automaticamente los recursos audivisuales en la base de datos | Alta | Implementado | El sistema debe añadir automaticamente la siguiente lista de recursos audiovisuales para que sean consultadas por los usuarios.  |
+| RF-021 | El sistema debe permitir consultar recursos audiovisuales | Media | Implementado | Debe ser posible ver los recursos audiovisuales desde la aplicacion sin la necesidad. de salir de la app. |
+| RF-022 | El sistema debe generar y asignar premios en función de la puntuación de los usuarios | Media | Pendiente | El calculo que debe ser ejecutado diariamente es el siguiente. Se debe añadir la puntuacion generada al score del usuario. El usuario debe poder ver su score y los premios que puede ganar. Si el usuario llegar a las siguientes punctuaciones, se debe asignar lo siguiente. Broze para usuarios con 100 puntos, plata para usuarios con 500 puntos, Oro para los usuarios con 1000 y Diamante para los usuarios con mas de 10 mil puntos  |
+| RF-023 | El sistema debe permitir consultar los premios de un usuario | Alta | Pendiente | El sistema debe mostrar el score del usuario y los premios existentes que puede ganas. Los premios que haya ganado deben ser enseñados en color y los premios que aun no ganada deben ser enseñados en todos de grises. |
+| RF-024 | El sistema debe generar notificaciones diarias para avisar los usuários que deben responder las preguntas para sus hijos | Media | Pendiente | El sistema debe analisar de hora en hora todos los usuarios y verificar los que aun no hayan contestado preguntas en el dia curriente. Si no han contestado las preguntas para algun hijo, le enviaremos una notificacion que tiene prguntas pendientes. Las notificaciones se deben guardar en la base de datos. No se debe mandar más de una notificacion por dia para los usuarios. |
+| RF-025 | El sistema debe permitir consultar notificaciones enviadas al usuario. | Media | Pendiente | El sistema debe permitir consultar todas las notificaciones recibidas. Deben ser enseñados todos los datos de la notificacion. |
 
 
 ## 5. Requisitos no funcionales (RNF)
