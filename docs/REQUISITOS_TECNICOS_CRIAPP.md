@@ -1,106 +1,100 @@
 # CRIApp - Documento Tecnico de Requisitos
 
-Fecha: 30 de marzo de 2026
-Version: 1.2 (base de registro para memoria final)
+Fecha: 30 de marzo de 2026  
+Version: 1.4 (revision de calidad para memoria final)
 
 ## 1. Proposito
 
 Este documento define los requisitos tecnicos de CRIApp para:
 
-- registrar formalmente el alcance funcional y no funcional,
-- evaluar estado actual (implementado/parcial/pendiente),
-- establecer criterio de cierre para el TFM,
-- reutilizar contenido en la memoria final.
+- Registrar formalmente el alcance funcional y no funcional del sistema.
+- Evaluar el estado actual de implementacion (Implementado, Parcial o Pendiente).
+- Establecer criterios objetivos de cierre para el TFM.
+- Reutilizar el contenido como base de trazabilidad en la memoria final.
 
 ## 2. Alcance del sistema
 
-CRIApp es una solucion cliente-servidor para apoyo a la crianza:
+CRIApp es una solucion cliente-servidor de apoyo a la crianza con los siguientes componentes:
 
 - Backend: API REST en .NET 8.
-- Frontend: app Android en Kotlin.
+- Frontend: aplicacion Android en Kotlin.
 - Persistencia: PostgreSQL.
 
-## 3. Requisitos funcionales (RF)
+El alcance incluye autenticacion, gestion de perfil y de hijos, flujo diario de preguntas/respuestas, foros, FAQ, recursos audiovisuales, notificaciones y sistema de premios.
 
-Escala de prioridad:
+## 3. Escalas de prioridad y estado
 
-- Alta: imprescindible para demo/defensa.
-- Media: aporta valor directo al producto.
-- Baja: mejora evolutiva.
+Prioridad:
+
+- Alta: imprescindible para demo, defensa y cierre del TFM.
+- Media: aporta valor directo al producto y debe abordarse en el ciclo final.
+- Baja: mejora evolutiva no bloqueante.
 
 Estado:
 
-- Implementado
-- Parcial
-- Pendiente
+- Implementado: funcionalidad operativa y validada en flujo principal.
+- Parcial: existe implementacion, pero con brechas tecnicas o funcionales.
+- Pendiente: no existe implementacion suficiente para validacion.
 
-| Identificador | Requisito funcional | Prioridad | Estado | Descripción | 
-|---|---|---|---|---|
-| RF-001 | El sistema debe permitir el registro de nuevos usuarios mediante el ingreso de datos personales | Alta | Implementado | Para registrarse un usuário debe informar los siguientes datos: nombre (obligatorio), nombre de usuário (obligatorio, móvil o correo), fecha de nacimiento (obligatorio), sexo (obligatorio, hombre, mujer u otro), nível educativo (opcional, sin estudios, primaria/ESO, bachillerato, formación profesional o estudios universitarios), tipo de familia (opcional, monoparental feminina, monoparental masculina, pareja de hombre y mujer, pareja de hombre y hombre o pareja de mujer y mujer) y numero de hijos (opcional, mayor o igual a 0). Una vez creado el usuario debe recibir un correo/SMS de bienvenida y ser redireccionado al inicio de sesión. |
-| RF-002 | El sistema debe permitir a los usuarios iniciar sesión con sus credenciales | Alta | Parcial, falta implementar vaidación para mostrar las pantallas de bienvenida solamente en el primer login | Para acceder al sistema el usuario debe informar sus credenciales. El sistema debe validar que el usuario existe y que la contraseña informada está correcta. Si el usuario está accedendo a la por la primera vez, se debe mostrar algunas pantallas de bienvenida a la app. |
-| RF-003 | El sistema debe permitir la recuperación de contraseña mediante el envío de un código | Alta | Implementado | Para recuperar su contraseña, el usuario debe informar su nombre de usuario (correo o móvil), entonces el sistema le enviará un codigo de seguridad (SMS/Correo). |
-| RF-004 | El sistema debe permitir restablecer la contraseña mediante validación de código | Alta | Implementado | Una vez que el usuario haya recibido su codigo de seguridad, una vez que ello sea informado y convalidado, entonces la contraseña podra ser alterada. |
-| RF-005 | El sistema debe permitir a los usuarios autenticados consultar su perfil | Alta | Implementado | Todos los datos personales del usuarios informados en la creacion de su cuenta deben ser exibidos, excepto por su nombre de usuario. |
-| RF-006 | El sistema debe permitir a los usuarios autenticados actualizar su perfil | Alta | Implementado | Todos los datos personales del usuarios informados en la creacion de su cuenta deben poder ser editados, excepto por su nombre de usuario, siguiendo las mismas reglas aplicadas para la creacion de usuarios. |
-| RF-007 | El sistema debe permitir la desactivación de cuentas de usuario | Media | Parcial, endpoint disponible; validar comportamiento del sistema con usuarios desactivados; implementar request en el front end | Usuário puede desactivar su cuenta. |
-| RF-008 | El sistema debe permitir registrar hijos/as asociados a una cuenta de usuario | Alta | Implementado | Para crear un hijo deben ser informados los siguientes datos: nombre (obligatiro), fecha de nacimiento (obligatorio), sexo (obligatorio, hombre, mujer u otro), prematuro (obligatorio, sí o no), numero de meses de lactancia (obligatorio, mayor o igual a 0)  |
-| RF-009 | El sistema debe permitir listar los hijos/as asociados a un usuario | Alta | Implementado | El sistema debe permitir al usuario consultar todos los hijos/as asociados a su cuenta y consultar todos los datos de cada hijo, conforme fueron informados en la creación de ellos. |
-| RF-010 | El sistema debe permitir editar la información de los hijos/as | Alta | Implementado | El sistema debe permitir al usuario editar todos los datos de cada hijo/a asociado a su cuenta, conforme reglas aplicadas en la creación de hijos. |
-| RF-011 | El sistema debe guardar automaticamente las preguntas en la base de datos | Alta | Implementado | El sistema debe añadir automaticamente la siguiente lista de preguntas para que sean hechas al usuario. |
-| RF-012 | El sistema debe listar preguntas disponibles para ser respondidas por cada hijo/a | Alta | Implementado | El sistema debe listar 10 preguntas para cada hijo del usuário por dia, de acuerdo con la lista predefinida de preguntas registradas |
-| RF-013 | El sistema debe permitir registrar las respuestas proporcionadas por los usuario | Alta | Implementado | El sistema de guardar las respuestas de los usuarios a las preguntas cuando ellos pulsen el buton de siguiente. Las respuestas siguen la escala de likert y deben ser guardadas con su valor numerico asociadas a cada usuario |
-| RF-014 | El sistema debe permitir la creación de foros por parte de los usuarios | Media | Implementado | Para crear un foro, los siguientes datos son necesarios: nombre y descripcion. |
-| RF-015 | El sistema debe permitir consultar foros y su detalle | Media | Implementado | El sistema debe mostrar el nombre y la descipcion del foro, así como todos los comentario ya añadidos al foro y sus creadores.  |
-| RF-016 | El sistema debe permitir editar foros por usuarios autorizados | Media | Implementado | El sistema debe permitir solamente al dueno del foro editar su nombre y descripcion. |
-| RF-017 | El sistema debe permitir comentar en los foros | Media | Implementado | El sistema debe permitir a todos los usuarios ya registrados comentar sobre los foros existentes, sean suyos o de otros usuarios.  |
-| RF-018 | El sistema debe guardar automaticamente las preguntas frecuentes en la base de datos | Alta | Implementado | El sistema debe añadir automaticamente la siguiente lista de preguntas frecuentes para que sean consultadas por los usuarios. |
-| RF-019 | El sistema debe permitir consultar preguntas frecuentes (FAQ) | Media | Implementado | El sistema debe permitir al usuario consultas las preguntas frecuentes, mostrando todos los datos en una lista despligable. |
-| RF-020 | El sistema debe guardar automaticamente los recursos audivisuales en la base de datos | Alta | Implementado | El sistema debe añadir automaticamente la siguiente lista de recursos audiovisuales para que sean consultadas por los usuarios.  |
-| RF-021 | El sistema debe permitir consultar recursos audiovisuales | Media | Implementado | Debe ser posible ver los recursos audiovisuales desde la aplicacion sin la necesidad. de salir de la app. |
-| RF-022 | El sistema debe generar y asignar premios en función de la puntuación de los usuarios | Media | Pendiente | El calculo que debe ser ejecutado diariamente es el siguiente. Se debe añadir la puntuacion generada al score del usuario. El usuario debe poder ver su score y los premios que puede ganar. Si el usuario llegar a las siguientes punctuaciones, se debe asignar lo siguiente. Broze para usuarios con 100 puntos, plata para usuarios con 500 puntos, Oro para los usuarios con 1000 y Diamante para los usuarios con mas de 10 mil puntos  |
-| RF-023 | El sistema debe permitir consultar los premios de un usuario | Alta | Pendiente | El sistema debe mostrar el score del usuario y los premios existentes que puede ganas. Los premios que haya ganado deben ser enseñados en color y los premios que aun no ganada deben ser enseñados en todos de grises. |
-| RF-024 | El sistema debe generar notificaciones diarias para avisar los usuários que deben responder las preguntas para sus hijos | Media | Pendiente | El sistema debe analisar de hora en hora todos los usuarios y verificar los que aun no hayan contestado preguntas en el dia curriente. Si no han contestado las preguntas para algun hijo, le enviaremos una notificacion que tiene prguntas pendientes. Las notificaciones se deben guardar en la base de datos. No se debe mandar más de una notificacion por dia para los usuarios. |
-| RF-025 | El sistema debe permitir consultar notificaciones enviadas al usuario. | Media | Pendiente | El sistema debe permitir consultar todas las notificaciones recibidas. Deben ser enseñados todos los datos de la notificacion. |
+## 4. Requisitos funcionales (RF)
 
+| ID | Requisito funcional | Prioridad | Estado | Descripcion y criterio verificable | Vistas implementadas |
+|---|---|---|---|---|--|
+| RF-001 | El sistema debe permitir el registro de nuevos usuarios mediante el ingreso de datos personales | Alta | Implementado | El sistema debe permitir registrar usuarios con: nombre (obligatorio), nombre de usuario (obligatorio, correo o movil), fecha de nacimiento (obligatoria), sexo (obligatorio), nivel educativo (opcional), tipo de familia (opcional) y numero de hijos (opcional, >= 0). Criterio: no se crea la cuenta si faltan obligatorios o si el nombre de usuario ya existe; tras el alta, el usuario recibe mensaje de bienvenida (correo/SMS) y puede iniciar sesion. | ![alt text](views/image.png) ![alt text](views/image-1.png) ![alt text](views/image-17.png) ![alt text](views/image-12.png) |
+| RF-002 | El sistema debe permitir a los usuarios iniciar sesión con sus credenciales | Alta | Parcial | El sistema debe autenticar con nombre de usuario y contrasena validos. Criterio: credenciales incorrectas devuelven error controlado; en primer acceso se muestran pantallas de bienvenida una unica vez. Pendiente: cerrar validacion de primer login en frontend. | ![alt text](views/image-2.png) ![alt text](views/image-3.png) ![alt text](views/image-4.png) ![alt text](views/image-5.png) ![alt text](mockups/image-18.png) ![alt text](views/image-7.png) ![alt text](views/image-8.png) |
+| RF-003 | El sistema debe permitir la recuperación de contraseña mediante el envío de un código | Alta | Implementado | El usuario debe poder solicitar recuperacion informando correo o movil. Criterio: el sistema genera y envia un codigo temporal por el canal disponible y registra el intento. | ![alt text](views/image-9.png) ![alt text](views/image-10.png)|
+| RF-004 | El sistema debe permitir restablecer la contraseña mediante validación de código | Alta | Implementado | El usuario debe poder actualizar su contrasena tras validar codigo vigente. Criterio: solo se acepta codigo valido/no expirado; al confirmar, la contrasena anterior deja de ser valida. | ![alt text](views/image-11.png) |
+| RF-005 | El sistema debe permitir a los usuarios autenticados consultar su perfil | Alta | Implementado | El sistema debe mostrar los datos de perfil registrados del usuario autenticado. Criterio: se devuelve informacion de perfil sin exponer credenciales ni datos sensibles innecesarios. | ![alt text](views/image-13.png) |
+| RF-006 | El sistema debe permitir a los usuarios autenticados actualizar su perfil | Alta | Implementado | El usuario debe editar sus datos de perfil bajo las mismas reglas de validacion del registro. Criterio: los cambios persisten correctamente y se bloquean actualizaciones invalidas. | ![alt text](views/image-13.png)|
+| RF-007 | El sistema debe permitir la desactivación de cuentas de usuario | Media | Parcial | El usuario debe poder desactivar su cuenta. Criterio: la cuenta desactivada no puede iniciar sesion y el frontend debe reflejar el estado. Pendiente: completar flujo en app Android y validar comportamiento integral. | ![alt text](views/image-13.png) |
+| RF-008 | El sistema debe permitir registrar hijos/as asociados a una cuenta de usuario | Alta | Implementado | El sistema debe registrar hijos con: nombre (obligatorio), fecha de nacimiento (obligatoria), sexo (obligatorio), prematuridad (obligatoria) y meses de lactancia (obligatorio, >= 0). Criterio: no se guardan registros con datos invalidos. | ![alt text](views/image-14.png) |
+| RF-009 | El sistema debe permitir listar los hijos/as asociados a un usuario | Alta | Implementado | El usuario debe consultar todos sus hijos y su informacion asociada. Criterio: el listado solo incluye hijos vinculados a la cuenta autenticada. | ![alt text](views/image-15.png) |
+| RF-010 | El sistema debe permitir editar la información de los hijos/as | Alta | Implementado | El usuario debe actualizar datos de cada hijo aplicando reglas de validacion de creacion. Criterio: la edicion persiste y no permite valores fuera de regla. | ![alt text](views/image-16.png) |
+| RF-011 | El sistema debe guardar automaticamente las preguntas en la base de datos | Alta | Implementado | El sistema debe inicializar automaticamente el catalogo de preguntas predefinidas en base de datos. Criterio: al arrancar en entorno limpio, las preguntas base quedan disponibles sin carga manual. |
+| RF-012 | El sistema debe listar preguntas disponibles para ser respondidas por cada hijo/a | Alta | Implementado | El sistema debe entregar 10 preguntas diarias por cada hijo, segun reglas predefinidas. Criterio: cada hijo recibe su conjunto diario y no se repiten preguntas fuera de la logica definida. | ![alt text](views/image-19.png) ![alt text](views/image-21.png) |
+| RF-013 | El sistema debe permitir registrar las respuestas proporcionadas por los usuario | Alta | Implementado | El sistema debe guardar respuestas en escala Likert asociadas a usuario, hijo, pregunta y fecha. Criterio: al confirmar avance del flujo, la respuesta queda persistida con valor numerico valido. | ![alt text](views/image-22.png) |
+| RF-014 | El sistema debe permitir la creación de foros por parte de los usuarios | Media | Implementado | El usuario autenticado debe poder crear foros indicando nombre y descripcion. Criterio: no se crean foros con campos obligatorios vacios. | ![alt text](views/image-23.png) |
+| RF-015 | El sistema debe permitir consultar foros y su detalle | Media | Implementado | El sistema debe listar foros y mostrar detalle (nombre, descripcion, comentarios y autores). Criterio: el detalle recupera contenido completo y consistente del foro seleccionado. |  ![alt text](views/image-24.png) ![alt text](views/image-25.png) |
+| RF-016 | El sistema debe permitir editar foros por usuarios autorizados | Media | Implementado | Solo el propietario del foro puede editar nombre y descripcion. Criterio: peticiones de terceros no autorizados deben devolver rechazo de autorizacion. | ![alt text](views/image-26.png) |
+| RF-017 | El sistema debe permitir comentar en los foros | Media | Implementado | Cualquier usuario autenticado debe poder comentar en foros propios o ajenos. Criterio: el comentario queda asociado a autor, foro y fecha. | ![alt text](views/image-27.png) |
+| RF-018 | El sistema debe guardar automaticamente las preguntas frecuentes (FAQ) en la base de datos | Alta | Implementado | El sistema debe inicializar automaticamente preguntas frecuentes predefinidas. Criterio: las FAQ base aparecen disponibles sin operacion manual posterior al despliegue. |
+| RF-019 | El sistema debe permitir consultar preguntas frecuentes (FAQ) | Media | Implementado | El usuario debe consultar FAQ en formato de lista desplegable o equivalente. Criterio: se muestran pregunta y respuesta de forma clara y accesible. | ![alt text](views/image-28.png) |
+| RF-020 | El sistema debe guardar automaticamente los recursos audivisuales en la base de datos | Alta | Implementado | El sistema debe inicializar recursos audiovisuales predefinidos para consulta. Criterio: en entorno limpio, los recursos quedan disponibles tras inicializacion. |
+| RF-021 | El sistema debe permitir consultar recursos audiovisuales | Media | Parcial, necesita revisar implementación de visualización de contenido en video | El usuario debe visualizar recursos desde la app sin abandonar el flujo principal. Criterio: los enlaces/embebidos cargan correctamente desde la interfaz movil. | ![alt text](views/image-29.png) |
+| RF-022 | El sistema debe generar y asignar premios en función de la puntuación de los usuarios | Media | Pendiente | El sistema debe calcular puntuacion diaria y asignar premios por umbrales. Regla propuesta: Bronce (100), Plata (500), Oro (1000), Diamante (>= 10000). Criterio: el calculo se ejecuta de forma programada y registra historico de cambios. |
+| RF-023 | El sistema debe permitir consultar los premios de un usuario | Alta | Pendiente | El usuario debe consultar su puntuacion total y el estado de cada premio. Criterio: premios alcanzados se distinguen visualmente de los no alcanzados (por ejemplo, color vs escala de grises). |
+| RF-024 | El sistema debe generar notificaciones diarias para avisar los usuários que deben responder las preguntas para sus hijos | Media | Pendiente | El sistema debe evaluar periodicamente usuarios con preguntas pendientes y enviar como maximo una notificacion diaria por usuario. Criterio: cada envio queda registrado; no se duplican notificaciones en el mismo dia natural. |
+| RF-025 | El sistema debe permitir consultar las notificaciones enviadas al usuario | Media | Pendiente | El usuario debe consultar su historial de notificaciones. Criterio: el listado muestra al menos tipo, contenido, fecha y estado de lectura/entrega cuando aplique. |
 
 ## 5. Requisitos no funcionales (RNF)
 
 | ID | Requisito no funcional | Prioridad | Estado | Criterio verificable |
 |---|---|---|---|---|
-| RNF-001 | Seguridad de secretos por variables de entorno | Alta | Pendiente | No exponer claves en repositorio ni appsettings versionados. |
-| RNF-002 | Cifrado de trafico (HTTPS) en despliegue | Alta | Parcial | API publica accesible por HTTPS y redireccion activa. |
-| RNF-003 | Rendimiento en consultas listadas | Media | Parcial | Paginacion en colecciones principales (foros, preguntas, comentarios). |
-| RNF-004 | Observabilidad y logging estructurado | Media | Pendiente | Logs con contexto para errores y trazas clave de negocio. |
-| RNF-005 | Pruebas automatizadas backend | Alta | Pendiente | Suite unitaria/integracion para servicios y endpoints criticos. |
-| RNF-006 | Despliegue reproducible en nube | Alta | Pendiente | Pipeline y guia de despliegue en proveedor gratuito seleccionado. |
+| RNF-001 | Seguridad de secretos por variables de entorno | Alta | Pendiente | No exponer claves ni credenciales en repositorio, appsettings versionados o binarios del cliente. |
+| RNF-002 | Cifrado de trafico (HTTPS) en despliegue | Alta | Parcial | API publica accesible por HTTPS con redireccion activa y certificado valido. |
+| RNF-003 | Rendimiento en consultas listadas | Media | Parcial | Paginacion en colecciones principales (foros, preguntas, comentarios) y tiempos de respuesta estables. |
+| RNF-004 | Observabilidad y logging estructurado | Media | Pendiente | Logs con contexto tecnico y de negocio para trazabilidad de errores y eventos clave. |
+| RNF-005 | Pruebas automatizadas backend | Alta | Pendiente | Suite de pruebas unitarias/integracion para servicios y endpoints criticos con ejecucion en CI. |
+| RNF-006 | Despliegue reproducible en nube | Alta | Pendiente | Pipeline definido y guia de despliegue validada en proveedor gratuito seleccionado. |
 
 ## 6. Requisitos tecnicos especificos del refactor Android (RFA)
 
-Estos requisitos incorporan el objetivo academico de aplicar ensenanzas del master.
+Estos requisitos incorporan el objetivo academico de aplicar aprendizajes del master en arquitectura, mantenibilidad y calidad.
 
-| ID | Requisito de refactor Android | Prioridad | Estado objetivo |
-|---|---|---|---|
-| RFA-001 | Introducir patron MVVM | Alta | Requerido para cierre |
-| RFA-002 | Refactorizar las interacciones con API para usar una herramienta más adecuada | Alta | Requerido para cierre |
-| RFA-003 | Refactorizar para utilizar mejor los eventos de las actividades, impleementando los necesarios | Alta | Requerido para cierre |
+| ID | Requisito de refactor Android | Prioridad |
+|---|---|---|
+| RFA-001 | Introducir arquitectura MVVM por capas | Alta |
+| RFA-002 | Refactorizar las interacciones con API mediante cliente HTTP centralizado y manejo unificado de errores | Alta | 
+| RFA-003 | Mejorar el ciclo de vida y gestion de eventos en Activities/Fragments, evitando logica de negocio en UI | Alta | 
 
 ## 7. Requisitos tecnicos de despliegue API en nube gratuita (RDEP)
 
-| ID | Requisito de despliegue | Prioridad | Estado objetivo |
+| ID | Requisito de despliegue | Prioridad |
 |---|---|---|---|
-| RDEP-001 | Seleccionar proveedor con plan gratuito viable | Alta | Requerido para cierre |
-| RDEP-002 | Configurar variables de entorno para secretos | Alta | Requerido para cierre |
-| RDEP-003 | Publicar API accesible por HTTPS | Alta | Requerido para cierre |
-| RDEP-004 | Configurar base de datos compatible y migraciones | Alta | Requerido para cierre |
-| RDEP-005 | Definir proceso CI/CD basico (build + deploy) | Media | Deseable alto |
+| RDEP-001 | Seleccionar proveedor cloud con plan gratuito viable para demo del TFM | Alta | 
+| RDEP-002 | Configurar secretos y parametros por variables de entorno | Alta | 
+| RDEP-003 | Publicar API accesible por HTTPS con URL publica estable | Alta | 
+| RDEP-004 | Configurar base de datos compatible, migraciones y politica minima de respaldo | Alta | 
+| RDEP-005 | Definir proceso CI/CD basico (build, test y deploy) | Media |
 
-## 8. Criterio de uso en memoria final
-
-Para cada requisito de prioridad Alta y Media se recomienda documentar en la memoria:
-
-1. Objetivo del requisito.
-2. Implementacion tecnica (archivo/modulo).
-3. Evidencia de validacion (test o prueba manual estructurada).
-4. Resultado y limitaciones.
-
-Documento vivo: actualizar al cierre de cada sprint con cambios de estado y evidencias.
+Documento vivo: actualizar al cierre de cada sprint con cambios de estado, evidencias y decisiones tecnicas relevantes.
