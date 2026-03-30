@@ -80,14 +80,9 @@ Estos requisitos incorporan el objetivo academico de aplicar ensenanzas del mast
 
 | ID | Requisito de refactor Android | Prioridad | Estado objetivo |
 |---|---|---|---|
-| RFA-001 | Separar presentacion, dominio y datos (arquitectura limpia) | Alta | Requerido para cierre |
-| RFA-002 | Introducir patron MVVM (o equivalente justificado) | Alta | Requerido para cierre |
-| RFA-003 | Centralizar networking y manejo de errores de API | Alta | Requerido para cierre |
-| RFA-004 | Definir estados de UI (loading/success/error) de forma explicita | Alta | Requerido para cierre |
-| RFA-005 | Reducir logica de negocio en Activities | Alta | Requerido para cierre |
-| RFA-006 | Incorporar DI (Hilt/Koin o alternativa justificada) | Media | Deseable alto |
-| RFA-007 | Cobertura de tests unitarios para modulos refactorizados | Alta | Requerido para cierre |
-| RFA-008 | Documentar decisiones de arquitectura (ADR breve) | Media | Requerido para memoria |
+| RFA-001 | Introducir patron MVVM | Alta | Requerido para cierre |
+| RFA-002 | Refactorizar las interacciones con API para usar una herramienta más adecuada | Alta | Requerido para cierre |
+| RFA-003 | Refactorizar para utilizar mejor los eventos de las actividades, impleementando los necesarios | Alta | Requerido para cierre |
 
 ## 7. Requisitos tecnicos de despliegue API en nube gratuita (RDEP)
 
@@ -98,21 +93,8 @@ Estos requisitos incorporan el objetivo academico de aplicar ensenanzas del mast
 | RDEP-003 | Publicar API accesible por HTTPS | Alta | Requerido para cierre |
 | RDEP-004 | Configurar base de datos compatible y migraciones | Alta | Requerido para cierre |
 | RDEP-005 | Definir proceso CI/CD basico (build + deploy) | Media | Deseable alto |
-| RDEP-006 | Documentar URL publica y procedimiento de despliegue | Alta | Requerido para memoria |
 
-## 8. Matriz de trazabilidad inicial
-
-| Requisito | Artefacto tecnico principal | Evidencia de app/uso | Evidencia documental |
-|---|---|---|---|
-| RF-001 a RF-006 | UserController/UserService | SignIn/SignUp/Profile/Reset Password | README + papers |
-| RF-007 a RF-009 | ChildController/ChildService | ChildActivity/CreateChild/UpdateChild | Trello historial |
-| RF-010 y RF-011 | QuestionController + AnswerController | QuestionsActivity + AnswerActivity | Trello historial |
-| RF-012 a RF-015 | ForumController + CommentController | ForumsActivity/ForumActivity | Trello historial |
-| RF-016 y RF-017 | FaqController + AudiovisualResourceController | FaqActivity + AudioVisualResourcesActivity | README |
-| RFA-001 a RFA-008 | Android refactor planificado | Evidencia antes/despues en APK demo | Memoria final |
-| RDEP-001 a RDEP-006 | Infra cloud y pipeline | API publica consumida por app | Memoria final |
-
-## 9. Criterio de uso en memoria final
+## 8. Criterio de uso en memoria final
 
 Para cada requisito de prioridad Alta y Media se recomienda documentar en la memoria:
 
@@ -120,14 +102,5 @@ Para cada requisito de prioridad Alta y Media se recomienda documentar en la mem
 2. Implementacion tecnica (archivo/modulo).
 3. Evidencia de validacion (test o prueba manual estructurada).
 4. Resultado y limitaciones.
-
-## 10. Proximos pasos de gobierno de requisitos
-
-1. Confirmar con tutoria/cliente si RF-025 (gamificacion) entra en alcance obligatorio de defensa.
-2. Convertir los requisitos de Alta prioridad en historias de sprint (1 semana).
-3. Completar una tabla de verificacion final por requisito antes de la entrega.
-4. Congelar version final de este documento como anexo tecnico de memoria.
-
----
 
 Documento vivo: actualizar al cierre de cada sprint con cambios de estado y evidencias.
