@@ -91,40 +91,52 @@ Resultado esperado: networking robusto y flujo de primer login/onboarding valida
 
 ### Semana 4 (27 abr - 3 may)
 
-Objetivo: asegurar la base de seguridad de la API y arrancar pruebas backend.
+Objetivo: arrancar el despliegue cloud y las pruebas backend en paralelo.
 
-- HU-005 Hardening de seguridad de API (5 pts)
+- HU-013 Despliegue cloud gratuito de API — inicio (5 pts, parcial)
 - HU-006 Pruebas backend de servicios críticos — inicio (8 pts, parcial)
 
 Carga objetivo: ~7 pts
-Resultado esperado: secretos externalizados, HTTPS aplicado y primeros tests backend arrancados.
+Resultado esperado: entorno cloud en configuración y primeros tests backend arrancados.
 
 ---
 
 ### Semana 5 (4 may - 10 may)
 
-Objetivo: completar la suite de pruebas backend.
+Objetivo: cerrar el despliegue y completar la suite de pruebas backend.
 
+- HU-013 Despliegue cloud gratuito de API — cierre
 - HU-006 Pruebas backend de servicios críticos — cierre
 
 Carga objetivo: ~8 pts (semana intensiva)
-Resultado esperado: suite de tests backend ejecutable en CI con reporte básico de cobertura.
+Resultado esperado: API pública accesible mediante HTTPS y suite de tests ejecutable en CI con reporte de cobertura.
 
 ---
 
 ### Semana 6 (11 may - 17 may)
 
-Objetivo: añadir trazabilidad operativa y arrancar funcionalidades de negocio.
+Objetivo: añadir trazabilidad operativa y consolidar la seguridad de la API.
 
 - HU-007 Observabilidad y logging estructurado (5 pts)
-- HU-008 Sistema de premios por progreso — inicio (5 pts, parcial)
+- HU-005 Hardening de seguridad de API (5 pts)
 
 Carga objetivo: ~7 pts
-Resultado esperado: logging estructurado activo y primeros premios implementados.
+Resultado esperado: logging estructurado activo, secretos externalizados y HTTPS consolidado.
 
 ---
 
 ### Semana 7 (18 may - 24 may)
+
+Objetivo: arrancar la gamificación.
+
+- HU-008 Sistema de premios por progreso — inicio (5 pts, parcial)
+
+Carga objetivo: ~5 pts
+Resultado esperado: primeros premios implementados y flujo de gamificación arrancado.
+
+---
+
+### Semana 8 (25 may - 31 may)
 
 Objetivo: completar la gamificación y arrancar las notificaciones.
 
@@ -136,7 +148,7 @@ Resultado esperado: premios funcionales de extremo a extremo y job de notificaci
 
 ---
 
-### Semana 8 (25 may - 31 may)
+### Semana 9 (1 jun - 7 jun)
 
 Objetivo: completar notificaciones y cerrar funcionalidades de cuenta.
 
@@ -148,28 +160,16 @@ Resultado esperado: notificaciones operativas con logging y flujo de desactivaci
 
 ---
 
-### Semana 9 (1 jun - 7 jun)
+### Semana 10 (8 jun - 14 jun)
 
-Objetivo: cerrar funcionalidades complementarias y arrancar el despliegue.
+Objetivo: cerrar funcionalidades complementarias y arrancar la memoria.
 
 - HU-011 Visualización robusta de recursos audiovisuales (3 pts)
 - HU-012 Consulta de historial de notificaciones (3 pts)
-- HU-013 Despliegue cloud gratuito de API — inicio (5 pts, parcial)
-
-Carga objetivo: ~7 pts
-Resultado esperado: visualización e historial validados, entorno cloud en configuración.
-
----
-
-### Semana 10 (8 jun - 14 jun)
-
-Objetivo: completar el despliegue y arrancar la redacción de la memoria.
-
-- HU-013 Despliegue cloud gratuito de API — cierre
 - HU-014 Memoria final del TFM — bloque 1 (marco teórico, requisitos, metodología) (parcial)
 
 Carga objetivo: ~7 pts
-Resultado esperado: API pública accesible mediante HTTPS y primer bloque de memoria redactado.
+Resultado esperado: visualización e historial validados y primer bloque de memoria redactado.
 
 ---
 
@@ -198,10 +198,10 @@ Resultado esperado: memoria entregada antes de fin de junio y defensa lista para
 ## 6. Resumen por fases
 
 - Fase 1 — Semanas 1-3: Hito anteproyecto + fundamentos técnicos Android.
-- Fase 2 — Semanas 4-5: Seguridad y calidad backend.
-- Fase 3 — Semanas 6-8: Funcionalidades principales (premios, notificaciones, cuenta).
-- Fase 4 — Semana 9: Funcionalidades complementarias + inicio despliegue.
-- Fase 5 — Semanas 10-12: Despliegue + memoria final + defensa.
+- Fase 2 — Semanas 4-5: Despliegue cloud + calidad backend.
+- Fase 3 — Semanas 6-7: Seguridad, logging y arranque de gamificación.
+- Fase 4 — Semanas 8-9: Funcionalidades principales (premios, notificaciones, cuenta).
+- Fase 5 — Semanas 10-12: Funcionalidades complementarias + memoria final + defensa.
 
 ## 7. Regla práctica para mover tarjetas en Git Projects
 
@@ -217,5 +217,5 @@ Mover una historia a Done solo si cumple simultáneamente:
 Orden de protección de hitos:
 
 1. No mover HU-001 ni HU-014 de sus ventanas objetivo.
-2. Mantener HU-002/HU-003/HU-005/HU-006 como núcleo de calidad técnica.
+2. Mantener HU-002/HU-003/HU-006/HU-013 como núcleo de calidad técnica.
 3. Si hace falta recortar, reducir primero el alcance de HU-011 o HU-012 (funcionalidades de menor impacto en la defensa).
