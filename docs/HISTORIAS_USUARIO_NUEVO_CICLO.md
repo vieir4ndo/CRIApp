@@ -1,8 +1,29 @@
 # CRIApp - Revisión de Trello, Requisitos v1.4 y Nuevas Historias de Usuario
 
-Fecha: 30 de marzo de 2026
+Fecha: 30 de marzo de 2026 | Última actualización: 8 de mayo de 2026
 Objetivo: alinear el backlog del nuevo ciclo con la auditoría del board histórico y con el documento de requisitos técnicos v1.4 (estado real de implementación).
-Versión: 1.3
+Versión: 1.4
+
+## Estado global del backlog (8 mayo 2026)
+
+| HU | Título | Estado |
+|----|--------|--------|
+| HU-001 | Anteproyecto TFM | ✅ DONE |
+| HU-002 | Refactor arquitectura Android | ✅ DONE |
+| HU-003 | Cliente API Android robusto | ✅ DONE |
+| HU-004 | Cierre de primer login y onboarding | ✅ DONE |
+| HU-005 | Hardening de seguridad de API | ⬜ No iniciado |
+| HU-006 | Pruebas backend de servicios críticos | ⬜ No iniciado |
+| HU-007 | Observabilidad y logging estructurado | ⬜ No iniciado |
+| HU-008 | Sistema de premios por progreso | ✅ DONE |
+| HU-009 | Notificaciones útiles | 🔄 EN PROGRESO |
+| HU-010 | Desactivación de cuenta end-to-end | 🔄 EN PROGRESO (backend ✅) |
+| HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE |
+| HU-012 | Consulta de historial de notificaciones | ⬜ No iniciado |
+| HU-013 | Despliegue cloud gratuito de API | ⬜ No iniciado |
+| HU-014 | Memoria final del TFM | ⬜ No iniciado |
+| HU-015 | Preparación de defensa en tribunal | ⬜ No iniciado |
+| HU-016 | Soporte multilingüe (i18n) | ✅ DONE |
 
 ## 1. Backlog nuevo de historias de usuario (siguiendo formato de teoría)
 
@@ -230,6 +251,7 @@ DoD:
 
 ## HU-008 - Sistema de premios por progreso
 
+Estado: ✅ DONE (cerrado: 8 de mayo de 2026)
 Prioridad: Alta
 Tipo: Funcional
 Estimación: 5 puntos
@@ -249,15 +271,25 @@ Criterios de aceptación (BDD):
 
 DoD:
 
-- Reglas de asignación de premios implementadas según umbrales definidos en RF-022: Bronce (>= 100 pts), Plata (>= 500 pts), Oro (>= 1000 pts), Diamante (>= 10000 pts).
-- Persistencia y consulta de premios disponible.
-- Premios alcanzados distinguibles visualmente de los no alcanzados (RF-023).
-- Evidencia funcional en API y app.
+- Reglas de asignación de premios implementadas con lógica conductual (5 tipos: FirstSteps, EngagedFamily, Overcoming, PositiveEnvironment, SmallProgress) mediante job `CalculateAndSaveAwards` ejecutado diariamente.
+  - FirstSteps: ≥5 preguntas distintas respondidas.
+  - EngagedFamily: respuestas en 3 días consecutivos.
+  - Overcoming: puntuación mejorada ≥20% respecto al día anterior.
+  - PositiveEnvironment: puntuación > 80.
+  - SmallProgress: puntuación mejorada respecto al día anterior.
+- Persistencia y consulta de premios disponible (endpoint GET /users/{id}/awards).
+- Premios alcanzados distinguibles visualmente de los no alcanzados en Android (AwardActivity + RecyclerView con imágenes diferenciadas).
+- Repositorio `AwardRepositoryImpl` e interfaces de dominio `IAwardRepository` implementados en Android.
+- ViewModel (AwardViewModel + AwardViewModelFactory) con patrón MVVM.
+- Evidencia funcional en API y app Android.
+
+Nota técnica: Se optó por premios de carácter conductual/cualitativo en lugar de umbrales numéricos, alineado con teorías de motivación intrínseca (autodeterminación). Decisión registrada en ADR.
 
 ---
 
 ## HU-009 - Notificaciones útiles
 
+Estado: 🔄 EN PROGRESO (iniciado: 8 de mayo de 2026)
 Prioridad: Alta
 Tipo: Funcional/Calidad
 Estimación: 5 puntos
@@ -281,10 +313,18 @@ DoD:
 - Integración estable con canal de mensajería configurado (correo o SMS según configuración del entorno).
 - Logging y control de errores implementados.
 
+Progreso actual:
+
+- ✅ Job `NotifyUsersWithLessThanTenAnswersJob` creado y registrado en el scheduler (skeleton con TODO: integrar push notifications Android).
+- ✅ Sistema de email (SMTP) mejorado: plantillas HTML con logo embebido como adjunto, traducciones ES/EN/PT en `EmailMessages.{resx}`.
+- ✅ Job `CleanUserResetPasswordCodesJob` implementado: limpia códigos de recuperación de contraseña con antigüedad > 10 minutos.
+- ⏳ Pendiente: integración de push notifications nativas Android (FCM o similar) en el job de recordatorio.
+
 ---
 
 ## HU-010 - Desactivación de cuenta end-to-end
 
+Estado: 🔄 EN PROGRESO — Backend ✅ / Android ⏳
 Prioridad: Media
 Tipo: Funcional
 Estimación: 3 puntos
@@ -307,6 +347,11 @@ DoD:
 - Flujo completo backend + Android implementado.
 - Mensajería de estado consistente para usuario.
 - Prueba de regresión mínima del flujo de autenticación.
+
+Progreso actual:
+
+- ✅ Backend: endpoint POST /users/{id}/deactivate implementado en `UserController`, servicio `UserService.Deactivate()`, lógica de dominio `user.Deactivate()` en entidad `User`.
+- ⏳ Pendiente: flujo Android (botón en ProfileActivity o similar, confirmación de usuario, cierre de sesión automático tras desactivación).
 
 ---
 
@@ -392,6 +437,36 @@ DoD:
 - URL pública operativa.
 - Variables de entorno y secretos externalizados.
 - Guía de despliegue documentada para memoria.
+
+---
+
+## HU-016 - Soporte multilingüe (i18n)
+
+Estado: ✅ DONE (cerrado: 8 de mayo de 2026)
+Prioridad: Media
+Tipo: Calidad/Funcional
+Estimación: 3 puntos
+
+Como usuario de CRIApp,
+quiero que la aplicación y sus comunicaciones estén disponibles en mi idioma (español, inglés o portugués),
+para reducir la barrera de uso y mejorar la experiencia global.
+
+Criterios de aceptación (BDD):
+
+- Dado un usuario con idioma configurado en el dispositivo,
+  cuando reciba un correo o mensaje de la app,
+  entonces el contenido estará en su idioma (ES/EN/PT).
+- Dado un usuario que usa la app Android en inglés o portugués,
+  cuando navegue por las pantallas,
+  entonces los textos se mostrarán en el idioma del sistema operativo.
+
+DoD:
+
+- ✅ API: recursos de mensajes `AppMessages` y `EmailMessages` implementados en ES/EN/PT mediante archivos `.resx` con localización dinámica vía `IStringLocalizer`.
+- ✅ API: traducciones aplicadas a mensajes de validación, excepciones de negocio y contenido de emails.
+- ✅ Android: archivos `strings.xml` en `values/`, `values-en/` y `values-pt/` con textos de interfaz completos.
+- ✅ Entidades con campos de traducción: `Recommendation.TextEn`, `Recommendation.TextPt`; Question y otros recursos con campos equivalentes.
+- ✅ Migración de base de datos `AddTranslationColumns` aplicada.
 
 ---
 
