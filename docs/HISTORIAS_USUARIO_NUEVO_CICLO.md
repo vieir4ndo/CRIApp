@@ -12,19 +12,19 @@ Versión: 1.4
 | HU-002 | Refactor arquitectura Android | ✅ DONE |
 | HU-003 | Cliente API Android robusto | ✅ DONE |
 | HU-004 | Cierre de primer login y onboarding | ✅ DONE |
-| HU-005 | Hardening de seguridad de API | ⬜ No iniciado |
-| HU-006 | Pruebas backend de servicios críticos | ⬜ No iniciado |
-| HU-007 | Observabilidad y logging estructurado | ⬜ No iniciado |
+| HU-005 | Hardening de seguridad de API | ✅ DONE (17 abr) |
+| HU-006 | Pruebas backend de servicios críticos | ✅ DONE (17 abr) |
+| HU-007 | Observabilidad y logging estructurado | ✅ DONE (17 abr) |
 | HU-008 | Sistema de premios por progreso | ✅ DONE |
 | HU-009 | Notificaciones útiles | 🔄 EN PROGRESO |
 | HU-010 | Desactivación de cuenta end-to-end | 🔄 EN PROGRESO (backend ✅) |
 | HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE |
 | HU-012 | Consulta de historial de notificaciones | ⬜ No iniciado |
-| HU-013 | Despliegue cloud gratuito de API | ⬜ No iniciado |
+| HU-013 | Despliegue cloud gratuito de API | ✅ DONE (17 abr — Azure) |
 | HU-014 | Memoria final del TFM | ⬜ No iniciado |
 | HU-015 | Preparación de defensa en tribunal | ⬜ No iniciado |
 | HU-016 | Soporte multilingüe (i18n) | ✅ DONE |
-| HU-017 | Mejoras en sistema de gamificación (premios conductuales) | ✅ DONE |
+| HU-017 | Rotación inteligente de preguntas diarias y mejoras de UI | ✅ DONE |
 | HU-018 | Sistema de Recomendaciones personalizadas | ✅ DONE |
 | HU-019 | Limpieza automática de códigos de reset de contraseña | ✅ DONE |
 | HU-020 | Mejoras en templates de email (diseño y localización) | ✅ DONE |
@@ -503,12 +503,41 @@ DoD:
 
 ---
 
-## HU-017 - Mejoras en sistema de gamificación (premios conductuales)
+## HU-017 - Rotación inteligente de preguntas diarias y mejoras de UI
 
 Estado: ✅ DONE (cerrado: 9 de mayo de 2026)
 Prioridad: Media
 Tipo: Funcional/Mejora
-Estimación: 3 puntos
+Estimación: 2 puntos
+
+Como usuario de CRIApp,
+quiero recibir preguntas de evaluación de forma rotatoria cada día aunque ya las haya respondido antes,
+para mantener la continuidad del proceso de evaluación y permitir medir mi progreso a lo largo del tiempo.
+
+Criterios de aceptación (BDD):
+
+- Dado un usuario que ha respondido todas las preguntas disponibles para su perfil familiar,
+  cuando solicite la lista diaria de preguntas,
+  entonces recibirá preguntas rotatorias (incluyendo previamente respondidas) con lógica anti-repetición inmediata.
+- Dado un usuario que responde preguntas con frecuencia,
+  cuando el sistema seleccione la lista diaria,
+  entonces priorizará preguntas no respondidas recientemente para minimizar repetición a corto plazo.
+- Dado un usuario con historial de respuestas acumulado a lo largo del tiempo,
+  cuando el sistema sirva preguntas repetidas,
+  entonces quedará el registro necesario para comparar cómo responde la misma pregunta en distintos momentos (mejora/deterioro).
+- Dado que el usuario entra en la pantalla de preguntas,
+  cuando se cargue la interfaz,
+  entonces la experiencia visual será mejorada respecto a la versión anterior.
+
+DoD:
+
+- ✅ Lógica de servicio de preguntas actualizada: eliminado el bloqueo de "agotamiento" de preguntas; las preguntas siempre están disponibles.
+- ✅ Anti-repetición: el algoritmo de selección prioriza preguntas no respondidas recientemente para evitar repetición inmediata consecutiva.
+- ✅ Rotación continua garantizada: el usuario siempre dispone de preguntas para responder, independientemente de su historial.
+- ✅ Habilitación futura de análisis longitudinal: el mismo cuestionario repetido en el tiempo registra variaciones de respuesta que permiten medir tendencias de mejora o deterioro.
+- ✅ Android: UI de la pantalla de preguntas mejorada (layout, colores, tipografía o interacción visual).
+
+Nota técnica: El cambio de modelo (de "agotamiento hasta fin" a "rotación continua con anti-repetición") es coherente con la teoría de medición repetida (*test-retest reliability*) aplicada a instrumentos de evaluación del bienestar familiar. Permite futuros análisis de tendencia sin necesidad de cambios en el modelo de datos ni en la API.
 
 ---
 
