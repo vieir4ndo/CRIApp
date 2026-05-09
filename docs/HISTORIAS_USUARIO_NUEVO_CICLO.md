@@ -1,6 +1,6 @@
 # CRIApp - Revisión de Trello, Requisitos v1.4 y Nuevas Historias de Usuario
 
-Fecha: 30 de marzo de 2026 | Última actualización: 8 de mayo de 2026
+Fecha: 30 de marzo de 2026 | Última actualización: 9 de mayo de 2026
 Objetivo: alinear el backlog del nuevo ciclo con la auditoría del board histórico y con el documento de requisitos técnicos v1.4 (estado real de implementación).
 Versión: 1.4
 
@@ -24,6 +24,10 @@ Versión: 1.4
 | HU-014 | Memoria final del TFM | ⬜ No iniciado |
 | HU-015 | Preparación de defensa en tribunal | ⬜ No iniciado |
 | HU-016 | Soporte multilingüe (i18n) | ✅ DONE |
+| HU-017 | Mejoras en sistema de gamificación (premios conductuales) | ✅ DONE |
+| HU-018 | Sistema de Recomendaciones personalizadas | ✅ DONE |
+| HU-019 | Limpieza automática de códigos de reset de contraseña | ✅ DONE |
+| HU-020 | Mejoras en templates de email (diseño y localización) | ✅ DONE |
 
 ## 1. Backlog nuevo de historias de usuario (siguiendo formato de teoría)
 
@@ -249,41 +253,70 @@ DoD:
 
 ---
 
-## HU-008 - Sistema de premios por progreso
+## HU-008 - Sistema de gamificación: premios, puntuación y flujo de preguntas
 
-Estado: ✅ DONE (cerrado: 8 de mayo de 2026)
+Estado: ✅ DONE (cerrado: 9 de mayo de 2026)
 Prioridad: Alta
-Tipo: Funcional
-Estimación: 5 puntos
+Tipo: Funcional/Mejora
+Estimación: 8 puntos
 
 Como usuario de CRIApp,
-quiero recibir premios por hitos de progreso,
-para aumentar motivación y adherencia al uso de la app.
+quiero recibir premios basados en mi comportamiento de uso y responder a un conjunto de preguntas diarias relevante para mi situación familiar,
+para mantenerme motivado, obtener retroalimentación significativa y adherirme al proceso de evaluación.
 
 Criterios de aceptación (BDD):
 
-- Dado un hito de progreso cumplido,
-  cuando el sistema lo detecte,
-  entonces se asignará un premio al usuario.
-- Dado un usuario con premios,
-  cuando consulte su perfil o sección de logros,
-  entonces verá su historial de premios.
+- Dado un hito de progreso conductual cumplido,
+  cuando el job diario se ejecute,
+  entonces se asignará el premio correspondiente al usuario.
+- Dado un usuario con premios asignados,
+  cuando consulte la sección de logros,
+  entonces verá los premios con imágenes diferenciadas según si están alcanzados o no.
+- Dado un usuario que responde preguntas para un hijo,
+  cuando solicite la lista diaria,
+  entonces recibirá hasta 5 preguntas filtradas por tipo de familia, sin repetir preguntas respondidas en los últimos 7 días, en orden aleatorio.
+- Dado un usuario en la pantalla de preguntas,
+  cuando seleccione una respuesta en la escala Likert (1–6),
+  entonces la interfaz mostrará el color correspondiente al valor y tipo de puntuación (normal o invertida), con animación de transición entre preguntas.
+- Dado que la respuesta se está enviando,
+  cuando el sistema procese la petición,
+  entonces los botones de respuesta y avance estarán desactivados hasta confirmar éxito o error.
 
 DoD:
 
-- Reglas de asignación de premios implementadas con lógica conductual (5 tipos: FirstSteps, EngagedFamily, Overcoming, PositiveEnvironment, SmallProgress) mediante job `CalculateAndSaveAwards` ejecutado diariamente.
-  - FirstSteps: ≥5 preguntas distintas respondidas.
-  - EngagedFamily: respuestas en 3 días consecutivos.
-  - Overcoming: puntuación mejorada ≥20% respecto al día anterior.
-  - PositiveEnvironment: puntuación > 80.
-  - SmallProgress: puntuación mejorada respecto al día anterior.
-- Persistencia y consulta de premios disponible (endpoint GET /users/{id}/awards).
-- Premios alcanzados distinguibles visualmente de los no alcanzados en Android (AwardActivity + RecyclerView con imágenes diferenciadas).
-- Repositorio `AwardRepositoryImpl` e interfaces de dominio `IAwardRepository` implementados en Android.
-- ViewModel (AwardViewModel + AwardViewModelFactory) con patrón MVVM.
-- Evidencia funcional en API y app Android.
+**Backend — Score y premios:**
+- ✅ Job `UpdateUsersScoreJob`: recalcula score diariamente (respuestas correctas × 100 / total, escala 0–100%). Tipos `Default` (1–4 positivos) y `Reversed` (5–6 positivos).
+- ✅ Job `CalculateAndSaveAwards`: evalúa y persiste 5 tipos de premio conductual:
+  - `FirstSteps`: ≥5 preguntas distintas respondidas.
+  - `EngagedFamily`: respuestas en 3 días consecutivos.
+  - `Overcoming`: puntuación mejorada ≥20% respecto al día anterior.
+  - `PositiveEnvironment`: puntuación > 80.
+  - `SmallProgress`: puntuación mejorada respecto al día anterior.
+- ✅ Endpoint GET `/users/{id}/awards` con `AwardDto`.
 
-Nota técnica: Se optó por premios de carácter conductual/cualitativo en lugar de umbrales numéricos, alineado con teorías de motivación intrínseca (autodeterminación). Decisión registrada en ADR.
+**Backend — Consulta de preguntas:**
+- ✅ Filtrado por `FamilyType` del usuario: las preguntas excluyen tipos de familia no aplicables (`Question.ExcludedFamilyTypes`).
+- ✅ Exclusión de preguntas respondidas en los últimos 7 días (ventana UTC): `GetRecentlyAnsweredQuestionIds` usa `DateTime.UtcNow.Date`.
+- ✅ Límite de 5 preguntas respondidas por día por hijo: `GetRemainingQuestions` con ventana UTC.
+- ✅ Selección aleatoria del conjunto disponible.
+- ✅ Campo `ScoringType` por pregunta: `Default` o `Reversed`.
+
+**Android — Pantalla de preguntas:**
+- ✅ Escala Likert extendida a 6 opciones (botones `likert_btn_1` a `likert_btn_6`).
+- ✅ Colores de los botones Likert reflejan el tipo de puntuación: orden normal para `Default`, invertido para `Reversed` (`updateLikertButtons`).
+- ✅ Barra de degradado alineada con el tipo de scoring.
+- ✅ Animación de transición al avanzar de pregunta (fade + slide horizontal).
+- ✅ Barra de progreso sin animación en carga inicial (`animate = false` → `setProgressCompat(progress, false)`).
+- ✅ Desactivación de flecha y botones Likert durante `UiState.Loading`; reactivación en `Success`/`Error`.
+- ✅ Guard en `QuestionViewModel.answerQuestion()`: retorno anticipado si ya hay una petición en vuelo.
+
+**Android — Premios:**
+- ✅ `AwardActivity` + `AwardViewModel` + `AwardViewModelFactory` + `AwardAdapter` con MVVM.
+- ✅ `IAwardRepository` + `AwardRepositoryImpl`.
+- ✅ Imágenes diferenciadas por tipo de premio (`AwardResources.kt`).
+- ✅ Navegación desde `MenuActivity`.
+
+Nota técnica: Se optó por premios de carácter conductual/cualitativo en lugar de umbrales numéricos fijos, alineado con teorías de motivación intrínseca (autodeterminación). Decisión registrada en ADR.
 
 ---
 
@@ -467,6 +500,101 @@ DoD:
 - ✅ Android: archivos `strings.xml` en `values/`, `values-en/` y `values-pt/` con textos de interfaz completos.
 - ✅ Entidades con campos de traducción: `Recommendation.TextEn`, `Recommendation.TextPt`; Question y otros recursos con campos equivalentes.
 - ✅ Migración de base de datos `AddTranslationColumns` aplicada.
+
+---
+
+## HU-017 - Mejoras en sistema de gamificación (premios conductuales)
+
+Estado: ✅ DONE (cerrado: 9 de mayo de 2026)
+Prioridad: Media
+Tipo: Funcional/Mejora
+Estimación: 3 puntos
+
+---
+
+## HU-018 - Sistema de Recomendaciones personalizadas
+
+Estado: ✅ DONE (cerrado: 9 de mayo de 2026)
+Prioridad: Alta
+Tipo: Funcional
+Estimación: 5 puntos
+
+Como usuario de CRIApp,
+quiero recibir recomendaciones personalizadas basadas en mis respuestas,
+para mejorar el bienestar de mi familia con contenido relevante a mi situación.
+
+Criterios de aceptación (BDD):
+
+- Dado un usuario con respuestas registradas,
+  cuando el admin asocie recomendaciones,
+  entonces el usuario podrá consultarlas desde la app en su idioma.
+- Dado un usuario con idioma configurado,
+  cuando acceda a recomendaciones,
+  entonces se mostrarán en ES, EN o PT según `Accept-Language`.
+
+DoD:
+
+- ✅ Entidad `Recommendation` con `Text`, `TextEn`, `TextPt`, asociada a `Question` y `User`.
+- ✅ Endpoint GET `/users/{id}/recommendations` con internacionalización.
+- ✅ Migrations: `AddRecommendationsToUsersTable`, `AddRecommendationTable`, `AddTranslationColumns`.
+- ✅ Android: `RecommendationActivity` + `RecommendationViewModel` + `RecommendationAdapter` + 45 imágenes (`rec_01.png` a `rec_45.png`) mapeadas en `RecommendationResources.kt`.
+
+---
+
+## HU-019 - Limpieza automática de códigos de reset de contraseña
+
+Estado: ✅ DONE (cerrado: 9 de mayo de 2026)
+Prioridad: Media
+Tipo: Técnica/Seguridad
+Estimación: 1 punto
+
+Como administrador del sistema,
+quiero que los códigos de reset de contraseña expirados sean eliminados automáticamente,
+para mantener la base de datos limpia y cumplir con buenas prácticas de seguridad.
+
+Criterios de aceptación (BDD):
+
+- Dado que un usuario solicitó un reset de contraseña hace más de 10 minutos,
+  cuando se ejecute el job de limpieza,
+  entonces el código será eliminado de la base de datos.
+- Dado un código de reset activo (< 10 min),
+  cuando se ejecute el job,
+  entonces no será eliminado.
+
+DoD:
+
+- ✅ Job `CleanUserResetPasswordCodesJob` implementado y registrado en Hangfire.
+- ✅ Criterio de expiración: antigüedad > 10 minutos.
+- ✅ Sin impacto en códigos activos validado.
+
+---
+
+## HU-020 - Mejoras en templates de email (diseño y localización)
+
+Estado: ✅ DONE (cerrado: 9 de mayo de 2026)
+Prioridad: Media
+Tipo: Funcional/Calidad
+Estimación: 2 puntos
+
+Como usuario de CRIApp,
+quiero recibir emails de bienvenida y recuperación de contraseña con un diseño profesional y localizado,
+para tener una experiencia de usuario coherente y de confianza.
+
+Criterios de aceptación (BDD):
+
+- Dado un usuario que se registra o solicita reset de contraseña,
+  cuando reciba el email,
+  entonces el contenido estará en su idioma (ES/EN/PT) con logo y diseño HTML completo.
+- Dado el logo de la aplicación,
+  cuando se envíe el email,
+  entonces el logo estará embebido como adjunto inline (CID), no como enlace externo.
+
+DoD:
+
+- ✅ Logo embebido como adjunto inline en el email.
+- ✅ `EmailMessages.resx` en ES/EN/PT con cobertura completa de ambos flujos (creación de cuenta y recuperación de contraseña).
+- ✅ Templates HTML con variables localizadas: asunto, título, preheader, heading, cuerpo, pie de página.
+- ✅ SMS de creación de cuenta y recuperación de contraseña localizados.
 
 ---
 
