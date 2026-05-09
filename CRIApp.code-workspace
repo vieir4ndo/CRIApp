@@ -1,5 +1,6 @@
 {
   "folders": [
+    { "path": ".github", "name": "AI" },
     { "path": "api", "name": "API" },
     { "path": "android", "name": "Android" },
     { "path": "docs", "name": "Docs" }
