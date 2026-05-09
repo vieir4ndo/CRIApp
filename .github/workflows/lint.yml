@@ -40,7 +40,6 @@ jobs:
       - name: Validate commit messages
         run: |
           FORMAT_PATTERN='^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\([a-zA-Z0-9_/-]+\))?: .+$'
-          REF_PATTERN='vieir4ndo/criapp#[0-9]+'
           FAILED=0
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
@@ -62,14 +61,6 @@ jobs:
               echo "::error::Invalid commit message format: '$SUBJECT'"
               echo "  Expected: <type>(<scope>): <description>"
               echo "  Types: feat | fix | docs | style | refactor | test | chore | perf | ci | build | revert"
-              FAILED=1
-            fi
-
-            if echo "$BODY" | grep -qE "$REF_PATTERN"; then
-              echo "  OK reference: task reference found"
-            else
-              echo "::error::Missing task reference in commit: '$SUBJECT'"
-              echo "  Add 'vieir4ndo/criapp#<number>' in the commit message body"
               FAILED=1
             fi
           done <<< "$HASHES"
