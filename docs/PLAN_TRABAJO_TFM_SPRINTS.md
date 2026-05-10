@@ -19,12 +19,12 @@ Convertir las historias de usuario existentes en una hoja de ruta semanal realis
 - Capacidad media: 6-8 puntos por semana.
 - Velocidad objetivo para planificar: 7 puntos/semana.
 - Total de puntos en backlog original: 81 puntos.
-- Puntos ya entregados (semanas 1-5): ~50 puntos.
-- Puntos nuevos incorporados (HU-021 a HU-025): 18 puntos.
-- Puntos restantes estimados: ~49 puntos.
+- Puntos ya entregados (semanas 1-5): ~68 puntos (incluyendo HU-010, HU-011, HU-021, HU-022, HU-023, HU-024 adelantadas).
+- Puntos nuevos incorporados (HU-026 a HU-031): 21 puntos.
+- Puntos restantes estimados: ~49 puntos (HU-025 + HU-026 a HU-031 + HU-009 + HU-012 + HU-014 + HU-015).
 - Duración restante: 7 semanas productivas (18 may — 30 jun) + pausa semana 6.
 
-Nota: HU-014 (memoria final) se trabaja en paralelo desde la semana 9, no se deja para el final.
+Nota: HU-014 (memoria final) se trabaja en paralelo desde la semana 11, no se deja para el final.
 
 ## 3. Política de metodología (cómo ejecutar cada semana)
 
@@ -89,9 +89,14 @@ Políticas:
 - HU-018 Sistema de Recomendaciones personalizadas — DONE (adelantada)
 - HU-019 Limpieza automática de códigos de reset — DONE (adelantada)
 - HU-020 Mejoras en templates de email — DONE (adelantada)
-- HU-010 Desactivación de cuenta — backend DONE, Android pendiente
+- HU-010 Desactivación de cuenta — DONE completo end-to-end (backend + Android)
+- HU-011 Visualización robusta de recursos audiovisuales — DONE (adelantada)
+- HU-021 Entidad ChildBook: libro de progreso del hijo — DONE (adelantada)
+- HU-022 Premios del hijo con traducciones en BD — DONE (adelantada)
+- HU-023 Renombrar Recomendación a Consejo — DONE (adelantada)
+- HU-024 Desacoplamiento de admin en FAQ, Question y Consejo — DONE (adelantada)
 
-Nota retrospectiva: Las semanas 4-5 fueron altamente productivas. Se adelantaron HU-016/017/018/019/020 y se cerró HU-008 con un alcance ampliado. La semana 2 (17 de abril) resultó ser también extraordinariamente productiva: se completaron HU-005, HU-006, HU-007 y HU-013 en un único día de trabajo intenso vinculado al despliegue en Azure. Las HU-013 y HU-006 previstas originalmente para semanas posteriores quedaron cerradas semanas antes.
+Nota retrospectiva: Las semanas 4-5 fueron extraordinariamente productivas. Se adelantaron HU-016/017/018/019/020 y se cerró HU-008 con alcance ampliado. Además, se completaron anticipadamente HU-010, HU-011, HU-021, HU-022, HU-023 y HU-024 — historias originalmente planificadas para las semanas 7–10. El análisis del protocolo HEFAS (10 mayo) identificó el bucle conductual de verificación de rutinas como funcionalidad nuclear no implementada, originando las HU-026 a HU-031.
 
 ---
 
@@ -105,54 +110,57 @@ Sin trabajo en el TFM esta semana.
 
 ### Semana 7 (18 may - 24 may)
 
-Objetivo: limpieza semántica del dominio — rename y decouple.
+Objetivo: iniciar el bucle conductual HEFAS — rename semántico y checkpoint backend.
 
-- HU-023 Renombrar Recomendación a Consejo (2 pts)
-- HU-024 Desacoplamiento de admin en FAQ, Question y Consejo (5 pts)
+- HU-026 Renombrar Advice a Recommendation (alineación HEFAS) (2 pts)
+- HU-027 RecommendationCheckpoint — entidad, endpoints y lógica backend (5 pts)
 
-Orden dentro de la semana: HU-023 primero (prerequisito semántico para HU-024).
+Orden dentro de la semana: HU-026 primero (prerequisito semántico, bajo riesgo). HU-027 a continuación sobre la base renombrada.
 Carga objetivo: ~7 pts
-Resultado esperado: nomenclatura de dominio unificada, `AdminId`/`Admin` eliminados de las tres entidades, suite de tests en verde.
+Resultado esperado: entidad `Recommendation` con nombre correcto; entidad `RecommendationCheckpoint` persistida; endpoint `POST .../checkpoint` operativo; `GET /child/{id}/book` devuelve `TodayCompleted` por recomendación.
 
-Nota: HU-009 (notificaciones push) se pospone deliberadamente. La lógica del job verifica actividad por usuario (`user.Answers`), que tras HU-021 pasará a vivir por hijo dentro de `ChildBook`. Implementar las notificaciones ahora implicaría reescribir la lógica del job semanas después. Se implementará en la semana 10, cuando el dominio esté estable.
+Nota: HU-023 y HU-024 (originalmente previstas para esta semana) ya están cerradas como parte del sprint anticipado de la semana 5.
 
 ---
 
 ### Semana 8 (25 may - 31 may)
 
-Objetivo: agrupación de preguntas y cierre de la desactivación de cuenta.
+Objetivo: agrupación de preguntas + score basado en checkpoints.
 
 - HU-025 Agrupación de preguntas y rotación por grupo (3 pts)
-- HU-010 Desactivación de cuenta — cierre Android: botón en ProfileActivity, confirmación, cierre de sesión automático (3 pts)
+- HU-028 Actualización del score basada en checkpoints de rutinas (3 pts)
 
+Orden dentro de la semana: HU-025 primero (independiente, bajo riesgo). HU-028 al final (depende de HU-027 de la semana anterior).
 Carga objetivo: ~6 pts
-Resultado esperado: selección diaria de preguntas equilibrada por grupo temático; flujo de desactivación de cuenta completo end-to-end.
+Resultado esperado: selección diaria de preguntas equilibrada por grupo temático; score `ChildBook` combina cuestionario (70%) y checkpoints de rutinas (30%).
+
+Nota: HU-010 (desactivación) ya está cerrada; HU-025 se mantiene en esta semana sin cambio.
 
 ---
 
 ### Semana 9 (1 jun - 7 jun)
 
-Objetivo: refactoring estructural mayor — ChildBook.
+Objetivo: Android — verificación de rutinas y nuevos premios conductuales.
 
-- HU-021 Entidad ChildBook: libro de progreso del hijo (5 pts)
-- HU-011 Visualización robusta de recursos audiovisuales (3 pts)
+- HU-030 Android — verificación diaria de rutinas en pantalla de recomendaciones (5 pts)
+- HU-029 Nuevos premios por racha de checkpoints (`HabitBuilder`, `ConsistentParent`) (3 pts)
 
-Orden dentro de la semana: HU-021 primero (bloque invasivo, no mezclar con funcionalidades nuevas). HU-011 al final de la semana como tarea de menor riesgo.
+Orden dentro de la semana: HU-030 primero (UX visible, depende de HU-027). HU-029 al final (backend, menor impacto visible).
 Carga objetivo: ~8 pts
-Resultado esperado: `Score` y `Awards` desacoplados de `User` y viviendo en `ChildBook`; visualización de recursos validada con manejo de errores.
+Resultado esperado: el PCR puede marcar YES/NO por rutina desde la app; dos nuevos tipos de premio por constancia operativos.
 
 ---
 
 ### Semana 10 (8 jun - 14 jun)
 
-Objetivo: traducciones de premios + notificaciones push (dominio ya estable).
+Objetivo: notificaciones basadas en checkpoints + cierre de HU-009.
 
-- HU-022 Premios del hijo con traducciones en BD (3 pts) — depende de HU-021
+- HU-031 Notificaciones basadas en checkpoints de rutinas (cadencia 2/3/7 días) (3 pts)
 - HU-009 Notificaciones útiles — integración FCM/push notifications Android (5 pts)
 
-Orden dentro de la semana: HU-022 primero (pequeño, sobre el ChildBook recién creado). HU-009 a continuación, con la lógica del job actualizada para operar sobre `ChildBook` en lugar de `User`.
+Orden dentro de la semana: HU-031 primero (actualiza el job existente con lógica de checkpoint). HU-009 a continuación para el canal push nativo.
 Carga objetivo: ~8 pts
-Resultado esperado: `AwardDto` localizado; notificaciones push operativas con lógica correcta post-refactoring.
+Resultado esperado: notificaciones motivacionales y de alerta según cadencia HEFAS; notificaciones push nativas en Android operativas.
 
 ---
 
@@ -193,11 +201,14 @@ Resultado esperado: memoria entregada y defensa lista para el tribunal.
 ## 7. Resumen por fases
 
 - Fase 1 — Semanas 1-3 ✅: Anteproyecto + fundamentos técnicos Android + seguridad + tests + logging + despliegue cloud.
-- Fase 2 — Semanas 4-5 ✅: Gamificación, recomendaciones, i18n, emails.
+- Fase 2 — Semanas 4-5 ✅: Gamificación, recomendaciones, i18n, emails, ChildBook, premios localizados, rename dominio, desacoplamiento admin, desactivación, audiovisual.
 - Fase 3 — Semana 6: Pausa.
-- Fase 4 — Semana 7: Limpieza semántica del dominio (rename Consejo + decouple admin).
-- Fase 5 — Semana 8: Agrupación de preguntas + desactivación de cuenta Android.
-- Fase 6 — Semana 9: ChildBook (refactoring estructural mayor) + audiovisual.
+- Fase 4 — Semana 7: Bucle conductual HEFAS — rename Advice→Recommendation + RecommendationCheckpoint backend.
+- Fase 5 — Semana 8: Agrupación de preguntas + score basado en checkpoints.
+- Fase 6 — Semana 9: Android — verificación de rutinas YES/NO + nuevos premios de racha.
+- Fase 7 — Semana 10: Notificaciones basadas en checkpoints + push nativo Android (HU-009).
+- Fase 8 — Semana 11: Historial de notificaciones + arranque de memoria.
+- Fase 9 — Semanas 12-13: Memoria final + preparación de defensa.
 - Fase 7 — Semana 10: Traducciones de premios + notificaciones push (sobre dominio limpo).
 - Fase 8 — Semana 11: Historial de notificaciones + arranque de memoria.
 - Fase 9 — Semanas 12-13: Memoria final + preparación de defensa.
@@ -214,9 +225,9 @@ Resultado esperado: memoria entregada y defensa lista para el tribunal.
 | HU-006 | Pruebas backend de servicios críticos | ✅ DONE |
 | HU-007 | Observabilidad y logging estructurado | ✅ DONE |
 | HU-008 | Sistema de gamificación (premios, score, preguntas, UI) | ✅ DONE |
-| HU-009 | Notificaciones útiles | ⏸ EN PAUSA — Semana 10 (pospuesto tras HU-021) |
-| HU-010 | Desactivación de cuenta end-to-end | 🔄 EN PROGRESO — Semana 8 (backend ✅) |
-| HU-011 | Visualización robusta de recursos audiovisuales | ⬜ Semana 9 |
+| HU-009 | Notificaciones útiles | ⏸ EN PAUSA — Semana 10 (depende de HU-027) |
+| HU-010 | Desactivación de cuenta end-to-end | ✅ DONE (10 may) |
+| HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE (9 may) |
 | HU-012 | Consulta de historial de notificaciones | ⬜ Semana 11 |
 | HU-013 | Despliegue cloud gratuito de API | ✅ DONE |
 | HU-014 | Memoria final del TFM | ⬜ Semanas 11-13 |
@@ -226,11 +237,17 @@ Resultado esperado: memoria entregada y defensa lista para el tribunal.
 | HU-018 | Sistema de Recomendaciones personalizadas | ✅ DONE |
 | HU-019 | Limpieza automática de códigos de reset | ✅ DONE |
 | HU-020 | Mejoras en templates de email | ✅ DONE |
-| HU-021 | Entidad ChildBook: libro de progreso del hijo | ⬜ Semana 9 |
-| HU-022 | Premios del hijo con traducciones en BD | ⬜ Semana 10 (dep. HU-021) |
-| HU-023 | Renombrar Recomendación a Consejo | ⬜ Semana 7 |
-| HU-024 | Desacoplamiento de admin en FAQ, Question y Consejo | ⬜ Semana 7 (dep. HU-023) |
+| HU-021 | Entidad ChildBook: libro de progreso del hijo | ✅ DONE (10 may) |
+| HU-022 | Premios del hijo con traducciones en BD | ✅ DONE (10 may) |
+| HU-023 | Renombrar Recomendación a Consejo | ✅ DONE (10 may) |
+| HU-024 | Desacoplamiento de admin en FAQ, Question y Consejo | ✅ DONE (10 may) |
 | HU-025 | Agrupación de preguntas y rotación por grupo | ⬜ Semana 8 |
+| HU-026 | Renombrar Advice a Recommendation (HEFAS) | ⬜ Semana 7 |
+| HU-027 | RecommendationCheckpoint — backend | ⬜ Semana 7 |
+| HU-028 | Score basado en checkpoints de rutinas | ⬜ Semana 8 |
+| HU-029 | Nuevos premios por racha de checkpoints | ⬜ Semana 9 |
+| HU-030 | Android — verificación diaria de rutinas | ⬜ Semana 9 |
+| HU-031 | Notificaciones basadas en checkpoints | ⬜ Semana 10 |
 
 ## 9. Regla práctica para mover tarjetas en Git Projects
 

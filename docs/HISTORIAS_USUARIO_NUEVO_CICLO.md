@@ -1,10 +1,10 @@
 # CRIApp - Revisión de Trello, Requisitos v1.4 y Nuevas Historias de Usuario
 
-Fecha: 30 de marzo de 2026 | Última actualización: 9 de mayo de 2026
-Objetivo: alinear el backlog del nuevo ciclo con la auditoría del board histórico y con el documento de requisitos técnicos v1.4 (estado real de implementación).
-Versión: 1.4
+Fecha: 30 de marzo de 2026 | Última actualización: 10 de mayo de 2026
+Objetivo: alinear el backlog del nuevo ciclo con la auditoría del board histórico y con el documento de requisitos técnicos v1.5 (estado real de implementación).
+Versión: 1.5
 
-## Estado global del backlog (8 mayo 2026)
+## Estado global del backlog (10 mayo 2026)
 
 | HU | Título | Estado |
 |----|--------|--------|
@@ -16,9 +16,9 @@ Versión: 1.4
 | HU-006 | Pruebas backend de servicios críticos | ✅ DONE (17 abr) |
 | HU-007 | Observabilidad y logging estructurado | ✅ DONE (17 abr) |
 | HU-008 | Sistema de premios por progreso | ✅ DONE |
-| HU-009 | Notificaciones útiles | 🔄 EN PROGRESO |
-| HU-010 | Desactivación de cuenta end-to-end | 🔄 EN PROGRESO (backend ✅) |
-| HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE |
+| HU-009 | Notificaciones útiles | 🔄 EN PROGRESO (depende de HU-027) |
+| HU-010 | Desactivación de cuenta end-to-end | ✅ DONE (10 may) |
+| HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE (9 may) |
 | HU-012 | Consulta de historial de notificaciones | ⬜ No iniciado |
 | HU-013 | Despliegue cloud gratuito de API | ✅ DONE (17 abr — Azure) |
 | HU-014 | Memoria final del TFM | ⬜ No iniciado |
@@ -28,11 +28,17 @@ Versión: 1.4
 | HU-018 | Sistema de Recomendaciones personalizadas | ✅ DONE |
 | HU-019 | Limpieza automática de códigos de reset de contraseña | ✅ DONE |
 | HU-020 | Mejoras en templates de email (diseño y localización) | ✅ DONE |
-| HU-021 | Entidad ChildBook: libro de progreso del hijo | ⬜ No iniciado |
-| HU-022 | Premios del hijo con traducciones en BD | ⬜ No iniciado |
-| HU-023 | Renombrar Recomendación a Consejo | ⬜ No iniciado |
-| HU-024 | Desacoplamiento de admin en FAQ, Question y Consejo | ⬜ No iniciado |
+| HU-021 | Entidad ChildBook: libro de progreso del hijo | ✅ DONE (10 may) |
+| HU-022 | Premios del hijo con traducciones en BD | ✅ DONE (10 may) |
+| HU-023 | Renombrar Recomendación a Consejo | ✅ DONE (10 may) |
+| HU-024 | Desacoplamiento de admin en FAQ, Question y Consejo | ✅ DONE (10 may) |
 | HU-025 | Agrupación de preguntas y rotación por grupo | ⬜ No iniciado |
+| HU-026 | Renombrar Advice a Recommendation (alineación HEFAS) | ⬜ No iniciado |
+| HU-027 | RecommendationCheckpoint — verificación de rutinas backend | ⬜ No iniciado |
+| HU-028 | Actualización del score basada en checkpoints de rutinas | ⬜ No iniciado |
+| HU-029 | Nuevos premios por racha de checkpoints | ⬜ No iniciado |
+| HU-030 | Android — verificación diaria de rutinas en pantalla de recomendaciones | ⬜ No iniciado |
+| HU-031 | Notificaciones basadas en checkpoints de rutinas | ⬜ No iniciado |
 
 ## 1. Backlog nuevo de historias de usuario (siguiendo formato de teoría)
 
@@ -917,3 +923,263 @@ DoD:
 - Presentación final de defensa completada.
 - Script de demo y plan de contingencia preparados.
 - Ensayo cronometrado realizado al menos una vez.
+
+---
+
+## Grupo H — Bucle conductual HEFAS (loop de verificación de rutinas)
+
+Contexto: tras el análisis del protocolo HEFAS, se identificó que el sistema de orientaciones/recomendaciones no es solo un listado estático. El protocolo exige que la app pregunte periódicamente al PCR si ha realizado las rutinas asignadas, recompense la constancia y reprograme la evaluación a los 7 días. Las HU-026 a HU-031 implementan este bucle completo.
+
+---
+
+## HU-026 - Renombrar Advice a Recommendation (alineación protocolo HEFAS)
+
+Prioridad: Alta
+Tipo: Técnica/Semántica
+Estimación: 2 puntos
+
+Como equipo de desarrollo,
+quiero renombrar la entidad `Advice` (Consejo) a `Recommendation` en toda la plataforma,
+para alinear la terminología del código con el protocolo HEFAS, que denomina "orientación/recomendación" a las guías parentales generadas tras la evaluación.
+
+Contexto técnico:
+
+La entidad fue renombrada de `Recommendation` a `Consejo`/`Advice` en HU-023. Tras el análisis del protocolo HEFAS, el término correcto del dominio científico es "recomendación u orientación". El término `Consejo` introduce ambigüedad semántica en el contexto académico. Este cambio es el prerequisito para HU-027, que introduce `RecommendationCheckpoint`.
+
+Criterios de aceptación (BDD):
+
+- Dada la entidad `Advice` en el dominio,
+  cuando se complete el renombrado,
+  entonces toda la cadena (entidad, repositorio, DTO, controlador, tests) usará `Recommendation`.
+- Dado el endpoint `/child/{id}/book` que expone las orientaciones como `advices`,
+  cuando se renombre,
+  entonces el campo JSON pasará a llamarse `recommendations`.
+- Dado el trabajo ya realizado en HU-023,
+  cuando se aplique esta HU,
+  entonces no se modificará lógica de negocio; solo nombres de clases, tablas y variables.
+
+DoD:
+
+- Entidad `Advice` → `Recommendation` en `CRIApp.Domain`.
+- Tabla `advices` renombrada → `recommendations` (migration).
+- Tabla de relación `child_book_advices` → `child_book_recommendations` (migration).
+- `IAdviceRepository` → `IRecommendationRepository`.
+- `AdviceDto` → `RecommendationDto` con campo JSON `recommendations`.
+- Job `SaveUsersAdvices` → `SaveUsersRecommendations`.
+- `ChildBook.Advices` → `ChildBook.Recommendations`.
+- Android: `AdviceActivity`, `AdviceAdapter`, modelos e interfaces renombrados; cadenas de UI actualizadas.
+- Todos los tests actualizados y pasando.
+- Migration de BD aplicada sin pérdida de datos.
+
+---
+
+## HU-027 - RecommendationCheckpoint — sistema de verificación de rutinas (backend)
+
+Prioridad: Alta
+Tipo: Funcional/Dominio
+Estimación: 5 puntos
+
+Como PCR (persona con responsabilidad parental),
+quiero que la app me pregunte diariamente si he realizado las rutinas de las recomendaciones asignadas,
+para que el sistema registre mi constancia y me proporcione retroalimentación sobre mi progreso conductual.
+
+Contexto técnico (protocolo HEFAS):
+
+El protocolo HEFAS establece que el criterio de orientación binario (0 = necesita orientación, 1 = no necesaria) genera una recomendación activa. La app debe verificar periódicamente si el PCR aplica la rutina recomendada. Esta verificación es el núcleo del bucle conductual:
+`cuestionario → recomendación activa → verificación diaria → puntos → premios → reevaluación`.
+
+Criterios de aceptación (BDD):
+
+- Dada una recomendación activa asignada a un ChildBook,
+  cuando el PCR confirme haber realizado la rutina (YES),
+  entonces el sistema registrará un `RecommendationCheckpoint` con `completed = true` para la fecha.
+- Dada una recomendación activa asignada a un ChildBook,
+  cuando el PCR indique no haber realizado la rutina (NO),
+  entonces el sistema registrará un `RecommendationCheckpoint` con `completed = false`.
+- Dado un checkpoint ya registrado para hoy,
+  cuando se intente registrar otro para la misma recomendación y fecha,
+  entonces la API devolverá error de validación (no se permite duplicado por día).
+- Dado el endpoint `GET /child/{childId}/book`,
+  cuando devuelva las recomendaciones,
+  entonces incluirá el estado del checkpoint de hoy (`todayCompleted: bool?`) para cada recomendación.
+
+DoD:
+
+- Entidad `RecommendationCheckpoint` creada: `RecommendationId` (FK), `ChildBookId` (FK), `Date` (UTC), `Completed` (bool).
+- Clave única compuesta `(RecommendationId, ChildBookId, Date)` para evitar duplicados diarios.
+- Endpoint `POST /child/{childId}/book/recommendations/{recommendationId}/checkpoint` con body `{ completed: bool }`.
+- `ChildBookDto` extendido: cada `RecommendationDto` incluye `TodayCompleted: bool?` (null si no hay checkpoint hoy).
+- Migration `AddRecommendationCheckpointTable` aplicada.
+- Tests unitarios para el servicio de checkpoint (caso happy path, caso duplicado).
+
+---
+
+## HU-028 - Actualización del score basada en checkpoints de rutinas
+
+Prioridad: Alta
+Tipo: Funcional/Dominio
+Estimación: 3 puntos
+
+Como PCR,
+quiero que mi puntuación de progreso refleje tanto mis respuestas al cuestionario como el seguimiento de las rutinas recomendadas,
+para que el score mida mi comportamiento parental real y no solo mis respuestas a preguntas.
+
+Contexto técnico:
+
+El score actual (`ChildBook.UpdateScore`) se basa únicamente en las respuestas al cuestionario HEFAS. El protocolo establece que la mejora se mide por la aplicación de las orientaciones. La fórmula propuesta es:
+
+```
+score = (respuestas_correctas / total_preguntas) × 70
+      + (checkpoints_completados / total_recomendaciones_activas) × 30
+```
+
+Este cambio hace que el score refleje tanto el diagnóstico (cuestionario) como el comportamiento de seguimiento (checkpoints).
+
+Criterios de aceptación (BDD):
+
+- Dado un ChildBook con respuestas y checkpoints de hoy,
+  cuando se ejecute el job de score,
+  entonces el score combinará ambas métricas según la fórmula definida.
+- Dado un ChildBook sin recomendaciones activas,
+  cuando se calcule el score,
+  entonces se aplicará la fórmula solo sobre respuestas (peso 100%, sin dividir por 0).
+- Dado un ChildBook con recomendaciones pero sin checkpoints de hoy,
+  cuando se calcule el score,
+  entonces los checkpoints contribuirán con 0 al componente de rutinas.
+
+DoD:
+
+- `ChildBook.UpdateScore()` actualizado para recibir también la lista de `RecommendationCheckpoint` del día.
+- Fórmula `70/30` implementada en dominio.
+- `UpdateChildBookScoreJob` adaptado para pasar checkpoints al método de score.
+- Tests unitarios para la nueva fórmula (sin checkpoints, con checkpoints parciales, con todos completados).
+- Documentada la decisión de diseño (fórmula 70/30) en ADR o en el DoD de la HU.
+
+---
+
+## HU-029 - Nuevos premios por racha de checkpoints de rutinas
+
+Prioridad: Media
+Tipo: Funcional/Gamificación
+Estimación: 3 puntos
+
+Como PCR,
+quiero recibir premios especiales cuando mantengo una racha de días cumpliendo las rutinas recomendadas,
+para sentirme reconocido por mi constancia y mantener la motivación.
+
+Contexto técnico:
+
+Los premios actuales (`CalculateAndSaveAwards`) se basan en respuestas al cuestionario. El protocolo HEFAS introduce una capa de gamificación sobre el seguimiento de rutinas. Los nuevos tipos de premio son conductuales sobre checkpoints.
+
+Criterios de aceptación (BDD):
+
+- Dado un ChildBook con checkpoints completados 3 días consecutivos,
+  cuando el job de premios se ejecute,
+  entonces se asignará el premio `HabitBuilder`.
+- Dado un ChildBook con al menos un checkpoint completado en 7 días distintos,
+  cuando el job se ejecute,
+  entonces se asignará el premio `ConsistentParent`.
+- Dado que un premio ya fue asignado,
+  cuando el job vuelva a ejecutarse,
+  entonces no se duplicará (comportamiento idempotente existente).
+
+DoD:
+
+- `AwardType` extendido con `HabitBuilder = 6` y `ConsistentParent = 7`.
+- `EvaluateHabitBuilder()` y `EvaluateConsistentParent()` añadidos a `CalculateAndSaveAwards`.
+- Seed de datos en BD para los dos nuevos tipos de premio (texto ES/EN/PT + imagen).
+- Android: nuevas imágenes y cadenas de texto para los dos nuevos tipos en `AwardResources`.
+- Tests unitarios para las dos nuevas condiciones de evaluación.
+
+---
+
+## HU-030 - Android — verificación diaria de rutinas en pantalla de recomendaciones
+
+Prioridad: Alta
+Tipo: Funcional/UX
+Estimación: 5 puntos
+
+Como PCR,
+quiero poder indicar en la app si he realizado hoy la rutina recomendada,
+para que el sistema registre mi progreso y me recompense por la constancia.
+
+Contexto técnico:
+
+La pantalla actual (`AdviceActivity` / `RecommendationActivity` tras HU-026) muestra las recomendaciones asignadas en un ViewPager de solo lectura. Esta HU añade la interacción de verificación diaria:
+
+```
+[imagen + texto de recomendación]
+¿Has realizado esta rutina hoy?
+[ ✅ Sí, lo hice ]   [ ❌ Todavía no ]
+```
+
+Criterios de aceptación (BDD):
+
+- Dado que el PCR ve una recomendación en el carrusel,
+  cuando pulse "Sí, lo hice",
+  entonces la app llamará al endpoint de checkpoint con `completed = true` y mostrará confirmación visual.
+- Dado que el PCR pulsa "Todavía no",
+  cuando se procese,
+  entonces se llamará al endpoint con `completed = false` y se mostrará mensaje motivacional.
+- Dado que ya se registró un checkpoint hoy para esa recomendación,
+  cuando el PCR abra la pantalla,
+  entonces los botones estarán desactivados y se mostrará el estado del checkpoint registrado.
+- Dado un error de red al registrar el checkpoint,
+  cuando falle la llamada,
+  entonces se mostrará mensaje de error controlado sin dejar la UI en estado inconsistente.
+
+DoD:
+
+- `RecommendationActivity` (o `AdviceActivity`) actualizada con botones YES/NO por card.
+- `RecommendationViewModel` con método `registerCheckpoint(recommendationId, childId, completed)`.
+- `IRecommendationRepository` extendido con `registerCheckpoint(...)`.
+- `RecommendationRepositoryImpl` implementa la llamada al endpoint `POST .../checkpoint`.
+- Estado `TodayCompleted` recibido del backend en `RecommendationDto` usado para pre-set de UI.
+- Desactivación de botones durante la llamada en vuelo (`UiState.Loading`).
+- Strings `"¿Has realizado esta rutina hoy?"`, `"Sí, lo hice"`, `"Todavía no"` en ES/EN/PT.
+- Tests unitarios del ViewModel para checkpoint (happy path + error de red).
+
+---
+
+## HU-031 - Notificaciones basadas en checkpoints de rutinas
+
+Prioridad: Media
+Tipo: Funcional
+Estimación: 3 puntos
+
+Como PCR,
+quiero recibir notificaciones recordándome realizar las rutinas recomendadas cuando llevo días sin verificarlas,
+para mantener la constancia en el seguimiento de las orientaciones parentales.
+
+Contexto técnico (protocolo HEFAS):
+
+El protocolo establece una cadencia específica de notificaciones post-recomendación:
+- Tras 2 días sin checkpoint completado → notificación motivacional.
+- Tras 3 días sin checkpoint → aviso de riesgo de pérdida de puntos.
+- Tras 7 días sin actividad → invitación a reevaluar el cuestionario HEFAS.
+
+Esta HU actualiza el job `NotifyUsersWithLessThanTenAnswersJob` (que actualmente es un skeleton) para incluir esta lógica de checkpoint.
+
+Criterios de aceptación (BDD):
+
+- Dado un ChildBook con recomendaciones activas y sin checkpoints en los últimos 2 días,
+  cuando el job se ejecute,
+  entonces se enviará notificación motivacional al PCR.
+- Dado un ChildBook sin checkpoints en los últimos 3 días,
+  cuando el job se ejecute,
+  entonces se enviará notificación de aviso de puntos.
+- Dado un ChildBook sin ningún checkpoint ni respuesta en 7 días,
+  cuando el job se ejecute,
+  entonces se enviará notificación invitando a reevaluar el cuestionario.
+- Dado un PCR que ya recibió una notificación de tipo X hoy,
+  cuando el job vuelva a ejecutarse,
+  entonces no se duplicará el envío.
+
+DoD:
+
+- Job `NotifyUsersWithCheckpointRemindersJob` creado (o `NotifyUsersWithLessThanTenAnswersJob` actualizado).
+- Lógica de evaluación de 2/3/7 días implementada sobre `RecommendationCheckpoint`.
+- Integración con canal de mensajería existente (email/SMS según configuración).
+- Plantillas de notificación en ES/EN/PT en `EmailMessages.resx`.
+- Control anti-duplicado: máximo una notificación de cada tipo por ChildBook por día.
+- Tests unitarios para la lógica de cadencia (2/3/7 días).
