@@ -28,6 +28,11 @@ Versión: 1.4
 | HU-018 | Sistema de Recomendaciones personalizadas | ✅ DONE |
 | HU-019 | Limpieza automática de códigos de reset de contraseña | ✅ DONE |
 | HU-020 | Mejoras en templates de email (diseño y localización) | ✅ DONE |
+| HU-021 | Entidad ChildBook: libro de progreso del hijo | ⬜ No iniciado |
+| HU-022 | Premios del hijo con traducciones en BD | ⬜ No iniciado |
+| HU-023 | Renombrar Recomendación a Consejo | ⬜ No iniciado |
+| HU-024 | Desacoplamiento de admin en FAQ, Question y Consejo | ⬜ No iniciado |
+| HU-025 | Agrupación de preguntas y rotación por grupo | ⬜ No iniciado |
 
 ## 1. Backlog nuevo de historias de usuario (siguiendo formato de teoría)
 
@@ -624,6 +629,234 @@ DoD:
 - ✅ `EmailMessages.resx` en ES/EN/PT con cobertura completa de ambos flujos (creación de cuenta y recuperación de contraseña).
 - ✅ Templates HTML con variables localizadas: asunto, título, preheader, heading, cuerpo, pie de página.
 - ✅ SMS de creación de cuenta y recuperación de contraseña localizados.
+
+---
+
+## Grupo G — Refactoring de dominio
+
+---
+
+## HU-021 - Entidad ChildBook: libro de progreso del hijo
+
+Prioridad: Alta
+Tipo: Técnica/Refactoring
+Estimación: 5 puntos
+
+Como desarrollador,
+quiero crear una entidad `ChildBook` que centralice el progreso de cada hijo,
+para eliminar el acoplamiento actual donde `Score`, `ScoreLastUpdatedAt` y `Awards` viven en `User` en lugar de en el hijo al que pertenecen.
+
+Contexto técnico:
+
+Actualmente la entidad `User` acumula datos de progreso (`Score`, `ScoreLastUpdatedAt`, `List<Award>`) que semánticamente pertenecen al proceso de evaluación de un hijo concreto. Esto genera acoplamiento y dificulta escalar el modelo cuando un PCR tiene varios hijos. La entidad `ChildBook` actúa como agregado que contiene todo lo relativo al progreso de un hijo específico.
+
+Criterios de aceptación (BDD):
+
+- Dado un hijo registrado en el sistema,
+  cuando el sistema procese sus respuestas y calcule su progreso,
+  entonces los datos (`Score`, `ScoreLastUpdatedAt`) quedarán persistidos en `ChildBook`, no en `User`.
+- Dado un PCR con múltiples hijos,
+  cuando consulte el progreso de cada uno,
+  entonces cada hijo dispondrá de su propio `ChildBook` independiente.
+- Dado el refactoring de `User`,
+  cuando se complete la migración,
+  entonces los campos `Score`, `ScoreLastUpdatedAt` y la relación `Awards` serán eliminados de `User`.
+- Dado el repositorio y servicio existentes de puntuación y premios,
+  cuando se adapten a la nueva estructura,
+  entonces los jobs `UpdateUsersScoreJob` y `CalculateAndSaveAwards` operarán sobre `ChildBook` en lugar de `User`.
+
+DoD:
+
+- Entidad `ChildBook` creada en `CRIApp.Domain/Entities/ChildBook.cs` con: `ChildId` (FK), `Score`, `ScoreLastUpdatedAt`, `List<Award>`.
+- Relación `Child 1–1 ChildBook` configurada en EF Core (mapping y migration).
+- `Score` y `ScoreLastUpdatedAt` eliminados de `User`.
+- Relación `User.Awards` migrada a `ChildBook.Awards`.
+- Jobs `UpdateUsersScoreJob` y `CalculateAndSaveAwards` adaptados.
+- Endpoint GET `/children/{childId}/book` o integrado en la respuesta de `/children/{childId}`.
+- Pruebas unitarias actualizadas para reflejar el nuevo modelo.
+- Migration de base de datos aplicada sin pérdida de datos.
+
+---
+
+## HU-022 - Premios del hijo con traducciones en BD
+
+Prioridad: Media
+Tipo: Funcional/Dominio
+Estimación: 3 puntos
+
+Como PCR (persona con responsabilidad parental) que usa la app en inglés o portugués,
+quiero que los nombres y descripciones de los premios de mi hijo aparezcan en mi idioma,
+para entender el significado de cada logro sin barreras lingüísticas.
+
+Contexto técnico:
+
+Actualmente `Award` almacena sólo `AwardType` (enum entero). Los textos del premio se resuelven en el cliente Android mediante recursos de cadenas o hardcode. Esto impide que la API devuelva el texto localizado y complica la internacionalización. La solución es almacenar en BD los campos de nombre y descripción en los tres idiomas (ES/EN/PT), alineando el modelo con el patrón ya establecido en `Question`, `Recommendation` y `Faq`.
+
+Criterios de aceptación (BDD):
+
+- Dado un premio asignado a un hijo,
+  cuando la app Android solicite los premios con `Accept-Language: en`,
+  entonces la API devolverá `name` y `description` en inglés.
+- Dado un premio cuya traducción no existe en la BD para el idioma solicitado,
+  cuando la API resuelva el texto,
+  entonces hará fallback al español como idioma predeterminado.
+- Dado el modelo de dominio actualizado,
+  cuando se añadan los campos de traducción a `Award`,
+  entonces seguirán el patrón existente: `Name` (ES), `NameEn`, `NamePt`, `Description` (ES), `DescriptionEn`, `DescriptionPt`.
+- Dado un premio ya asignado (sin traducciones migradas),
+  cuando la API lo devuelva,
+  entonces no fallará: los campos opcionales retornarán el texto base.
+
+DoD:
+
+- Campos `Name`, `NameEn`, `NamePt`, `Description`, `DescriptionEn`, `DescriptionPt` añadidos a la entidad `Award`.
+- `Award` migrada dentro de `ChildBook` (dependencia de HU-021).
+- Endpoint de premios actualizado para devolver texto localizado según `Accept-Language`.
+- `AwardDto` extendido con `Name` y `Description` localizados.
+- Contenido inicial (seed o migration) con textos de los 5 tipos de premio en ES/EN/PT.
+- Android: eliminadas las cadenas hardcodeadas de nombres de premios; se usa el texto devuelto por la API.
+- Pruebas unitarias de resolución de locale para `Award`.
+- Migration de base de datos aplicada.
+
+---
+
+## HU-023 - Renombrar Recomendación a Consejo en toda la plataforma
+
+Prioridad: Media
+Tipo: Técnica/UX
+Estimación: 2 puntos
+
+Como equipo de desarrollo y responsable académico,
+quiero renombrar el concepto `Recommendation` a `Consejo` (consejo parental) en toda la plataforma,
+para alinear la terminología con el lenguaje de la investigación en competencias parentales y mejorar la comprensión del usuario final.
+
+Contexto técnico:
+
+El término "Recomendación" es genérico. El ámbito académico del CRI (Cuestionario de Relaciones con los Iguales / herramienta de evaluación parental) usa "consejo" para referirse a las orientaciones concretas que se dan al PCR tras evaluar sus respuestas. Este cambio es semántico, no estructural: el modelo de datos, la lógica de negocio y las relaciones no cambian.
+
+Criterios de aceptación (BDD):
+
+- Dado un endpoint que hoy se llama `/users/{id}/recommendations`,
+  cuando se complete el renombrado,
+  entonces el endpoint pasará a llamarse `/users/{id}/consejos`.
+- Dada la entidad `Recommendation` en el dominio,
+  cuando se renombre a `Consejo`,
+  entonces toda la cadena (entidad, repositorio, servicio, DTO, controlador, tests) usará el nuevo nombre.
+- Dado el texto visible en la app Android,
+  cuando el usuario acceda a la sección de consejos,
+  entonces verá el término "Consejo" (ES), "Advice" (EN), "Conselho" (PT) en lugar de "Recomendación".
+- Dado el renombrado,
+  cuando se ejecute la suite de tests,
+  entonces todos los tests pasarán sin modificación de lógica.
+
+DoD:
+
+- Entidad `Recommendation` renombrada a `Consejo` en `CRIApp.Domain`.
+- Tabla en BD renombrada mediante migration (`RenameRecommendationsTable`).
+- Repositorio `IRecommendationRepository` → `IConsejoRepository`.
+- Servicio `IRecommendationService` → `IConsejoService`.
+- DTO `RecommendationDto` → `ConsejoDto`.
+- Endpoint `/users/{id}/recommendations` → `/users/{id}/consejos`.
+- `UserRecommendation` → `UserConsejo` (tabla de relación).
+- Android: `RecommendationActivity`, `RecommendationViewModel`, `RecommendationAdapter` renombrados; cadenas de UI actualizadas en ES/EN/PT.
+- Todos los tests actualizados y pasando.
+
+---
+
+## HU-024 - Desacoplamiento de admin en FAQ, Question y Consejo
+
+Prioridad: Alta
+Tipo: Técnica/Dominio
+Estimación: 5 puntos
+
+Como equipo de desarrollo,
+quiero eliminar la dependencia explícita de un usuario administrador en las entidades `Faq`, `Question` y `Consejo`,
+para simplificar el modelo de dominio, homogeneizar la nomenclatura con el resto de entidades (que ya usan `PrcId`) y reducir la rigidez del sistema de permisos.
+
+Contexto técnico:
+
+Actualmente, `Faq`, `Question` y `Consejo` (ex-`Recommendation`) tienen un campo `AdminId: Guid` con FK obligatoria a `User` y una validación en dominio que exige que el creador sea administrador. Esto acopla el modelo de negocio al rol de usuario, hace que las entidades no sean creables sin un admin existente y genera asimetría respecto a otras entidades (`Child`, `Award`) que ya usan `PrcId`. El objetivo es:
+1. Renombrar `AdminId`/`Admin` a `PrcId`/`Prc` en las tres entidades.
+2. Eliminar la validación de dominio que requiere `IsAdmin = true`.
+3. Actualizar las navigation properties en `User` (sección `#region admin fields`) para usar la nueva nomenclatura.
+
+Criterios de aceptación (BDD):
+
+- Dada la entidad `Faq`,
+  cuando se revise su constructor y sus propiedades,
+  entonces no habrá referencia a `AdminId` ni a `Admin`; en su lugar existirá `PrcId` y `Prc`.
+- Dada la entidad `Question`,
+  cuando se revise su validación de dominio,
+  entonces no existirá comprobación de `IsAdmin`; cualquier PCR autenticado podrá ser el creador.
+- Dada la entidad `Consejo`,
+  cuando se revise su constructor,
+  entonces `AdminId` habrá sido reemplazado por `PrcId`.
+- Dado el modelo `User`,
+  cuando se revise la región `#region admin fields`,
+  entonces las propiedades de navegación (`Questions`, `AdminRecommendations`, `Faqs`, `AudiovisualResources`) habrán sido renombradas a nombres neutrales o eliminadas si no son necesarias para la carga de datos.
+- Dado el sistema en producción,
+  cuando se aplique la migration de BD,
+  entonces las columnas `admin_id` en las tablas afectadas serán renombradas a `prc_id` sin pérdida de datos.
+- Dados los tests unitarios existentes,
+  cuando se ejecute la suite tras el cambio,
+  entonces todos pasarán con la nueva nomenclatura.
+
+DoD:
+
+- `Faq.AdminId` → `Faq.PrcId`; `Faq.Admin` → `Faq.Prc`.
+- `Question.AdminId` → `Question.PrcId`; `Question.Admin` → `Question.Prc`; eliminada validación `IsAdmin`.
+- `Consejo.AdminId` → `Consejo.PrcId`; `Consejo.Admin` → `Consejo.Prc`.
+- `User.Questions`, `User.AdminRecommendations`, `User.Faqs`, `User.AudiovisualResources` renombradas a `User.CreatedQuestions`, `User.CreatedConsejos`, `User.CreatedFaqs`, `User.CreatedAudiovisualResources` (o eliminadas si no se usan en queries).
+- Mappings EF Core (`FaqMapping`, `QuestionMapping`, `ConsejoMapping`) actualizados.
+- Migration `RenameAdminToPrcInContentEntities` aplicada.
+- Todos los servicios, repositorios, DTOs y tests actualizados.
+- Lógica de autorización en endpoints no cambia (la API sigue requiriendo JWT válido); sólo cambia la semántica del campo creador en dominio.
+
+---
+
+## HU-025 - Agrupación de preguntas y rotación por grupo
+
+Prioridad: Alta
+Tipo: Funcional/Dominio
+Estimación: 3 puntos
+
+Como PCR (persona con responsabilidad parental),
+quiero que las preguntas diarias que recibo cubran siempre distintas áreas del desarrollo parental,
+para recibir una evaluación equilibrada y no sesgada hacia un único tema en una misma sesión.
+
+Contexto técnico:
+
+Actualmente la selección de preguntas es aleatoria dentro del pool disponible para el perfil familiar del PCR. Si todas las preguntas disponibles pertenecen a una misma dimensión temática (por ejemplo, "estimulación cognitiva"), el usuario puede recibir una batería desequilibrada. Añadir un campo `Group` (o `QuestionGroup`) a la entidad `Question` permite que el algoritmo de selección garantice al menos una pregunta por grupo activo, distribuyendo la evaluación de forma homogénea.
+
+Criterios de aceptación (BDD):
+
+- Dado un conjunto de preguntas con distintos grupos definidos,
+  cuando el sistema seleccione la lista diaria de 5 preguntas,
+  entonces incluirá al menos una pregunta de cada grupo con preguntas disponibles, hasta completar el límite de 5.
+- Dado un grupo sin preguntas disponibles para el perfil familiar del PCR (por exclusión de FamilyType),
+  cuando el sistema construya la lista,
+  entonces omitirá ese grupo sin error y cubrirá los restantes.
+- Dado un grupo con todas sus preguntas respondidas recientemente (dentro de la ventana anti-repetición de 7 días),
+  cuando el sistema seleccione preguntas,
+  entonces usará preguntas de ese grupo aunque ya hayan sido respondidas, manteniendo la cobertura por grupo.
+- Dado el campo `Group` añadido a `Question`,
+  cuando un administrador cree o edite una pregunta,
+  entonces podrá asignarle un grupo de los valores definidos en el enum `QuestionGroup`.
+- Dado el endpoint existente de preguntas,
+  cuando devuelva la lista diaria,
+  entonces incluirá el campo `group` en cada pregunta del response.
+
+DoD:
+
+- Enum `QuestionGroup` creado en `CRIApp.Domain/Enums/QuestionGroup.cs` con los grupos temáticos iniciales (mínimo 4: `CognitiveDevelopment`, `EmotionalBonding`, `DailyRoutines`, `SocialInteraction`).
+- Campo `Group` (`QuestionGroup`) añadido a la entidad `Question` como campo obligatorio.
+- Migration `AddGroupToQuestion` aplicada sin pérdida de datos (columna nullable en migración, luego constraint tras seed).
+- Algoritmo de selección en `QuestionService.GetRemainingQuestions()` actualizado: selección de 1 pregunta por grupo disponible, luego relleno aleatorio hasta 5.
+- `QuestionDto` actualizado con campo `Group`.
+- Endpoint de creación/edición de preguntas (admin) actualizado para aceptar `Group`.
+- Android: campo `group` recibido en el modelo de datos; UI puede mostrar etiqueta o icono de grupo (opcional para MVP).
+- Pruebas unitarias de `QuestionService` actualizadas para verificar la lógica de selección por grupo.
+- Migration y seed de grupos iniciales aplicados.
 
 ---
 
