@@ -16,7 +16,7 @@ Versión: 1.5
 | HU-006 | Pruebas backend de servicios críticos | ✅ DONE (17 abr) |
 | HU-007 | Observabilidad y logging estructurado | ✅ DONE (17 abr) |
 | HU-008 | Sistema de premios por progreso | ✅ DONE |
-| HU-009 | Notificaciones útiles | 🔄 EN PROGRESO (depende de HU-027) |
+| HU-009 | Notificaciones útiles | ✅ COMPLETADO |
 | HU-010 | Desactivación de cuenta end-to-end | ✅ DONE (10 may) |
 | HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE (9 may) |
 | HU-012 | Consulta de historial de notificaciones | ⬜ No iniciado |
@@ -333,36 +333,60 @@ Nota técnica: Se optó por premios de carácter conductual/cualitativo en lugar
 
 ## HU-009 - Notificaciones útiles
 
-Estado: 🔄 EN PROGRESO (iniciado: 8 de mayo de 2026)
+Estado: ✅ COMPLETADO (10 de mayo de 2026)
 Prioridad: Alta
 Tipo: Funcional/Calidad
 Estimación: 5 puntos
 
 Como usuario de CRIApp,
-quiero recibir notificaciones útiles (recordatorios/progreso),
-para mantener continuidad en el aprendizaje.
+quiero recibir notificaciones útiles (recordatorios, progreso y eventos relevantes),
+para mantener continuidad en el seguimiento y estar al tanto de mis logros y orientaciones.
 
 Criterios de aceptación (BDD):
 
-- Dado un usuario con actividad baja,
-  cuando se cumpla regla de recordatorio,
-  entonces el sistema enviará notificación por canal configurado.
-- Dado un envío de notificación,
-  cuando se procese,
-  entonces quedará registro de éxito/error para seguimiento.
+- Dado un usuario sin actividad durante 2 días consecutivos,
+  cuando el job diario se ejecute,
+  entonces se creará una notificación motivacional (tipo 1) en la base de datos.
+- Dado un usuario sin actividad durante 3 días consecutivos,
+  cuando el job diario se ejecute,
+  entonces se creará una notificación de riesgo de puntos (tipo 2) en la base de datos.
+- Dado un usuario sin ninguna actividad durante 7 o más días,
+  cuando el job diario se ejecute,
+  entonces se creará una notificación de re-evaluación (tipo 3) en la base de datos.
+- Dado que el job asigna un nuevo logro a un ChildBook,
+  cuando el número de premios aumente,
+  entonces se creará una notificación de nuevo logro (tipo 4) en la base de datos.
+- Dado que el job de recomendaciones añade nuevas orientaciones a un ChildBook,
+  cuando el número de recomendaciones aumente,
+  entonces se creará una notificación de nuevas orientaciones (tipo 5) en la base de datos.
+- Dado un usuario autenticado con sesión activa en Android,
+  cuando el WorkManager ejecute su ciclo de 15 minutos,
+  entonces la app consultará `GET /notifications/pending`, mostrará cada notificación como notificación del sistema Android y marcará cada una como entregada (`PATCH /notifications/{id}/delivered`).
+- Dado que ya existe una notificación del mismo tipo para el mismo ChildBook en el día actual,
+  cuando cualquier job intente crear otra,
+  entonces no se creará duplicado (`CreateIfNotExists` en `NotificationService`).
+- Dado que la app llama a la API,
+  cuando se resuelvan los textos de título y cuerpo,
+  entonces vendrán localizados desde la API (ES/EN/PT según `Accept-Language`) con el nombre de la criança interpolado.
 
 DoD:
 
-- Job de notificaciones con lógica real de negocio (evaluar usuarios con preguntas pendientes y enviar máximo una notificación diaria por usuario).
-- Integración estable con canal de mensajería configurado (correo o SMS según configuración del entorno).
-- Logging y control de errores implementados.
-
-Progreso actual:
-
-- ✅ Job `NotifyUsersWithLessThanTenAnswersJob` creado y registrado en el scheduler (skeleton con TODO: integrar push notifications Android).
-- ✅ Sistema de email (SMTP) mejorado: plantillas HTML con logo embebido como adjunto, traducciones ES/EN/PT en `EmailMessages.{resx}`.
-- ✅ Job `CleanUserResetPasswordCodesJob` implementado: limpia códigos de recuperación de contraseña con antigüedad > 10 minutos.
-- ⏳ Pendiente: integración de push notifications nativas Android (FCM o similar) en el job de recordatorio.
+- ✅ Entidad `Notification` con campos `ChildBookId`, `Type`, `Date`, `Delivered`, `Read`.
+- ✅ `NotificationType` enum: `Motivational=1`, `PointsRisk=2`, `ReEvaluation=3`, `NewAward=4`, `NewRecommendations=5`.
+- ✅ `INotificationRepository` + `NotificationRepository` (EF Core, tabla `Notification`, índice único por `ChildBookId+Type+Date`).
+- ✅ `INotificationService.CreateIfNotExists` — única entrada para criação de notificações em todos os jobs.
+- ✅ Jobs diários: `SendMotivationalNotificationJob`, `SendPointsRiskNotificationJob`, `SendReEvaluationNotificationJob` — usam `INotificationService`.
+- ✅ `UpdateAndAwardChildBookJob` — cria notificação `NewAward` via `INotificationService` quando há novos prémios.
+- ✅ `SaveUsersRecommendations` — cria notificação `NewRecommendations` via `INotificationService` quando há novas orientações.
+- ✅ `NotificationController`: `GET /notifications/pending`, `PATCH /notifications/{id}/delivered`, `PATCH /notifications/{id}/read`.
+- ✅ `NotificationDto` com campos `Title` e `Body` localizados (ES/EN/PT) e com nome da criança interpolado.
+- ✅ Chaves de localização em `MessageTemplates.{es,en,pt}.resx` para todos os 5 tipos de notificação.
+- ✅ Android `NotificationWorker` (WorkManager, `CoroutineWorker`) com ciclo de 15 minutos.
+- ✅ Android `NotificationScheduler` com política `KEEP` e requisito de rede.
+- ✅ Permissão `POST_NOTIFICATIONS` solicitada em Android 13+.
+- ✅ Canal de notificações Android criado (`criapp_notifications`, importância HIGH).
+- ✅ 126 testes unitários passando (Application.Tests).
+- ✅ `INotificationRepository` usado exclusivamente em `NotificationService`; todos os jobs dependem de `INotificationService`.
 
 ---
 

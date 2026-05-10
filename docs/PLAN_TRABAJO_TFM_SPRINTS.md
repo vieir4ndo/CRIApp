@@ -153,14 +153,12 @@ Resultado esperado: el PCR puede marcar YES/NO por rutina desde la app; dos nuev
 
 ### Semana 10 (8 jun - 14 jun)
 
-Objetivo: notificaciones basadas en checkpoints + cierre de HU-009.
+Objetivo: notificaciones HEFAS por cadencia + notificaciones de eventos (premios y orientaciones) + WorkManager Android.
 
-- HU-031 Notificaciones basadas en checkpoints de rutinas (cadencia 2/3/7 días) (3 pts)
-- HU-009 Notificaciones útiles — integración FCM/push notifications Android (5 pts)
+- HU-031 Notificaciones basadas en checkpoints de rutinas (cadencia 2/3/7 días) ✅ DONE (10 may)
+- HU-009 Notificaciones útiles — sistema completo BD + WorkManager Android ✅ DONE (10 may)
 
-Orden dentro de la semana: HU-031 primero (actualiza el job existente con lógica de checkpoint). HU-009 a continuación para el canal push nativo.
-Carga objetivo: ~8 pts
-Resultado esperado: notificaciones motivacionales y de alerta según cadencia HEFAS; notificaciones push nativas en Android operativas.
+Resultado real: sistema completo de notificaciones sin FCM. La API crea notificaciones en la BD (entidad `Notification`, 5 tipos). El WorkManager Android realiza polling cada 15 minutos via `GET /notifications/pending`, muestra las notificaciones del sistema y las marca como entregadas. Textos localizados (ES/EN/PT) con el nombre del niño interpolado en la API. Notificaciones de nuevo premio y nuevas orientaciones creadas por los jobs `UpdateAndAwardChildBookJob` y `SaveUsersRecommendations`. Toda la creación de notificaciones canalizada por `INotificationService.CreateIfNotExists` (capa de servicio; los jobs no acceden directamente al repositorio).
 
 ---
 
@@ -206,7 +204,7 @@ Resultado esperado: memoria entregada y defensa lista para el tribunal.
 - Fase 4 — Semana 7: Bucle conductual HEFAS — rename Advice→Recommendation + RecommendationCheckpoint backend.
 - Fase 5 — Semana 8: Agrupación de preguntas + score basado en checkpoints.
 - Fase 6 — Semana 9: Android — verificación de rutinas YES/NO + nuevos premios de racha.
-- Fase 7 — Semana 10: Notificaciones basadas en checkpoints + push nativo Android (HU-009).
+- Fase 7 — Semana 10: Notificaciones HEFAS por cadencia + eventos (premios/orientaciones) + WorkManager Android (HU-031 + HU-009) ✅ DONE.
 - Fase 8 — Semana 11: Historial de notificaciones + arranque de memoria.
 - Fase 9 — Semanas 12-13: Memoria final + preparación de defensa.
 - Fase 7 — Semana 10: Traducciones de premios + notificaciones push (sobre dominio limpo).
@@ -225,7 +223,7 @@ Resultado esperado: memoria entregada y defensa lista para el tribunal.
 | HU-006 | Pruebas backend de servicios críticos | ✅ DONE |
 | HU-007 | Observabilidad y logging estructurado | ✅ DONE |
 | HU-008 | Sistema de gamificación (premios, score, preguntas, UI) | ✅ DONE |
-| HU-009 | Notificaciones útiles | ⏸ EN PAUSA — Semana 10 (depende de HU-027) |
+| HU-009 | Notificaciones útiles | ✅ DONE (10 may) |
 | HU-010 | Desactivación de cuenta end-to-end | ✅ DONE (10 may) |
 | HU-011 | Visualización robusta de recursos audiovisuales | ✅ DONE (9 may) |
 | HU-012 | Consulta de historial de notificaciones | ⬜ Semana 11 |
@@ -247,7 +245,7 @@ Resultado esperado: memoria entregada y defensa lista para el tribunal.
 | HU-028 | Score basado en checkpoints de rutinas | ⬜ Semana 8 |
 | HU-029 | Nuevos premios por racha de checkpoints | ⬜ Semana 9 |
 | HU-030 | Android — verificación diaria de rutinas | ⬜ Semana 9 |
-| HU-031 | Notificaciones basadas en checkpoints | ⬜ Semana 10 |
+| HU-031 | Notificaciones basadas en checkpoints | ✅ DONE (10 may) |
 
 ## 9. Regla práctica para mover tarjetas en Git Projects
 
@@ -264,6 +262,6 @@ Orden de protección de hitos:
 
 1. No mover HU-014 ni HU-015 de sus ventanas objetivo.
 2. Si hay que recortar, reducir primero el alcance de HU-012 (historial de notificaciones), de menor impacto en la defensa.
-3. HU-009 puede simplificarse a notificación por email si la integración FCM resulta costosa.
+3. HU-009 ✅ completada sin FCM — sistema de notificaciones por polling con WorkManager (respaldado en BD).
 4. HU-021 (ChildBook) es el refactoring de mayor riesgo; si se bloquea, la semana 9 puede reconfigurarse para avanzar HU-011 y HU-012 y dejar ChildBook como trabajo futuro documentado en la memoria.
 

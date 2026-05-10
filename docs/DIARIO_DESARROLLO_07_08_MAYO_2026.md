@@ -143,7 +143,7 @@ app.UseRequestLocalization(options =>
 | HU | Título | Status |
 |----|--------|--------|
 | HU-008 | Sistema de premios por progreso | ✅ DONE |
-| HU-009 | Notificaciones útiles | 🔄 Em progresso (push pendente) |
+| HU-009 | Notificaciones útiles | ✅ DONE (10 may) |
 | HU-010 | Desativação de conta end-to-end | 🔄 Em progresso (Android pendente) |
 | HU-016 | Soporte multilingüe (i18n) | ✅ DONE (HU nova criada) |
 
